@@ -1,3 +1,4 @@
+import Button from "./Button";
 import styles from "./StartMenu.module.css";
 
 function StartMenu() {
@@ -5,11 +6,11 @@ function StartMenu() {
     <section className={styles.gameSection}>
       <div className={styles.gameContainer}>
         <div>
-          <button className={styles.playBtn}>PLAY</button>
+          <Button className={styles.playBtn}>PLAY</Button>
         </div>
         <div>
-          <button className={styles.rulesBtn}>Rules</button>
-          <button className={styles.detailsBtn}>?</button>
+          <Button className={styles.rulesBtn}>Rules</Button>
+          <Button className={styles.detailsBtn}>?</Button>
         </div>
       </div>
     </section>
