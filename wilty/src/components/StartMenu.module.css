@@ -1,0 +1,85 @@
+.gameContainer {
+  padding: 5vh;
+  gap: 5vh;
+
+  background-color: #1a6578e6;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gameContainer > div:last-child {
+  gap: 20px;
+  grid-template-columns: 80fr 20fr;
+}
+
+.gameSection {
+  max-width: 70%;
+  margin: auto;
+  margin-top: 15vh;
+}
+
+.playBtn {
+  padding: 7vh;
+  /*  */
+  width: 100%;
+  font-size: 5rem;
+  /*  */
+
+  font-weight: 600;
+  background-color: var(--dark-yellow);
+  color: var(--dark-blue);
+
+  border: none;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.gameContainer > div:last-child {
+  display: grid;
+  height: 100%;
+}
+
+.rulesBtn,
+.detailsBtn {
+  padding: 3vh;
+  font-size: 2rem;
+}
+
+.rulesBtn {
+  background-color: var(--dark-red);
+  color: var(--darker-gray);
+
+  /*  */
+  font-weight: 600;
+  transition: all 0.2s;
+  border: none;
+  /*  */
+}
+
+.playBtn:hover {
+  background-color: var(--greenish);
+  color: var(--white-tint);
+}
+
+.rulesBtn:hover {
+  background-color: var(--silver-gray);
+  color: var(--dark-blue);
+}
+
+.detailsBtn {
+  background-color: var(--dark-blue);
+  color: var(--white-tint);
+
+  /*  */
+  font-weight: 600;
+  transition: all 0.2s;
+  border: none;
+  /*  */
+}
+
+.detailsBtn:hover {
+  background-color: var(--darker-gray);
+  color: var(--darker-purple);
+}

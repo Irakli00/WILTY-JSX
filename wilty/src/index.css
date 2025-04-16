@@ -1,0 +1,28 @@
+:root {
+  --dark-yellow: #db9a26;
+  --silver-gray: #d9d9d9;
+  --darker-gray: #cec5b4;
+  --font-gray: #c6c5c3;
+  --main-purple: #c60fc9;
+  --darker-purple: #6c1973;
+  --dark-blue: #011e2e;
+  --secondary-blue: #1a6578;
+  --dark-red: #990a0e;
+  --white-tint: #eeedee;
+  --greenish: #2dd14bee;
+  --main-font: Helvetica;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: var(--main-font);
+  /*  */
+  background-color: var(--main-purple);
+  /* height: 100vh; */
+  /*  */
+  background-image: url(/wilty/img/wilty.PNG);
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+  overflow: hidden;
+}
