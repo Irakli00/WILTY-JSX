@@ -2,17 +2,15 @@
   // import Timer from "../components/Timer";
   /* <Timer seconds={+10} timeRanOutStyle={{ color: "red" }}></Timer> */
 }
-import AddPlayer from "../components/AddPlayer";
-import AddPlayerInput from "../components/AddPlayerInput";
+import PlayerInLobby from "../components/PlayerInLobby";
 import Button from "../components/Button";
+import AddPlayerInput from "../components/AddPlayerInput";
 
 function Lobby() {
   return (
-    <section className="lobby-section">
-      <div className="loby-container">
-        <AddPlayer className="player player-tobe player--1"></AddPlayer>
-        <AddPlayerInput></AddPlayerInput>
-      </div>
+    <section>
+      <AddPlayerInput></AddPlayerInput>
+      {/* <PlayerInLobby></PlayerInLobby> */}
       <Button className={"startGameBTN"}>Start a Game</Button>
     </section>
   );

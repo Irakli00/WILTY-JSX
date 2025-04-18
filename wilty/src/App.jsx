@@ -7,7 +7,22 @@ import GameEnd from "./pages/GameEnd";
 import { useReducer } from "react";
 
 const initialState = {
-  players: ["joe", "dan"],
+  players: [
+    {
+      nickName: "joe",
+      playerStory: {
+        story: "true story",
+        truth: true,
+      },
+    },
+    {
+      nickName: "dan",
+      playerStory: {
+        story: "false story",
+        truth: false,
+      },
+    },
+  ],
   //inactive,lobby,tellStory,guess,over
   status: "inactive",
 };
@@ -32,7 +47,6 @@ function App() {
       {status === "startGame" && <Lobby></Lobby>}
       {status === "tellStory" && <CardRead></CardRead>}
       {status === "gameFinished" && <GameEnd></GameEnd>}
-      {/* if gamestarted -> <GameProcess></GameProcess> with useReducer setting status*/}
     </>
   );
 }
