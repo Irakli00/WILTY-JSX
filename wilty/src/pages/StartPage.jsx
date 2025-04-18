@@ -1,5 +1,5 @@
-import Button from "./Button";
-import styles from "./StartMenu.module.css";
+import Button from "../components/Button";
+import styles from "./StartMenu.module.css"; //better to get it to its module
 
 function StartMenu() {
   return (

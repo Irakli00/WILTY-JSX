@@ -1,13 +1,21 @@
 import "./index.css";
 
-import Timer from "./components/Timer";
-import StartMenu from "./components/StartMenu";
+import StartMenu from "./pages/StartPage";
+import Lobby from "./pages/Lobby";
+
+const initialState = {
+  players: ["joe", "dan"],
+  //inactive,lobby,tellStory,guess,over
+  status: "lobby",
+};
 
 function App() {
+  const { status } = initialState;
   return (
     <>
-      <Timer seconds={+10} timeRanOutStyle={{ color: "red" }}></Timer>
-      <StartMenu></StartMenu>
+      {status === "inactive" && <StartMenu></StartMenu>}
+      {status === "lobby" && <Lobby></Lobby>}
+      {/* if gamestarted -> <GameProcess></GameProcess> with useReducer setting status*/}
     </>
   );
 }
