@@ -5,18 +5,16 @@ import CSSstyles from "./AddPlayer.module.css";
 import { LobbyContext } from "../contexts/LobbyContext";
 import Button from "./Button";
 
-function AddPlayerForm({ i }) {
+function AddPlayerForm({ i, onClick }) {
   const { styles } = useContext(LobbyContext);
 
   return (
-    <div style={styles[i]} className={CSSstyles.player}>
+    <div style={styles[i]} className={CSSstyles.player} onClick={onClick}>
       <img src="../src/icons/userEdit.svg" alt="" width="25px" />
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <input type="text" name="playerName" id="playerName" />
-        <div>
-          <Button>+</Button>
-          <Button>-</Button>
-        </div>
+
+        <Button>+</Button>
       </form>
     </div>
   );

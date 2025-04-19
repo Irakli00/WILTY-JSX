@@ -11,7 +11,7 @@ import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
 import { useState } from "react";
 
-const INIT_FORMS_NUM = 2;
+const INIT_FORMS_NUM = 4;
 
 const dynamicColors = [
   {
@@ -62,7 +62,7 @@ function Lobby() {
       <section className={styles.lobby}>
         {Array.from({ length: INIT_FORMS_NUM }).map((_, i) =>
           isOpen[i] ? (
-            <AddPlayerForm i={i} key={i} />
+            <AddPlayerForm i={i} key={i} onClick={() => toggleOpen(i)} />
           ) : (
             <PlayerInLobby i={i} key={i} onClick={() => toggleOpen(i)} />
           )
