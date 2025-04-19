@@ -1,16 +1,20 @@
 .player {
   display: flex;
   justify-content: space-between;
-  padding: 25px;
+  padding: 15px 25px;
   font-size: 2.5em;
+  border-radius: 8px;
 }
 
-.player > div:first-child,
-.player--input > div:first-child {
+.player img {
+  width: 45px;
+}
+
+/* .player > div:first-child {
   display: flex;
   align-items: center;
   gap: 15px;
 
   height: 35px;
   width: 100%;
-}
+} */

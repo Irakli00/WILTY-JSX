@@ -1,6 +1,16 @@
-function PlayerInLobby({ declared = false }) {
+import { useContext } from "react";
+import { LobbyContext } from "../contexts/LobbyContext";
+import CSSstyles from "./AddPlayer.module.css";
+
+function PlayerInLobby({ declared = false, i }) {
+  const { styles } = useContext(LobbyContext);
+
   return (
-    <div>
+    <div
+      className={CSSstyles.player}
+      style={styles[i]}
+      onClick={(e) => console.log(e.target)}
+    >
       {declared ? (
         <>
           <div className="img-align">
