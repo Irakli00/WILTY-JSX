@@ -2,19 +2,15 @@ import { useContext } from "react";
 import { LobbyContext } from "../contexts/LobbyContext";
 import CSSstyles from "./AddPlayer.module.css";
 
-function PlayerInLobby({ declared = false, i }) {
+function PlayerInLobby({ declared = false, i, onClick }) {
   const { styles } = useContext(LobbyContext);
 
   return (
-    <div
-      className={CSSstyles.player}
-      style={styles[i]}
-      onClick={(e) => console.log(e.target)}
-    >
+    <div className={CSSstyles.player} style={styles[i]} onClick={onClick}>
       {declared ? (
         <>
           <div className="img-align">
-            <ion-icon name="person-outline"></ion-icon>
+            <img src="../src/icons/userEdit.svg" alt="" />
           </div>
           <div>
             <p>playerName</p>
