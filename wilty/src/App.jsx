@@ -38,13 +38,13 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [{ status }, dispatch] = useReducer(reducer, initialState);
+  const [{ status, players }, dispatch] = useReducer(reducer, initialState);
   return (
     <>
       {status === "inactive" && (
         <StartPage dispatch={() => dispatch({ type: "startGame" })}></StartPage>
       )}
-      {status === "startGame" && <Lobby></Lobby>}
+      {status === "startGame" && <Lobby players={players}></Lobby>}
       {status === "tellStory" && <CardRead></CardRead>}
       {status === "gameFinished" && <GameEnd></GameEnd>}
     </>

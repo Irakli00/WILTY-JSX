@@ -46,13 +46,13 @@ const dynamicColors = [
   },
 ];
 
-function Lobby() {
+function Lobby({ players }) {
   const [isOpen, setIsOpen] = useState(Array(INIT_FORMS_NUM).fill(false));
+
   function toggleOpen(index) {
     setIsOpen((prev) => {
       const newState = [...prev];
       newState[index] = !newState[index];
-      console.log(newState);
       return newState;
     });
   }
