@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { LobbyContext } from "../contexts/LobbyContext";
 import CSSstyles from "./AddPlayer.module.css";
+import Button from "./Button";
 
 function PlayerInLobby({ declared = false, i, onClick }) {
   const { styles } = useContext(LobbyContext);
 
   return (
-    <div className={CSSstyles.player} style={styles[i]} onClick={onClick}>
+    <div className={CSSstyles.player} style={styles[i]}>
       {declared ? (
         <>
           <div className="img-align">
@@ -19,7 +20,7 @@ function PlayerInLobby({ declared = false, i, onClick }) {
       ) : (
         <>
           <img src="../src/icons/userAdd.svg" alt="" width="25px" />
-          <p>Add a player</p>
+          <Button onClick={onClick}>Add a player</Button>
         </>
       )}
     </div>

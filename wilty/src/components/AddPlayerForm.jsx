@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useEffect } from "react";
 
 import CSSstyles from "./AddPlayer.module.css";
 
@@ -8,13 +8,19 @@ import Button from "./Button";
 function AddPlayerForm({ i, onClick }) {
   const { styles } = useContext(LobbyContext);
 
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
-    <div style={styles[i]} className={CSSstyles.player} onClick={onClick}>
+    <div style={styles[i]} className={CSSstyles.player}>
       <img src="../src/icons/userEdit.svg" alt="" width="25px" />
       <form onSubmit={(e) => e.preventDefault()}>
-        <input type="text" name="playerName" id="playerName" />
+        <input ref={inputRef} type="text" name="playerName" id="playerName" />
 
         <Button>+</Button>
+        <Button onClick={onClick}>-</Button>
       </form>
     </div>
   );

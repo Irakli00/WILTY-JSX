@@ -1,6 +1,7 @@
 .player {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 40px;
   align-items: center;
   padding: 15px 25px;
   font-size: 2em;
