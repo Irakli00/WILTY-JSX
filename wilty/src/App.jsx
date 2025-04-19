@@ -35,9 +35,15 @@ function reducer(state, action) {
       return { ...state, status: "startGame" };
     }
     case "playerSubmit": {
-      console.log(state);
-      return { ...state, players: [...state.players, action.payload] };
-      //se if id is there
+      const userIDs = state.players.map((el) => el.id);
+      console.log(state, action.payload.id);
+      return {
+        ...state,
+        players: !userIDs.includes(action.payload.id)
+          ? [...state.players, action.payload]
+          : [...state.players],
+      };
+      //se if id is there and if so replace
     }
     default:
       console.log("no");
