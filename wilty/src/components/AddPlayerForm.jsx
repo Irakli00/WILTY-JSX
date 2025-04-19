@@ -7,7 +7,7 @@ import Button from "./Button";
 
 function AddPlayerForm({ i, onClick }) {
   const [player, setPlayer] = useState("");
-  const { styles } = useContext(LobbyContext);
+  const { styles, onPlayerSubmit } = useContext(LobbyContext);
 
   const inputRef = useRef(null);
 
@@ -21,7 +21,6 @@ function AddPlayerForm({ i, onClick }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(player);
         }}
       >
         <input
@@ -33,7 +32,17 @@ function AddPlayerForm({ i, onClick }) {
           id="playerName"
         />
 
-        <input type="submit" value="+" />
+        <input
+          type="submit"
+          value="+"
+          onClick={() =>
+            onPlayerSubmit({
+              id: i,
+              nickname: player,
+              playerStory: { story: "alakazam", truth: false },
+            })
+          }
+        />
         <input type="reset" value="-" onClick={onClick} />
       </form>
     </div>

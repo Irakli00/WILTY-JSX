@@ -9,6 +9,7 @@ import { useReducer } from "react";
 const initialState = {
   players: [
     {
+      id: 0,
       nickName: "joe",
       playerStory: {
         story: "true story",
@@ -16,6 +17,7 @@ const initialState = {
       },
     },
     {
+      id: 1,
       nickName: "dan",
       playerStory: {
         story: "false story",
@@ -32,6 +34,11 @@ function reducer(state, action) {
     case "startGame": {
       return { ...state, status: "startGame" };
     }
+    case "playerSubmit": {
+      console.log(state);
+      return { ...state, players: [...state.players, action.payload] };
+      //se if id is there
+    }
     default:
       console.log("no");
   }
@@ -44,7 +51,12 @@ function App() {
       {status === "inactive" && (
         <StartPage dispatch={() => dispatch({ type: "startGame" })}></StartPage>
       )}
-      {status === "startGame" && <Lobby players={players}></Lobby>}
+      {status === "startGame" && (
+        <Lobby
+          players={players}
+          onPlayerSubmit={(x) => dispatch({ type: "playerSubmit", payload: x })}
+        ></Lobby>
+      )}
       {status === "tellStory" && <CardRead></CardRead>}
       {status === "gameFinished" && <GameEnd></GameEnd>}
     </>

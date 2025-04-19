@@ -46,7 +46,7 @@ const dynamicColors = [
   },
 ];
 
-function Lobby({ players }) {
+function Lobby({ players, onPlayerSubmit }) {
   const [isOpen, setIsOpen] = useState(Array(INIT_FORMS_NUM).fill(false));
 
   function toggleOpen(index) {
@@ -58,13 +58,18 @@ function Lobby({ players }) {
   }
 
   return (
-    <LobbyContext.Provider value={{ styles: dynamicColors }}>
+    <LobbyContext.Provider value={{ styles: dynamicColors, onPlayerSubmit }}>
       <section className={styles.lobby}>
-        {Array.from({ length: INIT_FORMS_NUM }).map((_, i) =>
+        {Array.from({ length: players.length + 1 }).map((_, i) =>
           isOpen[i] ? (
             <AddPlayerForm i={i} key={i} onClick={() => toggleOpen(i)} />
           ) : (
-            <PlayerInLobby i={i} key={i} onClick={() => toggleOpen(i)} />
+            <PlayerInLobby
+              i={i}
+              key={i}
+              onClick={() => toggleOpen(i)}
+              playerName={players.map((el) => el.nickName)[i]}
+            />
           )
         )}
         <Button className="startGameBTN">Start a Game</Button>

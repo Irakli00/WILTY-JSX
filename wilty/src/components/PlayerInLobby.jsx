@@ -3,12 +3,12 @@ import { LobbyContext } from "../contexts/LobbyContext";
 import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
-function PlayerInLobby({ declared = false, i, onClick, playerName }) {
+function PlayerInLobby({ i, onClick, playerName }) {
   const { styles } = useContext(LobbyContext);
 
   return (
     <div className={CSSstyles.player} style={styles[i]}>
-      {declared ? (
+      {playerName ? (
         <>
           <div className="img-align">
             <img src="../src/icons/userEdit.svg" alt="" />
