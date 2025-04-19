@@ -9,9 +9,7 @@ import styles from "./Lobby.module.css";
 import PlayerInLobby from "../components/PlayerInLobby";
 import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
-import { useState } from "react";
-
-const INIT_FORMS_NUM = 4;
+// import { useState } from "react";
 
 const dynamicColors = [
   {
@@ -47,31 +45,24 @@ const dynamicColors = [
 ];
 
 function Lobby({ players, onPlayerSubmit }) {
-  const [isOpen, setIsOpen] = useState(Array(INIT_FORMS_NUM).fill(false));
-
-  function toggleOpen(index) {
-    setIsOpen((prev) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  }
-
+  const slots = players.length < 6 ? [...players, {}] : [...players];
   return (
     <LobbyContext.Provider value={{ styles: dynamicColors, onPlayerSubmit }}>
       <section className={styles.lobby}>
-        {Array.from({ length: players.length + 1 }).map((_, i) =>
-          isOpen[i] ? (
-            <AddPlayerForm i={i} key={i} onClick={() => toggleOpen(i)} />
-          ) : (
-            <PlayerInLobby
-              i={i}
-              key={i}
-              onClick={() => toggleOpen(i)}
-              playerName={players.map((el) => el.nickName)[i]}
-            />
-          )
-        )}
+        {slots.map((_, i) => {
+          if (!players[i]?.nickName) {
+            return <AddPlayerForm i={i} key={i} />;
+          } else {
+            return (
+              <PlayerInLobby
+                i={i}
+                key={i}
+                onClick={""}
+                playerName={players.map((el) => el.nickName)[i]}
+              />
+            );
+          }
+        })}
         <Button className="startGameBTN">Start a Game</Button>
       </section>
     </LobbyContext.Provider>

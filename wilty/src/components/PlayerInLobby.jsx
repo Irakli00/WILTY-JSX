@@ -3,7 +3,7 @@ import { LobbyContext } from "../contexts/LobbyContext";
 import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
-function PlayerInLobby({ i, onClick, playerName }) {
+function PlayerInLobby({ i, playerName }) {
   const { styles } = useContext(LobbyContext);
 
   return (
@@ -20,7 +20,7 @@ function PlayerInLobby({ i, onClick, playerName }) {
       ) : (
         <>
           <img src="../src/icons/userAdd.svg" alt="" width="25px" />
-          <Button onClick={onClick}>Add a player</Button>
+          <Button>Add a player</Button>
         </>
       )}
     </div>

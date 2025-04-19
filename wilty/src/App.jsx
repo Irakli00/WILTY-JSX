@@ -36,7 +36,6 @@ function reducer(state, action) {
     }
     case "playerSubmit": {
       const userIDs = state.players.map((el) => el.id);
-      console.log(state, action.payload.id);
       return {
         ...state,
         players: !userIDs.includes(action.payload.id)

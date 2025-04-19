@@ -3,7 +3,6 @@ import { useContext, useRef, useEffect, useState } from "react";
 import CSSstyles from "./AddPlayer.module.css";
 
 import { LobbyContext } from "../contexts/LobbyContext";
-import Button from "./Button";
 
 function AddPlayerForm({ i, onClick }) {
   const [player, setPlayer] = useState("");
@@ -38,7 +37,7 @@ function AddPlayerForm({ i, onClick }) {
           onClick={() =>
             onPlayerSubmit({
               id: i,
-              nickname: player,
+              nickName: player,
               playerStory: { story: "alakazam", truth: false },
             })
           }
