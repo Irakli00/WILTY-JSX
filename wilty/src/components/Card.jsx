@@ -4,6 +4,7 @@ import styles from "./Card.module.css";
 
 function Card({ children }) {
   return (
+    //by state maybe? like presented ? this animation: flip animation
     <motion.div
       className={styles.cardContainer}
       initial={{ opacity: 0, x: -400 }}
