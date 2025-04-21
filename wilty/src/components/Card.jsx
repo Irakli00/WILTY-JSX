@@ -1,5 +1,5 @@
-function Card() {
-  return <div>story</div>;
+function Card({ children }) {
+  return <div>{children}</div>;
 }
 
 export default Card;

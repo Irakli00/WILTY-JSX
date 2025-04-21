@@ -7,6 +7,7 @@ import GameEnd from "./pages/GameEnd";
 import { useReducer } from "react";
 
 const initialState = {
+  turn: 0,
   players: [
     {
       id: 0,
@@ -25,14 +26,14 @@ const initialState = {
       },
     },
   ],
-  //inactive,lobby,tellStory,guess,over
+  //inactive,lobby,startRound,guess,over
   status: "inactive",
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "startGame": {
-      return { ...state, status: "startGame" };
+    case "initGame": {
+      return { ...state, status: "initGame" };
     }
     case "playerSubmit": {
       const userIDs = state.players.map((el) => el.id);
@@ -44,6 +45,9 @@ function reducer(state, action) {
       };
       //se if id is there and if so replace
     }
+    case "startRound": {
+      return { ...state, status: "startRound" };
+    }
     default:
       console.log("no");
   }
@@ -54,15 +58,16 @@ function App() {
   return (
     <>
       {status === "inactive" && (
-        <StartPage dispatch={() => dispatch({ type: "startGame" })}></StartPage>
+        <StartPage dispatch={() => dispatch({ type: "initGame" })}></StartPage>
       )}
-      {status === "startGame" && (
+      {status === "initGame" && (
         <Lobby
           players={players}
           onPlayerSubmit={(x) => dispatch({ type: "playerSubmit", payload: x })}
+          onStartGame={() => dispatch({ type: "startRound" })}
         ></Lobby>
       )}
-      {status === "tellStory" && <CardRead></CardRead>}
+      {status === "startRound" && <CardRead></CardRead>}
       {status === "gameFinished" && <GameEnd></GameEnd>}
     </>
   );

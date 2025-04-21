@@ -1,7 +1,3 @@
-{
-  // import Timer from "../components/Timer";
-  /* <Timer seconds={+10} timeRanOutStyle={{ color: "red" }}></Timer> */
-}
 import { LobbyContext } from "../contexts/LobbyContext";
 
 import styles from "./Lobby.module.css";
@@ -44,7 +40,7 @@ const dynamicColors = [
   },
 ];
 
-function Lobby({ players, onPlayerSubmit }) {
+function Lobby({ players, onPlayerSubmit, onStartGame }) {
   const slots = players.length < 6 ? [...players, {}] : [...players];
   return (
     <LobbyContext.Provider value={{ styles: dynamicColors, onPlayerSubmit }}>
@@ -63,7 +59,9 @@ function Lobby({ players, onPlayerSubmit }) {
             );
           }
         })}
-        <Button className="startGameBTN">Start a Game</Button>
+        <Button className="startGameBTN" onClick={onStartGame}>
+          Start a Game
+        </Button>
       </section>
     </LobbyContext.Provider>
   );
