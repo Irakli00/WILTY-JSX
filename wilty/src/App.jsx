@@ -67,7 +67,7 @@ function App() {
           onStartGame={() => dispatch({ type: "startRound" })}
         ></Lobby>
       )}
-      {status === "startRound" && <CardRead></CardRead>}
+      {status === "startRound" && <CardRead story={"funny story"}></CardRead>}
       {status === "gameFinished" && <GameEnd></GameEnd>}
     </>
   );

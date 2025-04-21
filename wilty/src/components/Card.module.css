@@ -1,0 +1,30 @@
+.cardContainer {
+  background-image: url(../imgs/cardBlue.PNG);
+  background-size: 90%;
+  background-position: center;
+  height: 35vh;
+
+  cursor: pointer;
+
+  /*  background-repeat: no-repeat; */
+  border: 2px solid var(--white-tint);
+
+  width: 60%;
+  margin: 0 auto;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 2.5rem;
+
+  border-radius: 7px;
+
+  min-height: 175px;
+
+  /*  */
+  color: transparent;
+  user-select: none;
+  /*  */
+}
