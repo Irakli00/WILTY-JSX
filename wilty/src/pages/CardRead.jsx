@@ -7,29 +7,21 @@ import Timer from "../components/Timer";
 function CardRead({ story }) {
   const [showCard, setShowCard] = useState(true);
 
-  // setTimeout(() => {
-  //   setShowCard(false);
-  // }, 3000);
-
   return (
     <>
       <Timer seconds={10} timeRanOutStyle={{ color: "red" }}></Timer>
 
-      <div
-      // style={{
-      //   display: "flex",
-      //   flexDirection: "column",
-      //   justifyContent: "center",
-      //   alignItems: "center",
-      // }}
-      >
+      <div style={{ marginTop: "15dvh" }}>
         <button onClick={() => setShowCard((prev) => !prev)}>
           Toggle Card
         </button>
+        {/* <button onClick={() => setIsPresented((prev) => !prev)}>
+          Toggle flip
+        </button> */}
         <AnimatePresence>
           {showCard && (
             <Card>
-              <p style={{ padding: "20px" }}>I'm an animated card!</p>
+              <p style={{ padding: "20px" }}>{story}</p>
             </Card>
           )}
         </AnimatePresence>

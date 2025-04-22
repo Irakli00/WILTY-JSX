@@ -43,7 +43,6 @@ function reducer(state, action) {
           ? [...state.players, action.payload]
           : [...state.players],
       };
-      //se if id is there and if so replace
     }
     case "startRound": {
       return { ...state, status: "startRound" };

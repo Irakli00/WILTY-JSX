@@ -1,5 +1,9 @@
-.cardContainer {
+.cardContainer,
+.cardPresented {
+  margin-top: 15dvh;
+
   background-image: url(../imgs/cardBlue.PNG);
+  /* background-color: #000; */
   background-size: 90%;
   background-position: center;
   height: 35vh;
@@ -27,4 +31,17 @@
   color: transparent;
   user-select: none;
   /*  */
+}
+
+.cardPresented {
+  background-image: none;
+  background-image: url(../imgs/cardBlue.PNG);
+  background-blend-mode: color-dodge;
+
+  background-color: #fff;
+  color: #000;
+}
+
+.cardPresented p {
+  transform: scaleY(-1);
 }
