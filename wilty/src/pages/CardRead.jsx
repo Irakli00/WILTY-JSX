@@ -35,11 +35,10 @@ function CardRead({ stories, turn, onNextRound }) {
               <p style={{ padding: "20px" }}>{stories[turn]}</p>
             </Card>
           )}
-          {roundIsOver && !isLastRound ? (
+          {roundIsOver && !isLastRound && (
             <Button onClick={() => onNextRound(turn)}>Next</Button>
-          ) : (
-            <button>vsio</button>
           )}
+          {roundIsOver && isLastRound && <Button>vsio</Button>}
         </AnimatePresence>
       </div>
     </>
