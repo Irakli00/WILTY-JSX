@@ -45,8 +45,12 @@ function reducer(state, action) {
       };
     }
     case "startRound": {
-      console.log(state);
+      // console.log(state);
       return { ...state, status: "startRound" };
+    }
+    case "nextRound": {
+      console.log(state);
+      return { ...state, turn: action.payload, status: "startRound" };
     }
     default:
       console.log("no");
@@ -74,9 +78,12 @@ function App() {
       )}
       {status === "startRound" && (
         <CardRead
+          key={turn}
           stories={stories}
           turn={turn}
-          onNextRound={() => console.log("next")}
+          onNextRound={(turn) =>
+            dispatch({ type: "nextRound", payload: turn + 1 })
+          }
         ></CardRead>
       )}
       {status === "gameFinished" && <GameEnd></GameEnd>}

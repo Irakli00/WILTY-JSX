@@ -8,10 +8,11 @@ import Button from "../components/Button";
 function CardRead({ stories, turn, onNextRound }) {
   const [showCard, setShowCard] = useState(true);
   const [roundIsOver, setRoundIsOver] = useState(false);
+  const [isLastRound, setIsLasrRound] = useState(false);
 
   useEffect(() => {
-    roundIsOver && console.log("hdad");
-  }, [roundIsOver]);
+    roundIsOver && turn + 1 === stories.length && setIsLasrRound(true);
+  }, [roundIsOver, turn, stories]);
 
   return (
     <>
@@ -30,11 +31,15 @@ function CardRead({ stories, turn, onNextRound }) {
       <div style={{ marginTop: "15dvh" }}>
         <AnimatePresence>
           {showCard && (
-            <Card>
+            <Card key={turn}>
               <p style={{ padding: "20px" }}>{stories[turn]}</p>
             </Card>
           )}
-          {roundIsOver && <Button onClick={onNextRound}>Next</Button>}
+          {roundIsOver && !isLastRound ? (
+            <Button onClick={() => onNextRound(turn)}>Next</Button>
+          ) : (
+            <button>vsio</button>
+          )}
         </AnimatePresence>
       </div>
     </>
