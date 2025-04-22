@@ -1,29 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import Card from "../components/Card";
 import Timer from "../components/Timer";
+import Button from "../components/Button";
 
-function CardRead({ story }) {
+function CardRead({ stories, turn, onNextRound }) {
   const [showCard, setShowCard] = useState(true);
+  const [roundIsOver, setRoundIsOver] = useState(false);
+
+  useEffect(() => {
+    roundIsOver && console.log("hdad");
+  }, [roundIsOver]);
 
   return (
     <>
-      <Timer seconds={10} timeRanOutStyle={{ color: "red" }}></Timer>
+      <Timer
+        seconds={5}
+        timeRanOutStyle={{ color: "red" }}
+        onTimeRanOut={() => {
+          setRoundIsOver(true);
+
+          setTimeout(() => {
+            setShowCard(false);
+          }, 500);
+        }}
+      ></Timer>
 
       <div style={{ marginTop: "15dvh" }}>
-        <button onClick={() => setShowCard((prev) => !prev)}>
-          Toggle Card
-        </button>
-        {/* <button onClick={() => setIsPresented((prev) => !prev)}>
-          Toggle flip
-        </button> */}
         <AnimatePresence>
           {showCard && (
             <Card>
-              <p style={{ padding: "20px" }}>{story}</p>
+              <p style={{ padding: "20px" }}>{stories[turn]}</p>
             </Card>
           )}
+          {roundIsOver && <Button onClick={onNextRound}>Next</Button>}
         </AnimatePresence>
       </div>
     </>

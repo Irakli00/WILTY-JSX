@@ -13,7 +13,7 @@ const initialState = {
       id: 0,
       nickName: "joe",
       playerStory: {
-        story: "true story",
+        story: "story 1",
         truth: true,
       },
     },
@@ -21,7 +21,7 @@ const initialState = {
       id: 1,
       nickName: "dan",
       playerStory: {
-        story: "false story",
+        story: "story 2",
         truth: false,
       },
     },
@@ -45,6 +45,7 @@ function reducer(state, action) {
       };
     }
     case "startRound": {
+      console.log(state);
       return { ...state, status: "startRound" };
     }
     default:
@@ -53,7 +54,12 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [{ status, players }, dispatch] = useReducer(reducer, initialState);
+  const [{ status, players, turn }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+  const stories = players.map((el) => el.playerStory.story);
+
   return (
     <>
       {status === "inactive" && (
@@ -66,7 +72,13 @@ function App() {
           onStartGame={() => dispatch({ type: "startRound" })}
         ></Lobby>
       )}
-      {status === "startRound" && <CardRead story={"funny story"}></CardRead>}
+      {status === "startRound" && (
+        <CardRead
+          stories={stories}
+          turn={turn}
+          onNextRound={() => console.log("next")}
+        ></CardRead>
+      )}
       {status === "gameFinished" && <GameEnd></GameEnd>}
     </>
   );
