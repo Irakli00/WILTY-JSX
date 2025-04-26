@@ -5,6 +5,7 @@ import styles from "./Lobby.module.css";
 import PlayerInLobby from "../components/PlayerInLobby";
 import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
+import { useEffect, useState } from "react";
 // import { useState } from "react";
 
 const dynamicColors = [
@@ -40,10 +41,20 @@ const dynamicColors = [
   },
 ];
 
-function Lobby({ players, onPlayerSubmit, onStartGame }) {
+function Lobby({ onPlayerSubmit, onStartGame }) {
+  const [players, setPlayers] = useState([1, 2]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/existing_users")
+      .then((res) => res.json())
+      .then((data) => console.log(data.users));
+  }, []);
+
   const slots = players.length < 6 ? [...players, {}] : [...players];
   return (
-    <LobbyContext.Provider value={{ styles: dynamicColors, onPlayerSubmit }}>
+    <LobbyContext.Provider
+      value={{ styles: dynamicColors, onPlayerSubmit, players: players }}
+    >
       <section className={styles.lobby}>
         {slots.map((_, i) => {
           if (!players[i]?.nickName) {

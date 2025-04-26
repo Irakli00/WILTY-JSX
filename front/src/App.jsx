@@ -62,6 +62,7 @@ function App() {
     reducer,
     initialState
   );
+
   const stories = players.map((el) => el.playerStory.story);
 
   return (
@@ -71,7 +72,7 @@ function App() {
       )}
       {status === "initGame" && (
         <Lobby
-          players={players}
+          // players={players}
           onPlayerSubmit={(x) => dispatch({ type: "playerSubmit", payload: x })}
           onStartGame={() => dispatch({ type: "startRound" })}
         ></Lobby>

@@ -8,6 +8,14 @@ users_bp = Blueprint('users', __name__,)
 @users_bp.route('/existing_users', methods=['GET', 'POST']) 
 def index():
     all_users = User.query.all()
-    all_usernames = [user.username for user in User.query.all()]
+    # all_usernames = [user.username for user in User.query.all()]
 
-    return jsonify({'users':all_usernames},)
+    return jsonify({'users':{
+        'id':0,
+        'nickName':all_users[0].username,
+        "playerStory": {
+            "story": "story 1",
+            "truth": "true",
+        },
+    }},)
+    
