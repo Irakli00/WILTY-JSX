@@ -4,9 +4,7 @@ import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
 function PlayerInLobby({ i, playerName }) {
-  const { styles, players } = useContext(LobbyContext);
-
-  console.log("fjsfls:", players);
+  const { styles } = useContext(LobbyContext);
 
   return (
     <div className={CSSstyles.player} style={styles[i]}>

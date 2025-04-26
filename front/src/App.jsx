@@ -1,10 +1,12 @@
+import { useReducer } from "react";
+
 import "./index.css";
 
+import { LobbyContext, LobbyProvider } from "./contexts/LobbyContext";
 import StartPage from "./pages/StartPage";
 import Lobby from "./pages/Lobby";
 import CardRead from "./pages/CardRead";
 import GameEnd from "./pages/GameEnd";
-import { useReducer } from "react";
 
 const initialState = {
   turn: 0,
@@ -71,11 +73,14 @@ function App() {
         <StartPage dispatch={() => dispatch({ type: "initGame" })}></StartPage>
       )}
       {status === "initGame" && (
-        <Lobby
-          // players={players}
-          onPlayerSubmit={(x) => dispatch({ type: "playerSubmit", payload: x })}
-          onStartGame={() => dispatch({ type: "startRound" })}
-        ></Lobby>
+        <LobbyProvider>
+          <Lobby
+            onStartGame={() => dispatch({ type: "startRound" })}
+            onPlayerSubmit={(x) =>
+              dispatch({ type: "playerSubmit", payload: x })
+            }
+          ></Lobby>
+        </LobbyProvider>
       )}
       {status === "startRound" && (
         <CardRead

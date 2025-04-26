@@ -4,9 +4,9 @@ import CSSstyles from "./AddPlayer.module.css";
 
 import { LobbyContext } from "../contexts/LobbyContext";
 
-function AddPlayerForm({ i, onClick }) {
+function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
   const [player, setPlayer] = useState("");
-  const { styles, onPlayerSubmit } = useContext(LobbyContext);
+  const { styles } = useContext(LobbyContext);
 
   const inputRef = useRef(null);
 
