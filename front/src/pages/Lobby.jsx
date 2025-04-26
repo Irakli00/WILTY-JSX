@@ -9,15 +9,18 @@ import AddPlayerForm from "../components/AddPlayerForm";
 // import { useState } from "react";
 
 function Lobby({ onStartGame, onPlayerSubmit }) {
-  const { players } = useContext(LobbyContext);
+  const { players, setPlayers } = useContext(LobbyContext);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/existing_users")
       .then((res) => res.json())
-      .then((data) => console.log(data.users));
+      .then((data) => {
+        setPlayers(data.users);
+      });
   }, []);
 
   const slots = players.length < 6 ? [...players, {}] : [...players];
+  console.log(slots);
   return (
     <section className={styles.lobby}>
       {slots.map((_, i) => {

@@ -10,12 +10,21 @@ def index():
     all_users = User.query.all()
     # all_usernames = [user.username for user in User.query.all()]
 
-    return jsonify({'users':{
-        'id':0,
-        'nickName':all_users[0].username,
-        "playerStory": {
-            "story": "story 1",
-            "truth": "true",
+    return jsonify({'users':[
+    {
+    'id':0,
+    'nickName':all_users[0].username,
+    "playerStory": {
+        "story": "story 1",
+        "truth": "true",
         },
-    }},)
+    },
+    {
+    'id':1,
+    'nickName':all_users[1].username,
+    "playerStory": {
+            "story": "story 2",
+            "truth": "true",
+            },
+    }]})
     

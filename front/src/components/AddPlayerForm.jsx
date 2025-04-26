@@ -34,12 +34,13 @@ function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
         <input
           type="submit"
           value="+"
-          onClick={() =>
-            onPlayerSubmit({
-              id: i,
-              nickName: player,
-              playerStory: { story: "alakazam", truth: false },
-            })
+          onClick={
+            () =>
+              onPlayerSubmit({
+                id: i,
+                nickName: player,
+                playerStory: { story: "alakazam", truth: false },
+              }) //should sends reauest
           }
         />
         <input type="reset" value="-" onClick={onClick} />
