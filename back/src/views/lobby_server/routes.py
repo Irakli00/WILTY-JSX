@@ -5,44 +5,52 @@ from src.models import Active_lobby
 
 lobby_bp = Blueprint('lobby', __name__,)
 
-active_lobbies =[]
-
-# # active_lobbies1 = db.session.query(Active_lobby).all()
-# active_lobbies1 = db.session.query(Active_lobby)
-# print(active_lobbies1)
-
 
 @lobby_bp.route('/lobby_manager', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         data = request.get_json()
         
-        # Generate a unique lobby ID if not provided
         lobby_id = data.get('userId')
-        print('id:',lobby_id)
+        # print('id:',lobby_id)
         
-        # Store lobby data
-        active_lobbies.append( {
-            'lobbie_id': lobby_id
-        })
+        existing = db.session.query(Active_lobby).filter_by(lobby_id=lobby_id).first()
+
+        if not existing:
+            new_lobby = Active_lobby(lobby_id=lobby_id)
+            db.session.add(new_lobby)
+            db.session.commit()
+        else:
+            print("Lobby already exists")
+      
+
+        all_active_lobbies = db.session.query(Active_lobby).all()
+
+        lobbies_array = [
+              {
+                  "id": lobby.id,
+                  "lobby_id": lobby.lobby_id
+              }
+              for lobby in all_active_lobbies
+        ]
+
         
-        # Return the lobby ID in the response
         return jsonify({
-            "active_ones": active_lobbies
+            'active_ones': lobbies_array
         })
     else:
         return jsonify({"hello": 'hadla'})
 
 @lobby_bp.route('/lobby/<lobby_id>', methods=['GET'])
 def get_lobby(lobby_id):
-    # Check if the lobby exists
-    print(lobby_id ,active_lobbies)
+    lobby_query = db.session.query(Active_lobby).filter(Active_lobby.lobby_id == lobby_id).first()
+  
+    # print(lobby_id , lobby_query)
 
-    if True:
+    if lobby_query:
         return jsonify({
             "status": "success",
             "lobby_id": lobby_id,
-            # "lobby_data": active_lobbies['lobby_id']
         })
     else:
         return jsonify({
@@ -52,6 +60,15 @@ def get_lobby(lobby_id):
 
 @lobby_bp.route('/lobbies', methods=['GET'])
 def list_lobbies():
+    all_active_lobbies = db.session.query(Active_lobby).all()
+
+    lobbies_array = [
+        {
+          "id": lobby.id,
+          "lobby_id": lobby.lobby_id
+        }
+        for lobby in all_active_lobbies
+    ]
     return jsonify({
-        "active_lobbies": active_lobbies
+        "active_lobbies": lobbies_array
     })
