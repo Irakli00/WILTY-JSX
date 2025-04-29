@@ -75,7 +75,7 @@ function useClientId() {
 }
 
 export function AppProvider({ children }) {
-  const [players, setPlayers] = useState(tempUsers);
+  const [players, setPlayers] = useState(tempUsers); //instead of temp users use api
 
   return (
     <AppContext.Provider
