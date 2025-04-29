@@ -7,7 +7,6 @@ users_bp = Blueprint('users', __name__,)
 
 @users_bp.route('/existing_users', methods=['GET', 'POST']) 
 def index():
-
     if request.method == 'POST':
         data = request.get_json()
         print("Received POST data:", data)

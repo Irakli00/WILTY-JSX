@@ -58,6 +58,8 @@ const tempUsers = [
 function useClientId() {
   const [clientId, setClientId] = useState(null);
 
+  // useEffect();
+
   useEffect(() => {
     // Check if ID exists in localStorage
     let id = sessionStorage.getItem("clientId");

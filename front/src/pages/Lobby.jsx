@@ -13,8 +13,7 @@ function Lobby({ onStartGame, turn }) {
 
   useEffect(() => {
     console.log("players:", players);
-  }),
-    [players];
+  }, [players]);
 
   return (
     <section className={styles.lobby}>
