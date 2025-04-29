@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 
 import Button from "../components/Button";
 import styles from "./StartPage.module.css"; //better to get it to its module
-
-import { v4 as uuidv4 } from "uuid";
-
-const id = uuidv4().slice(0, 10);
+import { useContext } from "react";
+import { AppContext } from "../contexts/AppContext";
 
 function StartPage({ dispatch }) {
+  const { useClientId } = useContext(AppContext);
+
   return (
     <section className={styles.gameSection}>
       <div className={styles.gameContainer}>
         <Link
-          to={`/${id}`}
+          to={`/${useClientId()}`}
           className={styles.playBtn}
           onClick={() => dispatch()}
         >

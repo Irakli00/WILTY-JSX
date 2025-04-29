@@ -2,11 +2,14 @@ import { useContext, useRef, useEffect, useState } from "react";
 
 import CSSstyles from "./AddPlayer.module.css";
 
-import { LobbyContext } from "../contexts/LobbyContext";
+import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
-  const [player, setPlayer] = useState("");
-  const { styles } = useContext(LobbyContext);
+function AddPlayerForm({ i }) {
+  const { styles, setPlayers, players, useClientId } = useContext(AppContext);
+
+  const [username, setUsername] = useState("");
+  const [story, setStory] = useState("");
+  const user = { username, story, uID: useClientId() };
 
   const inputRef = useRef(null);
 
@@ -20,30 +23,30 @@ function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          setPlayers([...players, user]);
         }}
       >
+        <label htmlFor="userName">Username: </label>
         <input
-          value={player}
-          onChange={(e) => setPlayer(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           ref={inputRef}
           type="text"
-          name="playerName"
-          id="playerName"
+          name="userName"
+          id="userName"
         />
 
+        <label htmlFor="story"> Story:</label>
         <input
-          type="submit"
-          value="+"
-          onClick={
-            () =>
-              onPlayerSubmit({
-                id: i,
-                nickName: player,
-                playerStory: { story: "alakazam", truth: false },
-              }) //should sends reauest
-          }
+          value={story}
+          type="text"
+          name="story"
+          id="story"
+          onChange={(e) => setStory(e.target.value)}
         />
-        <input type="reset" value="-" onClick={onClick} />
+
+        <input type="submit" value="+" />
+        <input type="reset" value="-" onClick={null} />
       </form>
     </div>
   );
