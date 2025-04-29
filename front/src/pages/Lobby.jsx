@@ -2,43 +2,30 @@ import { useContext, useEffect } from "react";
 
 import styles from "./Lobby.module.css";
 
-import { LobbyContext } from "../contexts/LobbyContext";
+import { AppContext } from "../contexts/AppContext";
 import PlayerInLobby from "../components/PlayerInLobby";
 import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
 // import { useState } from "react";
 
-function Lobby({ onStartGame, onPlayerSubmit }) {
-  const { players, setPlayers } = useContext(LobbyContext);
+function Lobby({ onStartGame, turn }) {
+  const { players, useClientId } = useContext(AppContext);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/existing_users")
-      .then((res) => res.json())
-      .then((data) => {
-        setPlayers(data.users);
-      });
-  }, []);
+    console.log("players:", players);
+  }),
+    [players];
 
-  const slots = players.length < 6 ? [...players, {}] : [...players];
-  console.log(slots);
   return (
     <section className={styles.lobby}>
-      {slots.map((_, i) => {
-        if (!players[i]?.nickName) {
-          return (
-            <AddPlayerForm i={i} key={i} onPlayerSubmit={onPlayerSubmit} />
-          );
-        } else {
-          return (
-            <PlayerInLobby
-              i={i}
-              key={i}
-              onClick={""}
-              playerName={players.map((el) => el.nickName)[i]}
-            />
-          );
-        }
-      })}
+      <h1>Lobby ID: {useClientId()}</h1>
+
+      {!players.length ? (
+        <AddPlayerForm i={0} key={0}></AddPlayerForm>
+      ) : (
+        <PlayerInLobby i={turn}>{players[turn].nickname}</PlayerInLobby>
+      )}
+
       <Button className="startGameBTN" onClick={onStartGame}>
         Start a Game
       </Button>
