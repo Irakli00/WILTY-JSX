@@ -19,6 +19,7 @@ function Lobby({ onStartGame, turn }) {
   return (
     <section className={styles.lobby}>
       <h1>Lobby ID: {useClientId()}</h1>
+
       {!players.length ? (
         <AddPlayerForm i={0} key={0}></AddPlayerForm>
       ) : (
