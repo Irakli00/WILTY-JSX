@@ -6,4 +6,6 @@ connected_clients = set()
 
 @connections_bp.route('/connections_manager', methods=['GET', 'POST'])
 def index():
+    print('c->',connected_clients)
     return jsonify({'hello': 'world'})
+

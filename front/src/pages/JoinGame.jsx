@@ -1,15 +1,11 @@
 import { useState } from "react";
+import { socket } from "../socket";
 
 function JoinGame() {
   const [idQuery, setIdQuery] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (idQuery.length < 3) {
-      console.warn("Lobby ID too short");
-      return;
-    }
 
     try {
       const res = await fetch(`http://127.0.0.1:5000/lobby/${idQuery}`);
@@ -18,7 +14,7 @@ function JoinGame() {
       if (data.status === "error") {
         console.log("Error joining lobby");
       } else {
-        console.log("Lobby joined:", data);
+        socket.emit("join_lobby", { username: "123", room: idQuery });
       }
     } catch (err) {
       console.error("Failed to join lobby", err);
