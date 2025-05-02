@@ -7,6 +7,7 @@ import StartPage from "./pages/StartPage";
 import Lobby from "./pages/Lobby";
 import CardRead from "./pages/CardRead";
 import GameEnd from "./pages/GameEnd";
+import JoinGame from "./pages/JoinGame";
 
 const initialState = {
   turn: 0,
@@ -19,6 +20,9 @@ function reducer(state, action) {
   switch (action.type) {
     case "initGame": {
       return { ...state, status: "initGame" };
+    }
+    case "joinGame": {
+      return { ...state, status: "joinGame" };
     }
     case "playerSubmit": {
       const userIDs = state.players.map((el) => el.id);
@@ -66,6 +70,7 @@ function App() {
         {status === "inactive" && (
           <StartPage
             dispatch={() => dispatch({ type: "initGame" })}
+            onJoinLobby={() => dispatch({ type: "joinGame", payload: "hi" })}
           ></StartPage>
         )}
         {status === "initGame" && (
@@ -74,6 +79,7 @@ function App() {
             onStartGame={() => dispatch({ type: "startRound" })}
           ></Lobby>
         )}
+        {status === "joinGame" && <JoinGame></JoinGame>}
         {status === "startRound" && (
           <CardRead
             key={turn}
