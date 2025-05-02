@@ -24,8 +24,8 @@ def init_db_command():
 @with_appcontext
 def populate_db_command():
     click.echo("populating db")
-    user1 = User(username="joe", password="joejoe")
-    user1.password = "dan" 
-    user2 = User(username="dan", password="dandan")
-    user1.create()
-    user2.create()
+    # user1 = User(username="joe", password="joejoe")
+    # user1.password = "dan" 
+    # user2 = User(username="dan", password="dandan")
+    # user1.create()
+    # user2.create()

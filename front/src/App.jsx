@@ -2,7 +2,7 @@ import { useReducer } from "react";
 
 import "./index.css";
 
-import { LobbyContext, LobbyProvider } from "./contexts/LobbyContext";
+import { AppContext, AppProvider } from "./contexts/AppContext";
 import StartPage from "./pages/StartPage";
 import Lobby from "./pages/Lobby";
 import CardRead from "./pages/CardRead";
@@ -10,24 +10,7 @@ import GameEnd from "./pages/GameEnd";
 
 const initialState = {
   turn: 0,
-  players: [
-    {
-      id: 0,
-      nickName: "joe",
-      playerStory: {
-        story: "story 1",
-        truth: true,
-      },
-    },
-    {
-      id: 1,
-      nickName: "dan",
-      playerStory: {
-        story: "story 2",
-        truth: false,
-      },
-    },
-  ],
+  players: [],
   //inactive,lobby,startRound,guess,over
   status: "inactive",
 };
@@ -39,6 +22,16 @@ function reducer(state, action) {
     }
     case "playerSubmit": {
       const userIDs = state.players.map((el) => el.id);
+      //send post request here
+
+      fetch("http://127.0.0.1:5000/existing_users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state), // Make sure to stringify the body
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+
       return {
         ...state,
         players: !userIDs.includes(action.payload.id)
@@ -68,32 +61,32 @@ function App() {
   const stories = players.map((el) => el.playerStory.story);
 
   return (
-    <>
-      {status === "inactive" && (
-        <StartPage dispatch={() => dispatch({ type: "initGame" })}></StartPage>
-      )}
-      {status === "initGame" && (
-        <LobbyProvider>
+    <AppProvider>
+      <>
+        {status === "inactive" && (
+          <StartPage
+            dispatch={() => dispatch({ type: "initGame" })}
+          ></StartPage>
+        )}
+        {status === "initGame" && (
           <Lobby
+            turn={0}
             onStartGame={() => dispatch({ type: "startRound" })}
-            onPlayerSubmit={(x) =>
-              dispatch({ type: "playerSubmit", payload: x })
-            }
           ></Lobby>
-        </LobbyProvider>
-      )}
-      {status === "startRound" && (
-        <CardRead
-          key={turn}
-          stories={stories}
-          turn={turn}
-          onNextRound={(turn) =>
-            dispatch({ type: "nextRound", payload: turn + 1 })
-          }
-        ></CardRead>
-      )}
-      {status === "gameFinished" && <GameEnd></GameEnd>}
-    </>
+        )}
+        {status === "startRound" && (
+          <CardRead
+            key={turn}
+            stories={stories}
+            turn={turn}
+            onNextRound={(turn) =>
+              dispatch({ type: "nextRound", payload: turn + 1 })
+            }
+          ></CardRead>
+        )}
+        {status === "gameFinished" && <GameEnd></GameEnd>}
+      </>
+    </AppProvider>
   );
 }
 
