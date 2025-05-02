@@ -5,7 +5,6 @@ from src.models import Active_lobby
 
 lobby_bp = Blueprint('lobby', __name__,)
 
-
 @lobby_bp.route('/lobby_manager', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':

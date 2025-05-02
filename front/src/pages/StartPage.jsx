@@ -14,7 +14,6 @@ function StartPage({ dispatch }) {
         {/* ------------------------------------------------ */}
         {useEffect(() => {
           let id = sessionStorage.getItem("clientId");
-
           if (id) {
             fetch("http://localhost:5000/lobby_manager", {
               method: "POST",
