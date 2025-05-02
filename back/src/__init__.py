@@ -5,7 +5,9 @@ from src.commands import init_db_command, populate_db_command
 from src.models import User
 from src.config import Config
 from src.views import users_bp
+from src.views import lobby_bp
 # from src.views import auth_blueprint, users_bp
+
 
 
 COMMANDS = [
@@ -15,7 +17,8 @@ COMMANDS = [
 
 BLUEPRINTS = [
     # auth_blueprint,
-    users_bp
+    users_bp,
+    lobby_bp
 ]
 
 def create_app():
@@ -35,8 +38,13 @@ def register_extenstions(app):
 
 
 def register_blueprints(app):
-    for blueprint in BLUEPRINTS:
-        app.register_blueprint(blueprint)   
+    from src.views import lobby_bp, users_bp, connections_bp  
+    app.register_blueprint(lobby_bp)
+    app.register_blueprint(users_bp)
+    app.register_blueprint(connections_bp)
+
+    # for blueprint in BLUEPRINTS:
+    #     app.register_blueprint(blueprint)   
 
 
 def register_commands(app):
