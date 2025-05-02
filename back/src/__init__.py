@@ -9,6 +9,7 @@ from src.views import lobby_bp
 # from src.views import auth_blueprint, users_bp
 
 
+
 COMMANDS = [
     init_db_command,
     populate_db_command
@@ -37,9 +38,10 @@ def register_extenstions(app):
 
 
 def register_blueprints(app):
-    from src.views import lobby_bp, users_bp  # ✅ Lazy import
+    from src.views import lobby_bp, users_bp, connections_bp  
     app.register_blueprint(lobby_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(connections_bp)
 
     # for blueprint in BLUEPRINTS:
     #     app.register_blueprint(blueprint)   

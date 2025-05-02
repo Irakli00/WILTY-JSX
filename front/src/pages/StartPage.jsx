@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import styles from "./StartPage.module.css"; //better to get it to its module
 import { useContext, useEffect } from "react";
 import { AppContext } from "../contexts/AppContext";
+import { io } from "socket.io-client";
 
 function StartPage({ dispatch }) {
   const { useClientId } = useContext(AppContext);
@@ -28,6 +29,18 @@ function StartPage({ dispatch }) {
               .then((data) => console.log(data))
               .catch((error) => console.error("Error:", error));
           }
+        }, [])}
+
+        {useEffect(() => {
+          const socket = io("http://localhost:5000/");
+
+          socket.on("connect", () => {
+            console.log("Connected to server");
+          });
+
+          socket.emit("message_from_client", { userId: "aruar" });
+
+          return () => socket.disconnect();
         }, [])}
         {/* ------------------------------------------------ */}
 
