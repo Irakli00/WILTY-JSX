@@ -12,7 +12,6 @@ def index():
         data = request.get_json()
         
         lobby_id = data.get('userId')
-        # print('id:',lobby_id)
         
         existing = db.session.query(Active_lobby).filter_by(lobby_id=lobby_id).first()
 
@@ -28,13 +27,12 @@ def index():
 
         lobbies_array = [
               {
-                  "id": lobby.id,
-                  "lobby_id": lobby.lobby_id
+                "id": lobby.id,
+                "lobby_id": lobby.lobby_id
               }
               for lobby in all_active_lobbies
         ]
 
-        
         return jsonify({
             'active_ones': lobbies_array
         })
