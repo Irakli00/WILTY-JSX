@@ -29,13 +29,11 @@ function reducer(state, action) {
       console.log(action.payload);
       //send post request here
 
-      // fetch("http://127.0.0.1:5000/existing_users", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(state), // Make sure to stringify the body
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => console.log(data));
+      fetch("http://127.0.0.1:5000/existing_users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(action.payload), // Make sure to stringify the body
+      });
 
       return {
         ...state,

@@ -6,7 +6,7 @@ import { AppContext } from "../contexts/AppContext";
 
 function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
   const [player, setPlayer] = useState("");
-  const { styles } = useContext(AppContext);
+  const { styles, setPlayers } = useContext(AppContext);
 
   const inputRef = useRef(null);
 
@@ -34,13 +34,21 @@ function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
         <input
           type="submit"
           value="+"
-          onClick={() =>
+          onClick={() => {
+            setPlayers((players) => [
+              ...players,
+              {
+                id: i,
+                nickName: player,
+                playerStory: { story: "alakazam", truth: false },
+              },
+            ]);
             onPlayerSubmit({
               id: i,
               nickName: player,
               playerStory: { story: "alakazam", truth: false },
-            })
-          }
+            });
+          }}
         />
         <input type="reset" value="-" onClick={onClick} />
       </form>

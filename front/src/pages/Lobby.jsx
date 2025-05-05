@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 
 import styles from "./Lobby.module.css";
 
-// import { socket } from "../socket";
+import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 import PlayerInLobby from "../components/PlayerInLobby";
@@ -12,6 +12,9 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby({ onStartGame, turn, onPlayerSubmit }) {
   const { players } = useContext(AppContext);
+  // const players = [];
+
+  socket.emit("join_lobby", { username: "123", room: "123" });
 
   // socket.emit("join_lobby", { username: "123", room: "123" });
 
@@ -34,7 +37,11 @@ function Lobby({ onStartGame, turn, onPlayerSubmit }) {
           onPlayerSubmit={onPlayerSubmit}
         ></AddPlayerForm>
       ) : (
-        <PlayerInLobby i={turn}>{players[turn].nickname}</PlayerInLobby>
+        <PlayerInLobby i={turn} playerName={players[0].nickName}>
+          {" "}
+          {/* static */}
+          {players[turn].nickname}
+        </PlayerInLobby>
       )}
 
       <Button className="startGameBTN" onClick={onStartGame}>

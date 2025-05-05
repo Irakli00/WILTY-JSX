@@ -12,7 +12,7 @@ def index():
         print("Received POST data:", data)
         
         # Create a new User object from the JSON data
-        new_user = User(username=data.get('username'))  # Adjust based on your User model
+        new_user = User(username=data.get('nickName'))  # Adjust based on your User model
         
         # Add to db
         db.session.add(new_user)
