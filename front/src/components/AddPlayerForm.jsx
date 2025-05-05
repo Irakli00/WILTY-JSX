@@ -2,11 +2,11 @@ import { useContext, useRef, useEffect, useState } from "react";
 
 import CSSstyles from "./AddPlayer.module.css";
 
-import { LobbyContext } from "../contexts/LobbyContext";
+import { AppContext } from "../contexts/AppContext";
 
 function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
   const [player, setPlayer] = useState("");
-  const { styles } = useContext(LobbyContext);
+  const { styles } = useContext(AppContext);
 
   const inputRef = useRef(null);
 

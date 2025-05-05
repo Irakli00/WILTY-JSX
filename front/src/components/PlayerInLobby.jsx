@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { LobbyContext } from "../contexts/LobbyContext";
+import { AppContext } from "../contexts/AppContext";
 import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
 function PlayerInLobby({ i, playerName }) {
-  const { styles } = useContext(LobbyContext);
+  const { styles } = useContext(AppContext);
 
   return (
     <div className={CSSstyles.player} style={styles[i]}>
