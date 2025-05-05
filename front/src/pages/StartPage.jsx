@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import styles from "./StartPage.module.css"; //better to get it to its module
 import { AppContext } from "../contexts/AppContext";
+import { useContext } from "react";
 
 function StartPage({ dispatch, onJoinLobby }) {
+  const { useClientId } = useContext(AppContext);
+
   return (
     <section className={styles.gameSection}>
       <div className={styles.gameContainer}>
         {/* ------------------------------------------------ */}
+
         {/* {useEffect(() => {
           let id = sessionStorage.getItem("clientId");
           if (id) {
@@ -29,11 +33,19 @@ function StartPage({ dispatch, onJoinLobby }) {
 
         {/* ------------------------------------------------ */}
 
-        <Link to={`/123`} className={styles.playBtn} onClick={() => dispatch()}>
+        <Link
+          to={`/lobby/${useClientId()}`}
+          className={styles.playBtn}
+          onClick={() => dispatch()}
+        >
           PLAY
         </Link>
         <div>
-          <Link className={styles.rulesBtn} to={""} onClick={onJoinLobby}>
+          <Link
+            className={styles.rulesBtn}
+            to={"/join_lobby"}
+            onClick={onJoinLobby}
+          >
             Join a game
           </Link>
         </div>

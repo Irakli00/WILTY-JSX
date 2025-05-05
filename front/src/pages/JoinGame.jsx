@@ -3,6 +3,7 @@ import { socket } from "../socket";
 
 function JoinGame() {
   const [idQuery, setIdQuery] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,13 +16,7 @@ function JoinGame() {
         console.log("Error joining lobby");
       } else {
         console.log("joined");
-        socket.emit("join_lobby", { username: "123", room: idQuery });
-
-        socket.emit("get_rooms");
-
-        socket.on("rooms_info", (data) => {
-          console.log("Rooms info:", data);
-        });
+        socket.emit("join_lobby", { username, room: idQuery });
       }
     } catch (err) {
       console.error("Failed to join lobby", err);
@@ -31,8 +26,14 @@ function JoinGame() {
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="userName">Your Username:</label>
+        <input
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
+          id="username"
+          placeholder="Username"
+        />
         <label htmlFor="lobbyId">Lobby ID:</label>
-
         <input
           onChange={(e) => setIdQuery(e.target.value)}
           value={idQuery}

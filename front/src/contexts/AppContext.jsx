@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-// import { v4 as uuidv4 } from "uuid";
+import { createContext, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export const AppContext = createContext();
 
@@ -48,24 +48,24 @@ const tempUsers = [
   // {},
 ];
 
-// function useClientId() {
-//   const [clientId, setClientId] = useState(null);
+function useClientId() {
+  const [clientId, setClientId] = useState(null);
 
-//   useEffect(() => {
-//     // Check if ID exists in localStorage
-//     let id = sessionStorage.getItem("clientId");
+  useEffect(() => {
+    // Check if ID exists in localStorage
+    let id = sessionStorage.getItem("clientId");
 
-//     // If not, create a new UUID using the uuid library
-//     if (!id) {
-//       id = uuidv4();
-//       sessionStorage.setItem("clientId", id);
-//     }
+    // If not, create a new UUID using the uuid library
+    if (!id) {
+      id = uuidv4();
+      sessionStorage.setItem("clientId", id);
+    }
 
-//     setClientId(id);
-//   }, []);
+    setClientId(id);
+  }, []);
 
-//   return clientId;
-// }
+  return clientId;
+}
 
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState(tempUsers); //instead of temp users use api
@@ -75,7 +75,7 @@ export function AppProvider({ children }) {
       value={{
         players,
         setPlayers,
-        // useClientId,
+        useClientId,
         styles: dynamicColors,
       }}
     >

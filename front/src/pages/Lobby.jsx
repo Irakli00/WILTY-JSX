@@ -14,7 +14,7 @@ function Lobby({ onStartGame, turn, onPlayerSubmit }) {
   const { players } = useContext(AppContext);
   const [submited, setSubmited] = useState(false);
 
-  socket.emit("join_lobby", { username: "123", room: "123" });
+  // socket.emit("join_lobby", { username: "123", room: "123" });
   socket.emit("get_room", { room: "123" });
 
   socket.on("rooms_info", (data) => {

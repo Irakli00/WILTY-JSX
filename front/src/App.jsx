@@ -1,4 +1,5 @@
-import { useReducer } from "react";
+import { useContext, useReducer } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import "./index.css";
 
@@ -62,39 +63,46 @@ function App() {
   );
 
   const stories = players.map((el) => el.playerStory.story);
+  const { useClientId } = useContext(AppContext);
 
   return (
-    <AppProvider>
-      <>
-        {status === "inactive" && (
-          <StartPage
-            dispatch={() => dispatch({ type: "initGame" })}
-            onJoinLobby={() => dispatch({ type: "joinGame", payload: "hi" })}
-          ></StartPage>
-        )}
-        {status === "initGame" && (
-          <Lobby
-            turn={0}
-            onStartGame={() => dispatch({ type: "startRound" })}
-            onPlayerSubmit={(x) =>
-              dispatch({ type: "playerSubmit", payload: x })
-            }
-          ></Lobby>
-        )}
-        {status === "joinGame" && <JoinGame></JoinGame>}
-        {status === "startRound" && (
-          <CardRead
-            key={turn}
-            stories={stories}
-            turn={turn}
-            onNextRound={(turn) =>
-              dispatch({ type: "nextRound", payload: turn + 1 })
-            }
-          ></CardRead>
-        )}
-        {status === "gameFinished" && <GameEnd></GameEnd>}
-      </>
-    </AppProvider>
+    <Routes>
+      <Route
+        index
+        path="/"
+        element={<StartPage dispatch={() => dispatch({ type: "initGame" })} />}
+      />
+
+      <Route
+        path={`lobby/${useClientId()}`}
+        element={
+          <>
+            {status === "initGame" && (
+              <Lobby
+                turn={0}
+                onStartGame={() => dispatch({ type: "startRound" })}
+                onPlayerSubmit={(x) =>
+                  dispatch({ type: "playerSubmit", payload: x })
+                }
+              />
+            )}
+            {status === "joinGame" && <JoinGame />}
+            {status === "startRound" && (
+              <CardRead
+                key={turn}
+                stories={stories}
+                turn={turn}
+                onNextRound={(turn) =>
+                  dispatch({ type: "nextRound", payload: turn + 1 })
+                }
+              />
+            )}
+            {status === "gameFinished" && <GameEnd />}
+          </>
+        }
+      />
+      <Route path="/join_lobby" element={<JoinGame></JoinGame>} />
+    </Routes>
   );
 }
 
