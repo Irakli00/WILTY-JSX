@@ -45,14 +45,7 @@ const tempUsers = [
   //     truth: true,
   //   },
   // },
-  // {
-  //   id: 1,
-  //   nickName: "dan",
-  //   playerStory: {
-  //     story: "story 2",
-  //     truth: false,
-  //   },
-  // },
+  // {},
 ];
 
 // function useClientId() {

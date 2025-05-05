@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import styles from "./Lobby.module.css";
 
@@ -12,34 +12,28 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby({ onStartGame, turn, onPlayerSubmit }) {
   const { players } = useContext(AppContext);
-  // const players = [];
+  const [submited, setSubmited] = useState(false);
 
   socket.emit("join_lobby", { username: "123", room: "123" });
+  socket.emit("get_room", { room: "123" });
 
-  // socket.emit("join_lobby", { username: "123", room: "123" });
-
-  // socket.emit("get_rooms");
-
-  // socket.on("rooms_info", (data) => {
-  //   console.log("Rooms info:", data);
-  // });
-
-  useEffect(() => {
-    console.log("players:", players);
-  }, [players]);
+  socket.on("rooms_info", (data) => {
+    console.log("Rooms info:", data.members);
+  });
 
   return (
     <section className={styles.lobby}>
-      {!players.length ? (
+      {!submited ? (
         <AddPlayerForm
           i={0}
           key={0}
-          onPlayerSubmit={onPlayerSubmit}
+          onPlayerSubmit={(x) => {
+            setSubmited(true);
+            onPlayerSubmit(x);
+          }}
         ></AddPlayerForm>
       ) : (
-        <PlayerInLobby i={turn} playerName={players[0].nickName}>
-          {" "}
-          {/* static */}
+        <PlayerInLobby key={0} i={0} playerName={players[0].nickName}>
           {players[turn].nickname}
         </PlayerInLobby>
       )}

@@ -23,21 +23,21 @@ def on_join(data):
     
 
     # Print current rooms and users (on this server instance)
-    print("=== Active Rooms ===")
-    for room_name, members in socketio.server.manager.rooms['/'].items():
-        if room_name == room:
-            print(f"Room: {room_name}")
-            print(f"Members: {members}")
+    # print("=== Active Rooms ===")
+    # for room_name, members in socketio.server.manager.rooms['/'].items():
+    #     if room_name == room:
+    #         print(f"Room: {room_name}")
+    #         print(f"Members: {members}")
 
-@socketio.on('get_rooms')
-def handle_get_rooms():
-    rooms_info = {}
-    namespace = '/'
+@socketio.on('get_room')
+def handle_get_room(data):
+    room = data['room']  # e.g., '123'
+    namespace = '/'  # default namespace
 
-    for room_name, members in socketio.server.manager.rooms[namespace].items():
-        rooms_info[room_name] = list(members)
+    socket_ids = socketio.server.manager.rooms[namespace].get(room, set())
+    room_info = list(socket_ids)  # Convert to list for JSON serialization
 
-    emit('rooms_info', rooms_info)
+    emit('rooms_info', {'room': room, 'members': room_info})
 
 @socketio.on('leave')
 def on_leave(data):
