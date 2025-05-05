@@ -30,13 +30,15 @@ def on_join(data):
 
 @socketio.on('get_room')
 def handle_get_room(data):
-    room = data['room']  # e.g., '123'
+    room = data['room']
     namespace = '/'  # default namespace
-
-    socket_ids = socketio.server.manager.rooms[namespace]
-    room_info = list(socket_ids)  # Convert to list for JSON serialization
+    try:
+        room_members = socketio.server.manager.rooms[namespace][room]
+        room_info = list(room_members)
+    except KeyError:
+        room_info = []
+        
     print('-->', room, room_info)
-
     emit('rooms_info', {'room': room, 'members': room_info})
 
 @socketio.on('leave')
