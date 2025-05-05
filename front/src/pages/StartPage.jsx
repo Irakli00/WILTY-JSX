@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import styles from "./StartPage.module.css"; //better to get it to its module
 import { AppContext } from "../contexts/AppContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 function StartPage({ dispatch, onJoinLobby }) {
   const { useClientId } = useContext(AppContext);
@@ -13,7 +13,7 @@ function StartPage({ dispatch, onJoinLobby }) {
       <div className={styles.gameContainer}>
         {/* ------------------------------------------------ */}
 
-        {/* {useEffect(() => {
+        {useEffect(() => {
           let id = sessionStorage.getItem("clientId");
           if (id) {
             fetch("http://localhost:5000/lobby_manager", {
@@ -29,7 +29,7 @@ function StartPage({ dispatch, onJoinLobby }) {
               .then((data) => console.log(data))
               .catch((error) => console.error("Error:", error));
           }
-        }, [])} */}
+        }, [])}
 
         {/* ------------------------------------------------ */}
 
