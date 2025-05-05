@@ -20,12 +20,14 @@ def on_join(data):
     room = data['room']
     join_room(room)
     send(username + ' has entered the room.', to=room)
+    
 
     # Print current rooms and users (on this server instance)
     print("=== Active Rooms ===")
     for room_name, members in socketio.server.manager.rooms['/'].items():
-        print(f"Room: {room_name}")
-        print(f"Members: {members}")
+        if room_name == room:
+            print(f"Room: {room_name}")
+            print(f"Members: {members}")
 
 @socketio.on('get_rooms')
 def handle_get_rooms():
