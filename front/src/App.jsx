@@ -1,4 +1,4 @@
-import { useContext, useReducer } from "react";
+import { useReducer } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./index.css";
@@ -63,7 +63,6 @@ function App() {
   );
 
   const stories = players.map((el) => el.playerStory.story);
-  const { useClientId } = useContext(AppContext);
 
   return (
     <Routes>
@@ -74,7 +73,7 @@ function App() {
       />
 
       <Route
-        path={`lobby/${useClientId()}`}
+        path={`lobby/:id`}
         element={
           <>
             {status === "initGame" && (

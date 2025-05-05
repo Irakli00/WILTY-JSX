@@ -8,7 +8,7 @@ function PlayerInLobby({ i, playerName }) {
 
   return (
     <div className={CSSstyles.player} style={styles[i]}>
-      {playerName ? (
+      {
         <>
           <div className="img-align">
             <img src="../src/icons/userEdit.svg" alt="" />
@@ -17,12 +17,7 @@ function PlayerInLobby({ i, playerName }) {
             <p>{playerName}</p>
           </div>
         </>
-      ) : (
-        <>
-          <img src="../src/icons/userAdd.svg" alt="" width="25px" />
-          <Button>Add a player</Button>
-        </>
-      )}
+      }
     </div>
   );
 }

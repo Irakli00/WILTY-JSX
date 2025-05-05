@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import styles from "./Lobby.module.css";
 
@@ -11,15 +12,27 @@ import AddPlayerForm from "../components/AddPlayerForm";
 // import { useState } from "react";
 
 function Lobby({ onStartGame, turn, onPlayerSubmit }) {
-  const { players, useClientId } = useContext(AppContext);
+  const { id } = useParams();
+  const { players, useClientId, setPlayers } = useContext(AppContext);
   const [submited, setSubmited] = useState(false);
 
-  // socket.emit("join_lobby", { username: "123", room: "123" });
-  socket.emit("get_room", { room: "123" });
+  useEffect(() => {
+    socket.emit("get_room", { room: id });
 
-  // socket.on("rooms_info", (data) => {
-  //   console.log(data.members);
-  // });
+    const handleRoomsInfo = (data) => {
+      if (data.room === id && data.room !== null) {
+        console.log(data);
+      }
+      setPlayers([...data.members]);
+    };
+
+    socket.on("rooms_info", handleRoomsInfo);
+
+    // Cleanup the listener when the component unmounts or id changes
+    return () => {
+      socket.off("rooms_info", handleRoomsInfo);
+    };
+  }, [id]); // Run effect only when `id` changes
 
   return (
     <section className={styles.lobby}>
@@ -37,6 +50,12 @@ function Lobby({ onStartGame, turn, onPlayerSubmit }) {
         <PlayerInLobby key={0} i={0} playerName={players[0].nickName}>
           {players[turn].nickname}
         </PlayerInLobby>
+      )}
+      {players.map(
+        (el) =>
+          el !== null && (
+            <PlayerInLobby key={el} i={1} playerName={el}></PlayerInLobby>
+          )
       )}
 
       <Button className="startGameBTN" onClick={onStartGame}>

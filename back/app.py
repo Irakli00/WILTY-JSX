@@ -1,4 +1,5 @@
 from flask_cors import CORS
+from flask import request
 from src import create_app
 from flask_socketio import SocketIO
 from flask_socketio import join_room, leave_room, send, emit
@@ -14,14 +15,12 @@ socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 @socketio.on('join_lobby')
 def on_join(data):
-    # maybe get data from db and create room
-    print(data)
     username = data['username']
     room = data['room']
     join_room(room)
     send(username + ' has entered the room.', to=room)
+    emit('joined_lobby', room, to=request.sid) 
     
-
     # Print current rooms and users (on this server instance)
     # print("=== Active Rooms ===")
     # for room_name, members in socketio.server.manager.rooms['/'].items():
@@ -34,8 +33,9 @@ def handle_get_room(data):
     room = data['room']  # e.g., '123'
     namespace = '/'  # default namespace
 
-    socket_ids = socketio.server.manager.rooms[namespace].get(room, set())
+    socket_ids = socketio.server.manager.rooms[namespace]
     room_info = list(socket_ids)  # Convert to list for JSON serialization
+    print('-->', room, room_info)
 
     emit('rooms_info', {'room': room, 'members': room_info})
 

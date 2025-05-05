@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { socket } from "../socket";
+import { useNavigate } from "react-router-dom";
 
 function JoinGame() {
   const [idQuery, setIdQuery] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ function JoinGame() {
       } else {
         console.log("joined");
         socket.emit("join_lobby", { username, room: idQuery });
+        navigate(`/lobby/${idQuery}`);
       }
     } catch (err) {
       console.error("Failed to join lobby", err);

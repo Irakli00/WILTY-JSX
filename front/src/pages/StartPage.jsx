@@ -24,10 +24,10 @@ function StartPage({ dispatch, onJoinLobby }) {
               headers: {
                 "Content-type": "application/json; charset=UTF-8",
               },
-            })
-              .then((res) => res.json())
-              .then((data) => console.log(data))
-              .catch((error) => console.error("Error:", error));
+            });
+            // .then((res) => res.json())
+            // .then((data) => console.log(data))
+            // .catch((error) => console.error("Error:", error));
           }
         }, [])}
 
