@@ -8,4 +8,3 @@ connected_clients = set()
 def index():
     print('c->',connected_clients)
     return jsonify({'hello': 'world'})
-

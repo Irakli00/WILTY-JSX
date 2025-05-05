@@ -1,7 +1,7 @@
 from flask_cors import CORS
 from src import create_app
 from flask_socketio import SocketIO
-from flask_socketio import join_room, leave_room, send
+from flask_socketio import join_room, leave_room, send, emit
 
 import eventlet
 # eventlet.monkey_patch()  #Optional but helpful
@@ -26,6 +26,16 @@ def on_join(data):
     for room_name, members in socketio.server.manager.rooms['/'].items():
         print(f"Room: {room_name}")
         print(f"Members: {members}")
+
+@socketio.on('get_rooms')
+def handle_get_rooms():
+    rooms_info = {}
+    namespace = '/'
+
+    for room_name, members in socketio.server.manager.rooms[namespace].items():
+        rooms_info[room_name] = list(members)
+
+    emit('rooms_info', rooms_info)
 
 @socketio.on('leave')
 def on_leave(data):
