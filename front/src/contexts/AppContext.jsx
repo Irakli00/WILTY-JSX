@@ -36,26 +36,12 @@ const dynamicColors = [
   },
 ];
 
-const tempUsers = [
-  // {
-  //   id: 0,
-  //   nickName: "joe",
-  //   playerStory: {
-  //     story: "story 1",
-  //     truth: true,
-  //   },
-  // },
-  // {},
-];
-
 function useClientId() {
   const [clientId, setClientId] = useState(null);
 
   useEffect(() => {
-    // Check if ID exists in localStorage
     let id = sessionStorage.getItem("clientId");
 
-    // If not, create a new UUID using the uuid library
     if (!id) {
       id = uuidv4();
       sessionStorage.setItem("clientId", id);
@@ -68,7 +54,7 @@ function useClientId() {
 }
 
 export function AppProvider({ children }) {
-  const [players, setPlayers] = useState(tempUsers); //instead of temp users use api
+  const [players, setPlayers] = useState([]);
 
   return (
     <AppContext.Provider

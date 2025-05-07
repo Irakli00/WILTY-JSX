@@ -13,13 +13,11 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby({ turn }) {
   const { id } = useParams();
-  const { players, useClientId, setPlayers } = useContext(AppContext);
+  const { players, setPlayers } = useContext(AppContext);
   const [submited, setSubmited] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      socket.emit("get_room", { room: id });
-    }, 100); // small delay to avoid rapid re-emits
+    socket.emit("get_room", { room: id });
 
     const handleRoomsInfo = (data) => {
       if (data.room === id && data.room !== null) {
@@ -30,34 +28,26 @@ function Lobby({ turn }) {
     socket.on("rooms_info", handleRoomsInfo);
 
     return () => {
-      clearTimeout(timeout);
       socket.off("rooms_info", handleRoomsInfo);
     };
   }, [players, id, setPlayers]);
 
   return (
     <section className={styles.lobby}>
-      <h1>Lobby ID: {useClientId()}</h1>
-      {!submited ? (
+      <h1>Lobby ID: {id}</h1>
+
+      {!submited && (
         <AddPlayerForm
           i={0}
           key={0}
-          onPlayerSubmit={() => {
-            setSubmited(true);
-            //join lobby
-          }}
+          onSubmit={(x = false) => setSubmited(x)}
         ></AddPlayerForm>
-      ) : (
-        <PlayerInLobby key={0} i={0} playerName={players[0].nickName}>
-          {players[turn].nickname}
-        </PlayerInLobby>
       )}
-      {players.map(
-        (el) =>
-          el !== null && (
-            <PlayerInLobby key={el} i={1} playerName={el}></PlayerInLobby>
-          )
-      )}
+      {Object.values(players).map((nickName, i) => {
+        return (
+          <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
+        );
+      })}
 
       <Button className="startGameBTN">Start a Game</Button>
     </section>

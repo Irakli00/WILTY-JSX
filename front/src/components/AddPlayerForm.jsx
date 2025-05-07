@@ -1,12 +1,15 @@
 import { useContext, useRef, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { socket } from "../socket";
 
 import CSSstyles from "./AddPlayer.module.css";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
+function AddPlayerForm({ i, onClick, onSubmit }) {
   const [player, setPlayer] = useState("");
-  const { styles, setPlayers } = useContext(AppContext);
+  const { styles } = useContext(AppContext);
+  const { id } = useParams();
 
   const inputRef = useRef(null);
 
@@ -35,18 +38,10 @@ function AddPlayerForm({ i, onClick, onPlayerSubmit }) {
           type="submit"
           value="+"
           onClick={() => {
-            setPlayers((players) => [
-              ...players,
-              {
-                id: i,
-                nickName: player,
-                playerStory: { story: "alakazam", truth: false },
-              },
-            ]);
-            onPlayerSubmit({
-              id: i,
-              nickName: player,
-              playerStory: { story: "alakazam", truth: false },
+            onSubmit((prev) => !prev);
+            socket.emit("join_lobby", {
+              username: player,
+              room: id,
             });
           }}
         />
