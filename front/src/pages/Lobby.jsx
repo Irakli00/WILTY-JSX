@@ -17,22 +17,23 @@ function Lobby({ turn }) {
   const [submited, setSubmited] = useState(false);
 
   useEffect(() => {
-    socket.emit("get_room", { room: id });
+    const timeout = setTimeout(() => {
+      socket.emit("get_room", { room: id });
+    }, 100); // small delay to avoid rapid re-emits
 
     const handleRoomsInfo = (data) => {
       if (data.room === id && data.room !== null) {
-        console.log(data);
+        setPlayers(data.members);
       }
-      setPlayers([...data.members]);
     };
 
     socket.on("rooms_info", handleRoomsInfo);
 
-    // Cleanup the listener when the component unmounts or id changes
     return () => {
+      clearTimeout(timeout);
       socket.off("rooms_info", handleRoomsInfo);
     };
-  }, [id]); // Run effect only when `id` changes
+  }, [players, id, setPlayers]);
 
   return (
     <section className={styles.lobby}>
@@ -43,6 +44,7 @@ function Lobby({ turn }) {
           key={0}
           onPlayerSubmit={() => {
             setSubmited(true);
+            //join lobby
           }}
         ></AddPlayerForm>
       ) : (
