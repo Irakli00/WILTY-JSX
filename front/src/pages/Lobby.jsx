@@ -11,7 +11,7 @@ import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
 // import { useState } from "react";
 
-function Lobby({ onStartGame, turn, onPlayerSubmit }) {
+function Lobby({ turn }) {
   const { id } = useParams();
   const { players, useClientId, setPlayers } = useContext(AppContext);
   const [submited, setSubmited] = useState(false);
@@ -41,9 +41,8 @@ function Lobby({ onStartGame, turn, onPlayerSubmit }) {
         <AddPlayerForm
           i={0}
           key={0}
-          onPlayerSubmit={(x) => {
+          onPlayerSubmit={() => {
             setSubmited(true);
-            onPlayerSubmit(x);
           }}
         ></AddPlayerForm>
       ) : (
@@ -58,9 +57,7 @@ function Lobby({ onStartGame, turn, onPlayerSubmit }) {
           )
       )}
 
-      <Button className="startGameBTN" onClick={onStartGame}>
-        Start a Game
-      </Button>
+      <Button className="startGameBTN">Start a Game</Button>
     </section>
   );
 }

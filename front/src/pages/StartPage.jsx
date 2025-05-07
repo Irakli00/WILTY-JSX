@@ -5,7 +5,7 @@ import styles from "./StartPage.module.css"; //better to get it to its module
 import { AppContext } from "../contexts/AppContext";
 import { useContext, useEffect } from "react";
 
-function StartPage({ dispatch, onJoinLobby }) {
+function StartPage({ onJoinLobby }) {
   const { useClientId } = useContext(AppContext);
 
   return (
@@ -33,11 +33,7 @@ function StartPage({ dispatch, onJoinLobby }) {
 
         {/* ------------------------------------------------ */}
 
-        <Link
-          to={`/lobby/${useClientId()}`}
-          className={styles.playBtn}
-          onClick={() => dispatch()}
-        >
+        <Link to={`/lobby/${useClientId()}`} className={styles.playBtn}>
           PLAY
         </Link>
         <div>
