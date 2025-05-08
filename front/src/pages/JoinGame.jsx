@@ -17,7 +17,6 @@ function JoinGame() {
       if (data.status === "error") {
         console.log("Error joining lobby");
       } else {
-        console.log("joined");
         socket.emit("join_lobby", { username, room: idQuery });
         navigate(`/lobby/${idQuery}`);
       }

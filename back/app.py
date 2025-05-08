@@ -13,7 +13,7 @@ CORS(flask_app,origins="*")
 
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
-connected_users = {}
+# connected_users = {}
 
 @socketio.on('join_lobby')
 def on_join(data):
@@ -21,11 +21,11 @@ def on_join(data):
     room = data['room']
     sid = request.sid
 
-    connected_users[sid] = username
+    # connected_users[sid] = username
 
     join_room(room)
 
-    send(f'{username} has entered the room.', to=room)
+    # send(f'{username} has entered the room.', to=room)
 
     # emit('joined_lobby', room, to=request.sid) 
     
@@ -34,7 +34,7 @@ def on_join(data):
     for room_name, members in socketio.server.manager.rooms['/'].items():
         if room_name == room:
             print(f"Room: {room_name}")
-            print(f"Members: {members}")
+            print(f"Members: {len(members)}")
 
 
 @socketio.on('get_room')
@@ -49,7 +49,7 @@ def handle_get_room(data):
         
     # print('-->', room, room_info)
     # emit('rooms_info', {'room': room, 'members': room_info})
-    emit('rooms_info', {'room': room, 'members': connected_users})
+    emit('rooms_info', {'room': room, 'members': room_info})
 
 @socketio.on('leave')
 def on_leave(data):

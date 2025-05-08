@@ -6,7 +6,7 @@ import CSSstyles from "./AddPlayer.module.css";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onClick, onSubmit }) {
+function AddPlayerForm({ i, onClick }) {
   const [player, setPlayer] = useState("");
   const { styles } = useContext(AppContext);
   const { id } = useParams();
@@ -38,7 +38,6 @@ function AddPlayerForm({ i, onClick, onSubmit }) {
           type="submit"
           value="+"
           onClick={() => {
-            onSubmit((prev) => !prev);
             socket.emit("join_lobby", {
               username: player,
               room: id,

@@ -10,39 +10,9 @@ import CardRead from "./pages/CardRead";
 import GameEnd from "./pages/GameEnd";
 import JoinGame from "./pages/JoinGame";
 
-// const initialState = {
-//   turn: 0,
-//   players: [],
-//   //inactive,lobby,startRound,guess,over
-//   status: "inactive",
-// };
-
 // function reducer(state, action) {
 //   switch (action.type) {
-//     case "initGame": {
-//       return { ...state, status: "initGame" };
-//     }
-//     case "joinGame": {
-//       return { ...state, status: "joinGame" };
-//     }
-//     case "playerSubmit": {
-//       const userIDs = state.players.map((el) => el.id);
-//       console.log(action.payload);
-//       //send post request here
 
-//       fetch("http://127.0.0.1:5000/existing_users", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(action.payload), // Make sure to stringify the body
-//       });
-
-//       return {
-//         ...state,
-//         players: !userIDs.includes(action.payload.id)
-//           ? [...state.players, action.payload]
-//           : [...state.players],
-//       };
-//     }
 //     case "startRound": {
 //       // console.log(state);
 //       return { ...state, status: "startRound" };

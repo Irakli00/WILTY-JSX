@@ -11,10 +11,18 @@ import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
 // import { useState } from "react";
 
-function Lobby({ turn }) {
+function Lobby() {
   const { id } = useParams();
   const { players, setPlayers } = useContext(AppContext);
-  const [submited, setSubmited] = useState(false);
+  const [playersAmmount, setPlayersAmmount] = useState(null);
+
+  useEffect(() => {
+    const handleRoomsInfo = (x) => {
+      setPlayersAmmount(() => x.members.length);
+    };
+
+    socket.on("rooms_info", handleRoomsInfo);
+  }, []);
 
   useEffect(() => {
     socket.emit("get_room", { room: id });
@@ -36,13 +44,8 @@ function Lobby({ turn }) {
     <section className={styles.lobby}>
       <h1>Lobby ID: {id}</h1>
 
-      {!submited && (
-        <AddPlayerForm
-          i={0}
-          key={0}
-          onSubmit={(x = false) => setSubmited(x)}
-        ></AddPlayerForm>
-      )}
+      {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
+
       {Object.values(players).map((nickName, i) => {
         return (
           <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
