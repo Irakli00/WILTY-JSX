@@ -51,6 +51,23 @@ def handle_get_room(data):
     # emit('rooms_info', {'room': room, 'members': room_info})
     emit('rooms_info', {'room': room, 'members': room_info})
 
+
+@socketio.on('start_game')
+def handle_start_game(data):
+    room = data['room']
+    emit('game_started', {'room': room}, to=room)
+
+@socketio.on('open_card')
+def handle_card_oppened(data):
+    room = data['room']
+    emit('card_oppened', {'room': room}, to=room)
+
+@socketio.on('close_card')
+def handle_card_oppened(data):
+    room = data['room']
+    emit('card_closed', {'room': room}, to=room)
+
+
 @socketio.on('leave')
 def on_leave(data):
     username = data['username']

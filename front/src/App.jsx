@@ -59,6 +59,7 @@ function App() {
           </>
         }
       />
+      <Route path="/lobby/:id/game" element={<CardRead></CardRead>}></Route>
       <Route path="/join_lobby" element={<JoinGame></JoinGame>} />
     </Routes>
   );

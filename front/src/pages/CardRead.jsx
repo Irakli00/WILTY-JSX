@@ -1,23 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { AnimatePresence } from "framer-motion";
 
+import { AppContext } from "../contexts/AppContext";
 import Card from "../components/Card";
 import Timer from "../components/Timer";
 import Button from "../components/Button";
 
-function CardRead({ stories, turn, onNextRound }) {
+function CardRead({ onNextRound }) {
+  const { turn, stories } = useContext(AppContext);
   const [showCard, setShowCard] = useState(true);
   const [roundIsOver, setRoundIsOver] = useState(false);
-  const [isLastRound, setIsLasrRound] = useState(false);
+  const [isLastRound, setIsLastRound] = useState(false);
 
   useEffect(() => {
-    roundIsOver && turn + 1 === stories.length && setIsLasrRound(true);
+    roundIsOver && turn + 1 === stories.length && setIsLastRound(true);
   }, [roundIsOver, turn, stories]);
 
   return (
     <>
       <Timer
-        seconds={5}
+        seconds={500}
         timeRanOutStyle={{ color: "red" }}
         onTimeRanOut={() => {
           setRoundIsOver(true);

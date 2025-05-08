@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import styles from "./Lobby.module.css";
 
@@ -15,6 +15,22 @@ function Lobby() {
   const { id } = useParams();
   const { players, setPlayers } = useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleGameStarted = (data) => {
+      if (data.room === id) {
+        navigate(`/lobby/${id}/game`);
+      }
+    };
+
+    socket.on("game_started", handleGameStarted);
+
+    return () => {
+      socket.off("game_started", handleGameStarted);
+    };
+  }, [id, navigate]);
 
   useEffect(() => {
     const handleRoomsInfo = (x) => {
@@ -52,7 +68,15 @@ function Lobby() {
         );
       })}
 
-      <Button className="startGameBTN">Start a Game</Button>
+      <Link
+        onClick={() => {
+          socket.emit("start_game", { room: id });
+        }}
+        className="startGameBTN"
+        to={`/lobby/${id}/game`}
+      >
+        Start a Game
+      </Link>
     </section>
   );
 }

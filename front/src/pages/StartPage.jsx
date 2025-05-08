@@ -11,7 +11,7 @@ function StartPage({ onJoinLobby }) {
   return (
     <section className={styles.gameSection}>
       <div className={styles.gameContainer}>
-        {/* ------------------------------------------------ */}
+        {/* -------------------   why is lobby manager even neccessary?  ----------------------------- */}
 
         {useEffect(() => {
           let id = sessionStorage.getItem("clientId");
