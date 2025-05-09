@@ -15,15 +15,21 @@ function CardRead() {
     showCard: true,
     roundIsOver: false,
     isLastRound: false,
+    turn,
   };
 
-  const [{ showCard, roundIsOver, isLastRound, cardIsFlipped }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { showCard, roundIsOver, isLastRound, cardIsFlipped, turn: localTurn },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   function reducer(state, action) {
     switch (action.type) {
       case "roundOver": {
         return { ...state, roundIsOver: action.payload };
+      }
+      case "nextRound": {
+        return { ...state, turn: turn + 1 };
       }
       default:
         console.log("default");
@@ -32,6 +38,10 @@ function CardRead() {
   // useEffect(() => {
   //   roundIsOver && turn + 1 === stories.length && setIsLastRound(true);
   // }, [roundIsOver, turn, stories]);
+
+  useEffect(() => {
+    setTurn(localTurn); // Sync with context after render
+  }, [localTurn]);
 
   return (
     <>
@@ -52,7 +62,14 @@ function CardRead() {
           )}
           {roundIsOver && !isLastRound && (
             // <Button onClick={() => setTurn((t) => t + 1)}>Next</Button>
-            <Button onClick={() => console.log("ki")}>Next</Button>
+            <Button
+              onClick={() => {
+                dispatch({ type: "nextRound" });
+                console.log(turn);
+              }}
+            >
+              Next
+            </Button>
           )}
           {roundIsOver && isLastRound && <Button>vsio</Button>}
         </AnimatePresence>
