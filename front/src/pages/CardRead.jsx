@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useReducer } from "react";
+import { useEffect, useContext, useReducer } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import { AppContext } from "../contexts/AppContext";
@@ -65,7 +65,6 @@ function CardRead() {
             <Button
               onClick={() => {
                 dispatch({ type: "nextRound" });
-                console.log(turn);
               }}
             >
               Next
