@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 import styles from "./Card.module.css";
 import { socket } from "../socket";
 
-function Card({ children }) {
-  const [flipped, setIsFlipped] = useState(false);
+function Card({ children, cardIsFlipped }) {
+  const [flipped, setIsFlipped] = useState(cardIsFlipped);
   const { id } = useParams();
 
   useEffect(() => {
