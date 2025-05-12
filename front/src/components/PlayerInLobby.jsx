@@ -3,7 +3,7 @@ import { AppContext } from "../contexts/AppContext";
 import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
-function PlayerInLobby({ i, playerName }) {
+function PlayerInLobby({ i, playerName, hostID }) {
   const { styles } = useContext(AppContext);
 
   return (
@@ -14,7 +14,9 @@ function PlayerInLobby({ i, playerName }) {
             <img src="../src/icons/userEdit.svg" alt="" />
           </div>
           <div>
-            <p>{playerName}</p>
+            <p>
+              {playerName} {hostID === playerName && "(host)"}
+            </p>
           </div>
         </>
       }

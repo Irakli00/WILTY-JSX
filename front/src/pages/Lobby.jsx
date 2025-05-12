@@ -16,13 +16,13 @@ function Lobby() {
   const { players, setPlayers, hostID, setHostID } = useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
   const [socketID, setSocketID] = useState(null);
+  const isHost = socketID === hostID;
   const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("set_host_id", (socketHostID) => {
       setSocketID(socketHostID);
       setHostID((id) => (!id ? socketHostID : id));
-      console.log(hostID, socketID);
     });
   }, [socketID, hostID]);
 
@@ -67,11 +67,16 @@ function Lobby() {
 
       {Object.values(players).map((nickName, i) => {
         return (
-          <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
+          <PlayerInLobby
+            key={i}
+            i={i}
+            playerName={nickName}
+            hostID={hostID}
+          ></PlayerInLobby>
         );
       })}
 
-      {socketID === hostID && (
+      {isHost && (
         <Link
           onClick={() => {
             socket.emit("start_game", { room: id });
