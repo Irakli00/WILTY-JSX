@@ -3,8 +3,8 @@ import { AppContext } from "../contexts/AppContext";
 import CSSstyles from "./AddPlayer.module.css";
 import Button from "./Button";
 
-function PlayerInLobby({ i, playerName, hostID }) {
-  const { styles } = useContext(AppContext);
+function PlayerInLobby({ i, playerName }) {
+  const { styles, hostID } = useContext(AppContext);
 
   return (
     <div className={CSSstyles.player} style={styles[i]}>

@@ -67,12 +67,7 @@ function Lobby() {
 
       {Object.values(players).map((nickName, i) => {
         return (
-          <PlayerInLobby
-            key={i}
-            i={i}
-            playerName={nickName}
-            hostID={hostID}
-          ></PlayerInLobby>
+          <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
         );
       })}
 

@@ -1,13 +1,14 @@
-import { useEffect, useContext, useReducer } from "react";
+import { useEffect, useContext, useReducer, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import { AppContext } from "../contexts/AppContext";
 import Card from "../components/Card";
 import Timer from "../components/Timer";
 import Button from "../components/Button";
+import { socket } from "../socket";
 
 function CardRead() {
-  const { turn, setTurn, stories } = useContext(AppContext);
+  const { players, turn, setTurn, stories } = useContext(AppContext);
   // const [flipped, setIsFlipped] = useState(false);
 
   const initialState = {
@@ -16,10 +17,14 @@ function CardRead() {
     roundIsOver: false,
     isLastRound: false,
     turn,
+    currentPlayer: null,
   };
 
+  const [currentPlayer, setCurrentPlayer] = useState(null);
+  const [clientID, setClientID] = useState(null);
+
   const [
-    { showCard, roundIsOver, isLastRound, cardIsFlipped, turn: localTurn },
+    { showCard, roundIsOver, isLastRound, cardIsFlipped, turn: reducerTurn },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -35,13 +40,20 @@ function CardRead() {
         console.log("default");
     }
   }
-  // useEffect(() => {
-  //   roundIsOver && turn + 1 === stories.length && setIsLastRound(true);
-  // }, [roundIsOver, turn, stories]);
 
   useEffect(() => {
-    setTurn(localTurn);
-  }, [localTurn]);
+    socket.emit("current_to_read", { players, turn });
+    socket.on("now_reads", (x) => {
+      setCurrentPlayer(x.currentPlayer);
+      setClientID(x.clientID);
+    });
+    // setTurn(reducerTurn);
+    // socket.emit("next_round", { turn: reducerTurn, players });
+    // socket.on("next_round_starts", (x) => {
+    //   setCurrentPlayer(x.currentPlayer);
+    //   setClientID(x.clientID);
+    // });
+  }, []);
 
   return (
     <>
@@ -60,8 +72,7 @@ function CardRead() {
               <p style={{ padding: "20px" }}>{stories[turn]}</p>
             </Card>
           )}
-          {roundIsOver && !isLastRound && (
-            // <Button onClick={() => setTurn((t) => t + 1)}>Next</Button>
+          {roundIsOver && !isLastRound && clientID === currentPlayer && (
             <Button
               onClick={() => {
                 dispatch({ type: "nextRound" });
