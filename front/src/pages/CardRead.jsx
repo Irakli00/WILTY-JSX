@@ -40,7 +40,7 @@ function CardRead() {
   // }, [roundIsOver, turn, stories]);
 
   useEffect(() => {
-    setTurn(localTurn); // Sync with context after render
+    setTurn(localTurn);
   }, [localTurn]);
 
   return (

@@ -13,10 +13,18 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, setPlayers } = useContext(AppContext);
+  const { players, setPlayers, hostID, setHostID } = useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
-
+  const [socketID, setSocketID] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    socket.on("set_host_id", (socketHostID) => {
+      setSocketID(socketHostID);
+      setHostID((id) => (!id ? socketHostID : id));
+      console.log(hostID, socketID);
+    });
+  }, [socketID, hostID]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
@@ -33,20 +41,15 @@ function Lobby() {
   }, [id, navigate]);
 
   useEffect(() => {
-    const handleRoomsInfo = (x) => {
-      setPlayersAmmount(() => x.members.length);
-    };
-
-    socket.on("rooms_info", handleRoomsInfo);
-  }, []);
-
-  useEffect(() => {
     socket.emit("get_room", { room: id });
 
     const handleRoomsInfo = (data) => {
+      setPlayersAmmount(() => data.members.length);
+
       if (data.room === id && data.room !== null) {
         setPlayers(data.members);
       }
+      setHostID(players[0]);
     };
 
     socket.on("rooms_info", handleRoomsInfo);
@@ -68,15 +71,17 @@ function Lobby() {
         );
       })}
 
-      <Link
-        onClick={() => {
-          socket.emit("start_game", { room: id });
-        }}
-        className="startGameBTN"
-        to={`/lobby/${id}/game`}
-      >
-        Start a Game
-      </Link>
+      {socketID === hostID && (
+        <Link
+          onClick={() => {
+            socket.emit("start_game", { room: id });
+          }}
+          className="startGameBTN"
+          to={`/lobby/${id}/game`}
+        >
+          Start a Game
+        </Link>
+      )}
     </section>
   );
 }

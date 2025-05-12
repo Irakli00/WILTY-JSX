@@ -57,6 +57,7 @@ export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
   const [stories, setStories] = useState([1, 2, 3]);
+  const [hostID, setHostID] = useState(null);
 
   return (
     <AppContext.Provider
@@ -64,6 +65,8 @@ export function AppProvider({ children }) {
         players,
         setPlayers,
         useClientId,
+        hostID,
+        setHostID,
         turn,
         setTurn,
         stories,

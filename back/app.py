@@ -15,26 +15,29 @@ socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 # connected_users = {}
 
+
 @socketio.on('join_lobby')
 def on_join(data):
+    host_id = None
+    if host_id == None:
+        host_id = request.sid
+    
     username = data['username']
     room = data['room']
     sid = request.sid
 
-    # connected_users[sid] = username
-
     join_room(room)
 
-    # send(f'{username} has entered the room.', to=room)
+    emit('set_host_id', host_id)
 
+    # send(f'{username} has entered the room.', to=room)
     # emit('joined_lobby', room, to=request.sid) 
-    
-    # Print current rooms and users (on this server instance)
-    print("=== Active Rooms ===")
-    for room_name, members in socketio.server.manager.rooms['/'].items():
-        if room_name == room:
-            print(f"Room: {room_name}")
-            print(f"Members: {len(members)}")
+
+    # print("=== Active Rooms ===")
+    # for room_name, members in socketio.server.manager.rooms['/'].items():
+    #     if room_name == room:
+    #         print(f"Room: {room_name}")
+    #         print(f"Members: {len(members)}")
 
 
 @socketio.on('get_room')
