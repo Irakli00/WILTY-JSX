@@ -45,7 +45,7 @@ function CardRead() {
   }, [turn]);
 
   useEffect(() => {
-    socket.emit("join", { room: id });
+    // socket.emit("join", { room: id });
 
     const handleNextRoundStarts = (data) => {
       console.log("🔥 Received next_round_starts", data);

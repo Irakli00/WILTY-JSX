@@ -5,7 +5,6 @@ function Timer({ seconds, onTimeRanOut, timeRanOutStyle }) {
   const [secondsLeft, setSecondsLeft] = useState(seconds);
 
   useEffect(() => {
-    console.log("seconds", seconds);
     setSecondsLeft(seconds);
   }, [seconds]);
 

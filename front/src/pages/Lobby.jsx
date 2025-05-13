@@ -7,9 +7,7 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 import PlayerInLobby from "../components/PlayerInLobby";
-import Button from "../components/Button";
 import AddPlayerForm from "../components/AddPlayerForm";
-// import { useState } from "react";
 
 function Lobby() {
   const { id } = useParams();
