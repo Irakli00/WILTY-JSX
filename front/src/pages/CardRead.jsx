@@ -1,5 +1,6 @@
-import { useEffect, useContext, useReducer, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useParams } from "react-router-dom";
 
 import { AppContext } from "../contexts/AppContext";
 import Card from "../components/Card";
@@ -9,50 +10,51 @@ import { socket } from "../socket";
 
 function CardRead() {
   const { players, turn, setTurn, stories } = useContext(AppContext);
-  // const [flipped, setIsFlipped] = useState(false);
+  const { id } = useParams();
 
-  const initialState = {
-    cardIsFlipped: false,
-    showCard: true,
-    roundIsOver: false,
-    isLastRound: false,
-    turn,
-    currentPlayer: null,
-  };
+  const [cardIsFlipped, setCardIsFlipped] = useState(false);
+  const [showCard, setShowCard] = useState(true);
+  const [roundIsOver, setRoundIsOver] = useState(false);
+  const [isLastRound, setIsLastRound] = useState(false);
 
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [clientID, setClientID] = useState(null);
 
-  const [
-    { showCard, roundIsOver, isLastRound, cardIsFlipped, turn: reducerTurn },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case "roundOver": {
-        return { ...state, roundIsOver: action.payload };
-      }
-      case "nextRound": {
-        return { ...state, turn: turn + 1 };
-      }
-      default:
-        console.log("default");
+  useEffect(() => {
+    if (roundIsOver) {
+      setShowCard(false);
+      setTurn((t) => t + 1);
     }
-  }
+  }, [roundIsOver]);
 
   useEffect(() => {
     socket.emit("current_to_read", { players, turn });
-    socket.on("now_reads", (x) => {
+
+    const handleNowReads = (x) => {
       setCurrentPlayer(x.currentPlayer);
       setClientID(x.clientID);
-    });
-    // setTurn(reducerTurn);
-    // socket.emit("next_round", { turn: reducerTurn, players });
-    // socket.on("next_round_starts", (x) => {
-    //   setCurrentPlayer(x.currentPlayer);
-    //   setClientID(x.clientID);
-    // });
+    };
+
+    socket.on("now_reads", handleNowReads);
+
+    return () => {
+      socket.off("now_reads", handleNowReads);
+    };
+  }, [turn]);
+
+  useEffect(() => {
+    socket.emit("join", { room: id });
+
+    const handleNextRoundStarts = (data) => {
+      console.log("🔥 Received next_round_starts", data);
+      setShowCard(true);
+    };
+
+    socket.on("next_round_starts", handleNextRoundStarts);
+
+    return () => {
+      socket.off("next_round_starts", handleNextRoundStarts);
+    };
   }, []);
 
   return (
@@ -60,9 +62,7 @@ function CardRead() {
       <Timer
         seconds={5}
         timeRanOutStyle={{ color: "red" }}
-        onTimeRanOut={(x) => {
-          dispatch({ type: "roundOver", payload: x });
-        }}
+        onTimeRanOut={(bool) => setRoundIsOver(bool)}
       ></Timer>
 
       <div style={{ marginTop: "15dvh" }}>
@@ -73,15 +73,11 @@ function CardRead() {
             </Card>
           )}
           {roundIsOver && !isLastRound && clientID === currentPlayer && (
-            <Button
-              onClick={() => {
-                dispatch({ type: "nextRound" });
-              }}
-            >
-              Next
+            <Button onClick={() => socket.emit("next_round", { room: id })}>
+              Your Turn
             </Button>
           )}
-          {roundIsOver && isLastRound && <Button>vsio</Button>}
+          {roundIsOver & isLastRound && <Button>vsio</Button>}
         </AnimatePresence>
       </div>
     </>

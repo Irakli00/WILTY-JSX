@@ -39,7 +39,6 @@ def on_join(data):
     #         print(f"Room: {room_name}")
     #         print(f"Members: {len(members)}")
 
-
 @socketio.on('get_room')
 def handle_get_room(data):
     room = data['room']
@@ -53,7 +52,6 @@ def handle_get_room(data):
     # print('-->', room, room_info)
     # emit('rooms_info', {'room': room, 'members': room_info})
     emit('rooms_info', {'room': room, 'members': room_info})
-
 
 @socketio.on('start_game')
 def handle_start_game(data):
@@ -72,18 +70,16 @@ def handle_card_oppened(data):
 
 @socketio.on('current_to_read')
 def handle_current_player(data):
-    print(data['players'][data['turn']])
+    print(data['players'][data['turn']], request.sid)
     
     emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
 
-# @socketio.on('next_round')
-# def handle_current_player(data):
-#     room = data['room']
+@socketio.on('next_round')
+def handle_current_player(data):
+    room = data['room']
 
-#     emit('next_round_starts', {
-#         'currentPlayer': data['players'][data['turn']],
-#         'clientID': request.sid
-#     })
+    print(f"Client {request.sid} triggered next_round in room {room}")
+    emit('next_round_starts', {'room': room}, to=room)
 
 @socketio.on('leave')
 def on_leave(data):
