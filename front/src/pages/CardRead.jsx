@@ -9,10 +9,12 @@ import Button from "../components/Button";
 import { socket } from "../socket";
 
 function CardRead() {
-  const { players, turn, setTurn, stories } = useContext(AppContext);
+  const { players, turn, setTurn, stories, SECONDS_IN_TURN } =
+    useContext(AppContext);
   const { id } = useParams();
 
   const [cardIsFlipped, setCardIsFlipped] = useState(false);
+  const [seconds, setSeconds] = useState(5);
   const [showCard, setShowCard] = useState(true);
   const [roundIsOver, setRoundIsOver] = useState(false);
   const [isLastRound, setIsLastRound] = useState(false);
@@ -48,6 +50,8 @@ function CardRead() {
     const handleNextRoundStarts = (data) => {
       console.log("🔥 Received next_round_starts", data);
       setShowCard(true);
+      setRoundIsOver(false);
+      setSeconds(SECONDS_IN_TURN);
     };
 
     socket.on("next_round_starts", handleNextRoundStarts);
@@ -60,9 +64,12 @@ function CardRead() {
   return (
     <>
       <Timer
-        seconds={5}
+        seconds={seconds}
         timeRanOutStyle={{ color: "red" }}
-        onTimeRanOut={(bool) => setRoundIsOver(bool)}
+        onTimeRanOut={(bool) => {
+          setRoundIsOver(bool);
+          setSeconds(0); //ugly but gonna fix latter
+        }}
       ></Timer>
 
       <div style={{ marginTop: "15dvh" }}>

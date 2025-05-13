@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import styles from "./Timer.module.css";
 
 function Timer({ seconds, onTimeRanOut, timeRanOutStyle }) {
-  // const [timeRanOut, setTimeRanOut] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(seconds);
 
   useEffect(() => {
-    if (!secondsLeft) {
+    console.log("seconds", seconds);
+    setSecondsLeft(seconds);
+  }, [seconds]);
+
+  useEffect(() => {
+    if (secondsLeft <= 0) {
       onTimeRanOut(true);
       return;
     }
@@ -26,8 +30,7 @@ function Timer({ seconds, onTimeRanOut, timeRanOutStyle }) {
 
   return (
     <div className={styles.countdown}>
-      {/* <span style={timeRanOutStyle || null}>{formatTime(timeLeft)}</span> */}
-      <span style={!secondsLeft ? timeRanOutStyle : null}>
+      <span style={secondsLeft <= 0 ? timeRanOutStyle : null}>
         {formatTime(secondsLeft)}
       </span>
     </div>

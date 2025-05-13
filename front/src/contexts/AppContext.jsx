@@ -58,6 +58,7 @@ export function AppProvider({ children }) {
   const [turn, setTurn] = useState(0);
   const [stories, setStories] = useState([1, 2, 3]);
   const [hostID, setHostID] = useState(null);
+  const SECONDS_IN_TURN = 5;
 
   return (
     <AppContext.Provider
@@ -68,6 +69,7 @@ export function AppProvider({ children }) {
         hostID,
         setHostID,
         turn,
+        SECONDS_IN_TURN,
         setTurn,
         stories,
         setStories,
