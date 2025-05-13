@@ -17,6 +17,7 @@ function Lobby() {
   // const [socketID, setSocketID] = useState(null);
   const isHost = useIsHost(hostID);
   const navigate = useNavigate();
+  // console.log(isHost);
 
   useEffect(() => {
     socket.on("set_host_id", (socketHostID) => {

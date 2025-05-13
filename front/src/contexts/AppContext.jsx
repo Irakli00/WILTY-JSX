@@ -59,10 +59,17 @@ function useIsHost(hostID) {
 
   useEffect(() => {
     socket.emit("get_sid");
-    socket.on("client_sid", (x) => {
+
+    const handleClientSID = (x) => {
       setIsHost(hostID === x.sid);
-    });
-  }, []);
+    };
+
+    socket.on("client_sid", handleClientSID);
+
+    return () => {
+      socket.off("client_sid", handleClientSID);
+    };
+  }, [hostID]);
 
   return isHost;
 }

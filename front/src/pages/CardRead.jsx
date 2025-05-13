@@ -33,39 +33,22 @@ function CardRead() {
   useEffect(() => {
     if (roundIsOver) {
       setShowCard(false);
-      setTurn((t) => t + 1);
-      players.length === turn + 1 && setIsLastRound(true);
+      // players.length === turn + 1 && setIsLastRound(true);
     }
-  }, [roundIsOver]);
 
-  // useEffect(() => {
-  //   socket.emit("current_to_read", { players, turn });
-
-  //   const handleNowReads = (x) => {
-  //     setCurrentPlayer(x.currentPlayer);
-  //     setClientID(x.clientID);
-  //   };
-
-  //   socket.on("now_reads", handleNowReads);
-
-  //   return () => {
-  //     socket.off("now_reads", handleNowReads);
-  //   };
-  // }, [turn]);
-
-  useEffect(() => {
     const handleNextRoundStarts = () => {
+      setTurn((t) => t + 1);
+      players.length === turn + 2 && setIsLastRound(true); //ugly gonna come back latter
       setShowCard(true);
       setRoundIsOver(false);
       setSeconds(SECONDS_IN_TURN);
     };
 
     socket.on("next_round_starts", handleNextRoundStarts);
-
-    socket.emit("current_to_read", { players, turn });
+    socket.emit("current_to_read", { players, turn: turn + 1 });
 
     const handleNowReads = (x) => {
-      setCurrentPlayer(x.currentPlayer);
+      !isLastRound ? setCurrentPlayer(x.currentPlayer) : setCurrentPlayer(null);
       setClientID(x.clientID);
     };
 
@@ -75,11 +58,7 @@ function CardRead() {
       socket.off("now_reads", handleNowReads);
       socket.off("next_round_starts", handleNextRoundStarts);
     };
-
-    // return () => {
-    //   socket.off("next_round_starts", handleNextRoundStarts);
-    // };
-  }, [turn]);
+  }, [roundIsOver]);
 
   return (
     <>
