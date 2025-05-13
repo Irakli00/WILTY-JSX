@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { socket } from "../socket";
 
 export const AppContext = createContext();
 
@@ -53,6 +54,19 @@ function useClientId() {
   return clientId;
 }
 
+function useIsHost(hostID) {
+  const [isHost, setIsHost] = useState(false);
+
+  useEffect(() => {
+    socket.emit("get_sid");
+    socket.on("client_sid", (x) => {
+      setIsHost(hostID === x.sid);
+    });
+  }, []);
+
+  return isHost;
+}
+
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
@@ -74,6 +88,8 @@ export function AppProvider({ children }) {
         stories,
         setStories,
         styles: dynamicColors,
+
+        useIsHost,
       }}
     >
       {children}

@@ -39,6 +39,10 @@ def on_join(data):
     #         print(f"Room: {room_name}")
     #         print(f"Members: {len(members)}")
 
+@socketio.on('get_sid')
+def handle_get_sid():
+    emit('client_sid',{'sid':request.sid})
+
 @socketio.on('get_room')
 def handle_get_room(data):
     room = data['room']
@@ -50,7 +54,6 @@ def handle_get_room(data):
         room_info = []
         
     # print('-->', room, room_info)
-    # emit('rooms_info', {'room': room, 'members': room_info})
     emit('rooms_info', {'room': room, 'members': room_info})
 
 @socketio.on('start_game')

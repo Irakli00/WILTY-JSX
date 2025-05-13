@@ -11,18 +11,19 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, setPlayers, hostID, setHostID } = useContext(AppContext);
+  const { players, setPlayers, hostID, setHostID, useIsHost } =
+    useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
-  const [socketID, setSocketID] = useState(null);
-  const isHost = socketID === hostID;
+  // const [socketID, setSocketID] = useState(null);
+  const isHost = useIsHost(hostID);
   const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("set_host_id", (socketHostID) => {
-      setSocketID(socketHostID);
+      // setSocketID(socketHostID);
       setHostID((id) => (!id ? socketHostID : id));
     });
-  }, [socketID, hostID]);
+  }, [hostID]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
