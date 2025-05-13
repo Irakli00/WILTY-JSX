@@ -61,12 +61,14 @@ def handle_start_game(data):
 @socketio.on('open_card')
 def handle_card_oppened(data):
     room = data['room']
-    emit('card_oppened', {'room': room}, to=room)
+    if(data['playerToRead'] == request.sid):
+        emit('card_oppened', {'room': room}, to=room)
 
 @socketio.on('close_card')
 def handle_card_oppened(data):
     room = data['room']
-    emit('card_closed', {'room': room}, to=room)
+    if(data['playerToRead'] == request.sid):
+        emit('card_closed', {'room': room}, to=room)
 
 @socketio.on('current_to_read')
 def handle_current_player(data):

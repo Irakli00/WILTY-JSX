@@ -75,7 +75,11 @@ function CardRead() {
       <div style={{ marginTop: "15dvh" }}>
         <AnimatePresence>
           {showCard && (
-            <Card key={turn} cardIsFlipped={cardIsFlipped}>
+            <Card
+              key={turn}
+              cardIsFlipped={cardIsFlipped}
+              playerToRead={players[turn]}
+            >
               <p style={{ padding: "20px" }}>{stories[turn]}</p>
             </Card>
           )}

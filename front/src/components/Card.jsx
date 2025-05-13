@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styles from "./Card.module.css";
 import { socket } from "../socket";
 
-function Card({ children, cardIsFlipped }) {
+function Card({ children, cardIsFlipped, playerToRead }) {
   const [flipped, setIsFlipped] = useState(cardIsFlipped);
   const { id } = useParams();
 
@@ -32,7 +32,7 @@ function Card({ children, cardIsFlipped }) {
       // transition={{ duration: 0.6 }}
       onClick={() => {
         // setIsFlipped(true);
-        socket.emit("open_card", { room: id });
+        socket.emit("open_card", { room: id, playerToRead });
       }}
     ></motion.div>
   ) : (
@@ -44,7 +44,7 @@ function Card({ children, cardIsFlipped }) {
       transition={{ duration: 0.6 }}
       onClick={() => {
         // setIsFlipped(false);
-        socket.emit("close_card", { room: id });
+        socket.emit("close_card", { room: id, playerToRead });
       }} //keep for now
     >
       {children}
