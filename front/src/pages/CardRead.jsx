@@ -18,7 +18,6 @@ function CardRead() {
     hostID,
     useIsHost,
   } = useContext(AppContext);
-  const { id } = useParams();
 
   const [cardIsFlipped, setCardIsFlipped] = useState(false);
   const [seconds, setSeconds] = useState(5);
@@ -28,6 +27,8 @@ function CardRead() {
 
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [clientID, setClientID] = useState(null);
+
+  const { id } = useParams();
   const isHost = useIsHost(hostID);
 
   useEffect(() => {
