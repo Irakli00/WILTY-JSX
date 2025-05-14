@@ -78,14 +78,10 @@ function CardRead() {
     const offer = await peer.createOffer();
     await peer.setLocalDescription(offer);
 
-    // socket.emit("get_room", { room: id });
-    // socket.on("rooms_info", (x) => {
-    //   setPeers(x.members.filter((el) => el !== userSID));
-    // });
     const targetPeer = players.filter((el) => el !== userSID);
 
     socket.emit("offer", { target: targetPeer[0], sdp: offer });
-    socket.on("offer", (x) => console.log(x));
+    socket.on("offer", (x) => console.log(x)); //now answer the offer
   }
   // -----------------------------------------------------
 
