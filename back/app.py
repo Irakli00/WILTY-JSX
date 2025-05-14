@@ -15,6 +15,18 @@ socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 # connected_users = {}
 
+# -------------------------------------
+@socketio.on('offer')
+def handle_offer(data):
+    target_sid = data['target'] 
+     # socket.id of the recipient
+    emit('offer', {
+        'target':target_sid,
+        'sdp': data['sdp'],
+    }, to=target_sid)
+
+# -------------------------------------
+
 
 @socketio.on('join_lobby')
 def on_join(data):
@@ -29,6 +41,8 @@ def on_join(data):
     join_room(room)
 
     emit('set_host_id', host_id)
+    # emit('user_joined', {'user_id': sid}, room=room, include_self=False)
+    # emit('user_joined', {'userID': sid}, room=room)
 
     # send(f'{username} has entered the room.', to=room)
     # emit('joined_lobby', room, to=request.sid) 
@@ -75,7 +89,7 @@ def handle_card_oppened(data):
 
 @socketio.on('current_to_read')
 def handle_current_player(data):
-    print(data['players'][data['turn']], request.sid)
+    # print(data['players'][data['turn']], request.sid)
     
     emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
 
@@ -83,7 +97,6 @@ def handle_current_player(data):
 def handle_current_player(data):
     room = data['room']
 
-    print(f"Client {request.sid} triggered next_round in room {room}")
     emit('next_round_starts', {'room': room}, to=room)
 
 @socketio.on('leave')

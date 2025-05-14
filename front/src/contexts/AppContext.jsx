@@ -54,6 +54,26 @@ function useClientId() {
   return clientId;
 }
 
+function useGetSid() {
+  const [sid, setSid] = useState(false);
+
+  useEffect(() => {
+    socket.emit("get_sid");
+
+    const handleClientSID = (x) => {
+      setSid(x.sid);
+    };
+
+    socket.on("client_sid", handleClientSID);
+
+    return () => {
+      socket.off("client_sid", handleClientSID);
+    };
+  }, []);
+
+  return sid;
+}
+
 function useIsHost(hostID) {
   const [isHost, setIsHost] = useState(false);
 
@@ -97,6 +117,7 @@ export function AppProvider({ children }) {
         styles: dynamicColors,
 
         useIsHost,
+        useGetSid,
       }}
     >
       {children}

@@ -17,6 +17,7 @@ function CardRead() {
     SECONDS_IN_TURN,
     hostID,
     useIsHost,
+    useGetSid,
   } = useContext(AppContext);
 
   const [cardIsFlipped, setCardIsFlipped] = useState(false);
@@ -29,6 +30,7 @@ function CardRead() {
   const [clientID, setClientID] = useState(null);
 
   const { id } = useParams();
+  const userSID = useGetSid();
   const isHost = useIsHost(hostID);
 
   useEffect(() => {
@@ -61,8 +63,35 @@ function CardRead() {
     };
   }, [roundIsOver]);
 
+  // -----------------------------------------------------
+  async function handleAudio() {
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+
+    const peer = new RTCPeerConnection();
+    localStream
+      .getTracks()
+      .forEach((track) => peer.addTrack(track, localStream));
+
+    // // Create and send offer
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+
+    // socket.emit("get_room", { room: id });
+    // socket.on("rooms_info", (x) => {
+    //   setPeers(x.members.filter((el) => el !== userSID));
+    // });
+    const targetPeer = players.filter((el) => el !== userSID);
+
+    socket.emit("offer", { target: targetPeer[0], sdp: offer });
+    socket.on("offer", (x) => console.log(x));
+  }
+  // -----------------------------------------------------
+
   return (
     <>
+      <button onClick={handleAudio}>TEST AUDIO</button>
       <Timer
         seconds={seconds}
         timeRanOutStyle={{ color: "red" }}
