@@ -16,15 +16,29 @@ socketio = SocketIO(flask_app, cors_allowed_origins="*")
 # connected_users = {}
 
 # -------------------------------------
+# @socketio.on('offer')
+# def handle_offer(data):
+#     target_sid = data['target'] 
+#      # socket.id of the recipient
+#     emit('offer', {
+#         'target':target_sid,
+#         'sdp': data['sdp'],
+#     }, to=target_sid)
+
+# -------------------------------------
+# -------------------------------------
 @socketio.on('offer')
 def handle_offer(data):
-    target_sid = data['target'] 
-     # socket.id of the recipient
     emit('offer', {
-        'target':target_sid,
+        'target': data['target'],
         'sdp': data['sdp'],
-    }, to=target_sid)
+    }, to=data['target'])
 
+@socketio.on('answer')
+def handle_answer(data):
+    emit('answer', {
+        'sdp': data['sdp'],
+    }, to=data['target'])
 # -------------------------------------
 
 
