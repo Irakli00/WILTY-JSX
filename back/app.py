@@ -44,17 +44,26 @@ def handle_answer(data):
 
 @socketio.on('join_lobby')
 def on_join(data):
-    host_id = None
-    if host_id == None:
-        host_id = request.sid
-    
-    username = data['username']
     room = data['room']
+    username = data['username']
+    host_id = None
     sid = request.sid
 
-    join_room(room)
+    room_members = socketio.server.manager.rooms['/'].get(room, set())
 
-    emit('set_host_id', host_id)
+    if host_id == None:
+        host_id = sid
+    
+
+    if len(room_members) <2:
+        join_room(room)
+        emit('set_host_id', host_id)
+        emit('joined_lobby', {'username': username, 'room': room}, room=room)
+    else:
+        emit('room_full', {'message': 'Room is full'}, to=sid)
+        return
+    
+
     # emit('user_joined', {'user_id': sid}, room=room, include_self=False)
     # emit('user_joined', {'userID': sid}, room=room)
 

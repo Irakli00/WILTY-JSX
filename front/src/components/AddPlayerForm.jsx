@@ -42,6 +42,10 @@ function AddPlayerForm({ i, onClick }) {
               username: player,
               room: id,
             });
+
+            socket.on("room_full", ({ message }) => {
+              alert(message); // or show a modal
+            });
           }}
         />
         <input type="reset" value="-" onClick={onClick} />
