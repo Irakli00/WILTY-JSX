@@ -55,7 +55,7 @@ function useClientId() {
 }
 
 function useGetSid() {
-  const [sid, setSid] = useState(false);
+  const [sid, setSid] = useState(null);
 
   useEffect(() => {
     socket.emit("get_sid");
@@ -99,6 +99,8 @@ export function AppProvider({ children }) {
   const [turn, setTurn] = useState(0);
   const [stories, setStories] = useState([1, 2, 3]);
   const [hostID, setHostID] = useState(null);
+  const [spectators, setSpectators] = useState([]);
+  const [isSpectator, setIsSpectator] = useState(false);
   const SECONDS_IN_TURN = 5;
 
   return (
@@ -114,6 +116,10 @@ export function AppProvider({ children }) {
         setTurn,
         stories,
         setStories,
+        spectators,
+        setSpectators,
+        isSpectator,
+        setIsSpectator,
         styles: dynamicColors,
 
         useIsHost,

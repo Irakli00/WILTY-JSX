@@ -41,10 +41,7 @@ function AddPlayerForm({ i, onClick }) {
             socket.emit("join_lobby", {
               username: player,
               room: id,
-            });
-
-            socket.on("room_full", ({ message }) => {
-              alert(message); // or show a modal
+              status: "player",
             });
           }}
         />

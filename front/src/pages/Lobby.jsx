@@ -11,12 +11,21 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, setPlayers, hostID, setHostID, useIsHost } =
-    useContext(AppContext);
+  const {
+    players,
+    setPlayers,
+    hostID,
+    setHostID,
+    useIsHost,
+    spectators,
+    setIsSpectator,
+    isSpectator,
+    useGetSid,
+  } = useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
-  // const [socketID, setSocketID] = useState(null);
   const isHost = useIsHost(hostID);
   const navigate = useNavigate();
+  const userSid = useGetSid();
   // console.log(isHost);
 
   useEffect(() => {
@@ -59,8 +68,13 @@ function Lobby() {
     };
   }, [players, id, setPlayers]);
 
+  useEffect(() => {
+    spectators.includes(userSid) && setIsSpectator(true);
+  }, [spectators, userSid]);
+
   return (
     <section className={styles.lobby}>
+      {isSpectator && <p>You are a spectator</p>}
       <h1>Lobby ID: {id}</h1>
 
       {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}

@@ -4,18 +4,15 @@ from src import create_app
 from flask_socketio import SocketIO
 from flask_socketio import join_room, leave_room, send, emit
 
-import eventlet
-# eventlet.monkey_patch()  #Optional but helpful
-
 flask_app = create_app()
 # Enable CORS for the entire application
 CORS(flask_app,origins="*")
 
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
-# connected_users = {}
 
 # -------------------------------------
+# connected_users = {}
 # @socketio.on('offer')
 # def handle_offer(data):
 #     target_sid = data['target'] 
@@ -26,6 +23,7 @@ socketio = SocketIO(flask_app, cors_allowed_origins="*")
 #     }, to=target_sid)
 
 # -------------------------------------
+
 # -------------------------------------
 @socketio.on('offer')
 def handle_offer(data):
@@ -41,11 +39,11 @@ def handle_answer(data):
     }, to=data['target'])
 # -------------------------------------
 
-
 @socketio.on('join_lobby')
 def on_join(data):
     room = data['room']
     username = data['username']
+    status = data['status'] 
     host_id = None
     sid = request.sid
 
@@ -53,19 +51,22 @@ def on_join(data):
 
     if host_id == None:
         host_id = sid
-    
 
-    if len(room_members) <2:
+    if status == 'spectator':
+        emit('joined_as_spectator')
+
+    if len(room_members) <2 and status == 'player':
         join_room(room)
         emit('set_host_id', host_id)
         emit('joined_lobby', {'username': username, 'room': room}, room=room)
+        # print(list(room_members), sid)
+
+        if sid not in list(room_members) and sid != host_id:
+         print('----------you are a spectator---------')
+        #  emit('spectator_offer',{'message': 'Wanna be a spectator?'})
     else:
         emit('room_full', {'message': 'Room is full'}, to=sid)
         return
-    
-
-    # emit('user_joined', {'user_id': sid}, room=room, include_self=False)
-    # emit('user_joined', {'userID': sid}, room=room)
 
     # send(f'{username} has entered the room.', to=room)
     # emit('joined_lobby', room, to=request.sid) 
@@ -75,6 +76,12 @@ def on_join(data):
     #     if room_name == room:
     #         print(f"Room: {room_name}")
     #         print(f"Members: {len(members)}")
+
+@socketio.on('join_as_spectator')
+def on_spectator(data):
+    answer= data['answer']
+    emit('spectator_response', {'status':answer})
+
 
 @socketio.on('get_sid')
 def handle_get_sid():
