@@ -12,7 +12,6 @@ import AddPlayerForm from "../components/AddPlayerForm";
 function Lobby() {
   const { id } = useParams();
   const {
-    players,
     setPlayers,
     hostID,
     setHostID,
@@ -62,7 +61,7 @@ function Lobby() {
         const arr = [...data.members];
         const playersArr = [];
 
-        arr.forEach((el, i) => {
+        arr.forEach((el) => {
           playersArr.push({
             username: el,
             status: "player",
