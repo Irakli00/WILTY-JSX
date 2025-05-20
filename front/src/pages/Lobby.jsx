@@ -71,10 +71,6 @@ function Lobby() {
         setUsersInRoom([...playersArr, ...spectators]); // fix latter (ugly)
       }
 
-      // console.log(usersInRoom);
-      // usersInRoom &&
-      // usersInRoom[0].status !== "spectator" &&
-      // console.log(usersInRoom == true, hostID);
       setHostID(usersInRoom[0].username || null);
     };
 
