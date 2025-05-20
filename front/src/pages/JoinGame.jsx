@@ -35,7 +35,17 @@ function JoinGame() {
 
         socket.on("joined_as_spectator", () => {
           navigate(`/lobby/${idQuery}`);
-          setSpectators((p) => !p.includes(userSid) && [...p, userSid]);
+          // {
+          //   spectator_0:{
+          //     username: userSid,
+          //     status:'spectator'
+          //   }
+          // }
+          setSpectators((p) =>
+            p.map((el) => el.username).includes(userSid)
+              ? [...p]
+              : [...p, { username: userSid, status: "spectator" }]
+          );
         });
 
         socket.on("room_full", () => {

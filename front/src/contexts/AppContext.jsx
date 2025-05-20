@@ -96,6 +96,7 @@ function useIsHost(hostID) {
 
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
+  const [usersInRoom, setUsersInRoom] = useState([]);
   const [turn, setTurn] = useState(0);
   const [stories, setStories] = useState([1, 2, 3]);
   const [hostID, setHostID] = useState(null);
@@ -108,6 +109,8 @@ export function AppProvider({ children }) {
       value={{
         players,
         setPlayers,
+        usersInRoom,
+        setUsersInRoom,
         useClientId,
         hostID,
         setHostID,

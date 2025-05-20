@@ -21,6 +21,8 @@ function Lobby() {
     setIsSpectator,
     isSpectator,
     useGetSid,
+    usersInRoom,
+    setUsersInRoom,
   } = useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
   const isHost = useIsHost(hostID);
@@ -54,11 +56,26 @@ function Lobby() {
 
     const handleRoomsInfo = (data) => {
       setPlayersAmmount(() => data.members.length);
+      setPlayers(data.members);
 
       if (data.room === id && data.room !== null) {
-        setPlayers(data.members);
+        const arr = [...data.members];
+        const playersArr = [];
+
+        arr.forEach((el, i) => {
+          playersArr.push({
+            username: el,
+            status: "player",
+          });
+        });
+        setUsersInRoom([...playersArr, ...spectators]); // fix latter (ugly)
       }
-      setHostID(players[0]);
+
+      // console.log(usersInRoom);
+      // usersInRoom &&
+      // usersInRoom[0].status !== "spectator" &&
+      // console.log(usersInRoom == true, hostID);
+      setHostID(usersInRoom[0].username || null);
     };
 
     socket.on("rooms_info", handleRoomsInfo);
@@ -66,10 +83,11 @@ function Lobby() {
     return () => {
       socket.off("rooms_info", handleRoomsInfo);
     };
-  }, [players, id, setPlayers]);
+  }, [usersInRoom]);
 
   useEffect(() => {
-    spectators.includes(userSid) && setIsSpectator(true);
+    spectators.map((el) => el.username).includes(userSid) &&
+      setIsSpectator(true);
   }, [spectators, userSid]);
 
   return (
@@ -79,9 +97,15 @@ function Lobby() {
 
       {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
 
-      {Object.values(players).map((nickName, i) => {
+      {usersInRoom.map((user, i) => {
         return (
-          <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
+          user.status === "player" && (
+            <PlayerInLobby
+              key={i}
+              i={i}
+              playerName={user.username}
+            ></PlayerInLobby>
+          )
         );
       })}
 
