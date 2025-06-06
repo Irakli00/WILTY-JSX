@@ -4,16 +4,11 @@ from src import create_app
 from flask_socketio import SocketIO
 from flask_socketio import join_room, leave_room, send, emit
 
-import eventlet
-# eventlet.monkey_patch()  #Optional but helpful
-
 flask_app = create_app()
 # Enable CORS for the entire application
 CORS(flask_app,origins="*")
 
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
-
-# connected_users = {}
 
 
 @socketio.on('join_lobby')
