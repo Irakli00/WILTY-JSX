@@ -14,17 +14,8 @@ function Lobby() {
   const { players, setPlayers, hostID, setHostID, useIsHost } =
     useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
-  // const [socketID, setSocketID] = useState(null);
   const isHost = useIsHost(hostID);
   const navigate = useNavigate();
-  // console.log(isHost);
-
-  useEffect(() => {
-    socket.on("set_host_id", (socketHostID) => {
-      // setSocketID(socketHostID);
-      setHostID((id) => (!id ? socketHostID : id));
-    });
-  }, [hostID]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
