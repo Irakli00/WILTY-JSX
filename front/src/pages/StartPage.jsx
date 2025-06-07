@@ -7,7 +7,7 @@ function StartPage({ onJoinLobby }) {
   const { useClientId } = useContext(AppContext);
 
   return (
-    <section className="max-w-[70%] m-auto mt-[15dvh]">
+    <section className="layout-container">
       <div className="bg-secondary-blue p-[5dvh] flex flex-col justify-between gap-[5dvh] rounded-2xl">
         {/* -------------------   why is lobby manager even neccessary?  ----------------------------- */}
 

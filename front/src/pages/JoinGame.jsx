@@ -26,7 +26,7 @@ function JoinGame() {
   };
 
   return (
-    <>
+    <section className="layout-container">
       <form onSubmit={handleSubmit}>
         <label htmlFor="userName">Your Username:</label>
         <input
@@ -44,7 +44,7 @@ function JoinGame() {
         />
         <input type="submit" value="Join a Lobby" />
       </form>
-    </>
+    </section>
   );
 }
 

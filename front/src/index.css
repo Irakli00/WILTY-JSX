@@ -32,3 +32,9 @@ html {
 
   overflow: hidden;
 }
+
+@layer components {
+  .layout-container {
+    @apply max-w-[70%] m-auto mt-[15dvh];
+  }
+}
