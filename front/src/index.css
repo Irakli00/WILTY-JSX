@@ -29,9 +29,9 @@ html {
   background: url(./imgs/wilty-logo.png),
     /* linear-gradient(135deg, #c60fc9 0%, #eeedee 100%); */
       /* linear-gradient(135deg, #c60fc9, #2dd14bee ); */
-      linear-gradient(135deg, #c60fc9 0%, #ff6ec4 50%, #7873f5 100%);
-  /* radial-gradient(#c60fc9 0%, #ff6ec4 50%, #7873f5 100%); */
-  /* linear-gradient(135deg, #c60fc9 0%, #db9a26 100%); */
+      /* linear-gradient(135deg, #c60fc9 0%, #ff6ec4 50%, #7873f5 100%); */
+      /* radial-gradient(#c60fc9 0%, #ff6ec4 50%, #7873f5 100%); */
+      radial-gradient(#c60fc9 0%, #db9a26 100%);
 
   background-position: center -80px, center;
   background-repeat: no-repeat;
