@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --dark-yellow: #db9a26;
   --silver-gray: #d9d9d9;
@@ -14,12 +18,14 @@
 }
 
 html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
   font-size: 62.5%;
   font-family: var(--main-font);
-  /*  */
+
   background-color: var(--main-purple);
-  /* height: 100vh; */
-  /*  */
   background-image: url(/wilty/img/wilty.PNG);
   background-repeat: no-repeat;
   background-size: 100%;
