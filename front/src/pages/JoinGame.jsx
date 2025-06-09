@@ -28,7 +28,7 @@ function JoinGame() {
   return (
     <section className="layout-container ">
       <form
-        className="bg-blue-400 bg-opacity-50 h-[50dvh] p-[40px] flex flex-col gap-24"
+        className="join-lobby-form bg-blue-400 bg-opacity-50 h-[50dvh] p-[40px] flex flex-col gap-24"
         onSubmit={handleSubmit}
       >
         <div className="join-lobby-form-input">

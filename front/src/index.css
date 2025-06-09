@@ -44,24 +44,24 @@ html {
   }
 }
 @layer components {
-  .join-lobby-form-input {
+  .join-lobby-form .join-lobby-form-input {
     @apply flex flex-col gap-3;
   }
-  label {
+  .join-lobby-form .join-lobby-form-input label {
     @apply text-3xl text-white-tint;
   }
-  input {
+  .join-lobby-form input {
     @apply p-4 rounded-2xl;
     font-size: 1.5rem;
   }
-  input[type="text"]::placeholder {
+  .join-lobby-form .join-lobby-form-input input[type="text"]::placeholder {
     color: #011e2e9f;
   }
-  input[type="submit"] {
+  .join-lobby-form input[type="submit"] {
     @apply bg-white;
   }
-  input[type="submit"]:hover,
-  input[type="submit"]:focus {
+  .join-lobby-form input[type="submit"]:hover,
+  .join-lobby-form input[type="submit"]:focus {
     @apply bg-secondary-blue text-white transition ease-in-out cursor-pointer;
   }
 }
