@@ -40,7 +40,7 @@ html {
 
 @layer components {
   .layout-container {
-    @apply max-w-[70%] m-auto mt-[18dvh] min-h-[400px] rounded-2xl overflow-hidden;
+    @apply max-w-[70%] max-h-[400px] m-auto mt-[18dvh] min-h-[400px] rounded-2xl;
   }
 }
 @layer components {
@@ -58,10 +58,10 @@ html {
     color: #011e2e9f;
   }
   .join-lobby-form input[type="submit"] {
-    @apply bg-white;
+    @apply bg-white transition ease-in-out;
   }
   .join-lobby-form input[type="submit"]:hover,
   .join-lobby-form input[type="submit"]:focus {
-    @apply bg-secondary-blue text-white transition ease-in-out cursor-pointer;
+    @apply bg-secondary-blue text-white  cursor-pointer;
   }
 }

@@ -1,8 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-import styles from "./Lobby.module.css";
-
 import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
@@ -51,29 +49,38 @@ function Lobby() {
   }, [players, id, setPlayers]);
 
   return (
-    <section className={styles.lobby}>
-      <h1>Lobby ID: {id}</h1>
+    <>
+      <h1 className="bg-slate-400 bg-opacity-20 p-2 text-center text-[1.3rem]">
+        Lobby ID: <span className="text-[2.4rem] underline">{id}</span>
+      </h1>
+      <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
+        <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
+          {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
 
-      {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
+          {Object.values(players).map((nickName, i) => {
+            return (
+              <PlayerInLobby
+                key={i}
+                i={i}
+                playerName={nickName}
+              ></PlayerInLobby>
+            );
+          })}
+        </div>
 
-      {Object.values(players).map((nickName, i) => {
-        return (
-          <PlayerInLobby key={i} i={i} playerName={nickName}></PlayerInLobby>
-        );
-      })}
-
-      {isHost && (
-        <Link
-          onClick={() => {
-            socket.emit("start_game", { room: id });
-          }}
-          className="startGameBTN"
-          to={`/lobby/${id}/game`}
-        >
-          Start a Game
-        </Link>
-      )}
-    </section>
+        {isHost && (
+          <Link
+            onClick={() => {
+              socket.emit("start_game", { room: id });
+            }}
+            className="bg-slate-700 text-white-tint mt-3 p-4 rounded-xl text-center text-2xl transition ease-in hover:bg-yellow-800  focus:bg-yellow-800"
+            to={`/lobby/${id}/game`}
+          >
+            Start a Game
+          </Link>
+        )}
+      </section>
+    </>
   );
 }
 
