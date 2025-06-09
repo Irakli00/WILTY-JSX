@@ -13,7 +13,7 @@
   --secondary-blue: #1a6578;
   --dark-red: #990a0e;
   --white-tint: #eeedee;
-  --greenish: #2dd14bee;
+  --greenish: #2dd14b;
   --main-font: Helvetica;
 }
 
@@ -40,6 +40,28 @@ html {
 
 @layer components {
   .layout-container {
-    @apply max-w-[70%] m-auto mt-[18dvh] min-h-[400px];
+    @apply max-w-[70%] m-auto mt-[18dvh] min-h-[400px] rounded-2xl overflow-hidden;
+  }
+}
+@layer components {
+  .join-lobby-form-input {
+    @apply flex flex-col gap-3;
+  }
+  label {
+    @apply text-3xl text-white-tint;
+  }
+  input {
+    @apply p-4 rounded-2xl;
+    font-size: 1.5rem;
+  }
+  input[type="text"]::placeholder {
+    color: #011e2e9f;
+  }
+  input[type="submit"] {
+    @apply bg-white;
+  }
+  input[type="submit"]:hover,
+  input[type="submit"]:focus {
+    @apply bg-secondary-blue text-white transition ease-in-out cursor-pointer;
   }
 }

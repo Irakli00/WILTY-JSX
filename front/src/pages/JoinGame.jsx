@@ -26,22 +26,31 @@ function JoinGame() {
   };
 
   return (
-    <section className="layout-container">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="userName">Your Username:</label>
-        <input
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          id="username"
-          placeholder="Username"
-        />
-        <label htmlFor="lobbyId">Lobby ID:</label>
-        <input
-          onChange={(e) => setIdQuery(e.target.value)}
-          value={idQuery}
-          id="lobbyId"
-          placeholder="Enter lobby ID"
-        />
+    <section className="layout-container ">
+      <form
+        className="bg-blue-400 bg-opacity-50 h-[50dvh] p-[40px] flex flex-col gap-24"
+        onSubmit={handleSubmit}
+      >
+        <div className="join-lobby-form-input">
+          <label htmlFor="userName">Your Username:</label>
+          <input
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            id="username"
+            placeholder="Username"
+            type="text"
+          />
+        </div>
+        <div className="join-lobby-form-input">
+          <label htmlFor="lobbyId">Lobby ID:</label>
+          <input
+            onChange={(e) => setIdQuery(e.target.value)}
+            value={idQuery}
+            id="lobbyId"
+            placeholder="e.g 7dec3064-83ae-43f0-8b8e-ak529f5b68c3"
+            type="text"
+          />
+        </div>
         <input type="submit" value="Join a Lobby" />
       </form>
     </section>

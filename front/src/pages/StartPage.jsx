@@ -28,7 +28,7 @@ function StartPage({ onJoinLobby }) {
 
   return (
     <section className="layout-container ">
-      <div className="bg-secondary-blue min-h-full p-[5dvh] flex flex-col justify-between gap-[5dvh] rounded-2xl">
+      <div className="bg-secondary-blue min-h-full p-[5dvh] flex flex-col justify-between gap-[5dvh] ">
         <Link
           to={`/lobby/${useClientId()}`}
           className="bg-dark-yellow p-[7dvh] w-full text-[5rem] font-semibold text-dark-blue text-center rounded ease-in-out duration-300 hover:bg-greenish hover:text-white-tint"
