@@ -21,9 +21,18 @@ def on_join(data):
     room = data['room']
     sid = request.sid
 
+
+    room_members = socketio.server.manager.rooms['/'].get(room, set())
+
+    if len(room_members) >= 3:
+        print('---->',room_members)
+        emit('room_full', {'message': 'Room is full'}, to=sid)
+        return
+
     join_room(room)
 
     emit('set_host_id', host_id)
+    emit('joined_lobby',to=room)
 
     # send(f'{username} has entered the room.', to=room)
     # emit('joined_lobby', room, to=request.sid) 

@@ -68,7 +68,7 @@ function Lobby() {
           })}
         </div>
 
-        {isHost && (
+        {isHost && playersAmmount > 1 && (
           <Link
             onClick={() => {
               socket.emit("start_game", { room: id });

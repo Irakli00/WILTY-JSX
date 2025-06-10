@@ -16,10 +16,17 @@ function JoinGame() {
 
       if (data.status === "error") {
         console.log("Error joining lobby");
-      } else {
-        socket.emit("join_lobby", { username, room: idQuery });
-        navigate(`/lobby/${idQuery}`);
+        return;
       }
+
+      socket.once("room_full", () => {
+        alert("Lobby is full!");
+      });
+
+      socket.emit("join_lobby", { username, room: idQuery });
+      socket.once("joined_lobby", () => {
+        navigate(`/lobby/${idQuery}`);
+      });
     } catch (err) {
       console.error("Failed to join lobby", err);
     }
