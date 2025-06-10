@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
-import CSSstyles from "./AddPlayer.module.css";
-import Button from "./Button";
 
 function PlayerInLobby({ i, playerName }) {
   const { styles, hostID } = useContext(AppContext);
 
   return (
-    <div className={CSSstyles.player} style={styles[i]}>
+    <div className="player" style={styles[i]}>
       {
         <>
           <div className="img-align">

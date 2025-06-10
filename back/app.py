@@ -24,8 +24,7 @@ def on_join(data):
 
     room_members = socketio.server.manager.rooms['/'].get(room, set())
 
-    if len(room_members) >= 3:
-        print('---->',room_members)
+    if len(room_members) >= 6:
         emit('room_full', {'message': 'Room is full'}, to=sid)
         return
 

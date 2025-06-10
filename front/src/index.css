@@ -65,3 +65,15 @@ html {
     @apply bg-secondary-blue text-white  cursor-pointer;
   }
 }
+@layer components {
+  .player {
+    @apply flex gap-10 items-center py-4 px-6 text-2xl rounded-lg min-h-[80px];
+  }
+  .player img {
+    width: 35px;
+  }
+  .player p {
+    font-weight: 700;
+    font-size: 1.6rem;
+  }
+}

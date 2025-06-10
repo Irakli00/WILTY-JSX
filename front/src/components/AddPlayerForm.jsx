@@ -2,8 +2,6 @@ import { useContext, useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { socket } from "../socket";
 
-import CSSstyles from "./AddPlayer.module.css";
-
 import { AppContext } from "../contexts/AppContext";
 
 function AddPlayerForm({ i, onClick }) {
@@ -18,8 +16,8 @@ function AddPlayerForm({ i, onClick }) {
   }, []);
 
   return (
-    <div style={styles[i]} className={CSSstyles.player}>
-      <img src="../src/icons/userEdit.svg" alt="" width="25px" />
+    <div style={styles[i]} className="player ">
+      <img src="../src/icons/userEdit.svg" alt="" />
       <form
         onSubmit={(e) => {
           e.preventDefault();
