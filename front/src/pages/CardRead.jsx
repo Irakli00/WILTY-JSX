@@ -20,8 +20,7 @@ function CardRead() {
   } = useContext(AppContext);
   const { id } = useParams();
 
-  const [cardIsFlipped, setCardIsFlipped] = useState(false);
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(SECONDS_IN_TURN);
   const [showCard, setShowCard] = useState(true);
   const [roundIsOver, setRoundIsOver] = useState(false);
   const [isLastRound, setIsLastRound] = useState(false);
@@ -71,16 +70,14 @@ function CardRead() {
         }}
       ></Timer>
 
-      <div style={{ marginTop: "15dvh" }}>
+      <div className="mt-[25dvh]">
         <AnimatePresence>
           {showCard && (
             <Card
               key={turn}
-              cardIsFlipped={cardIsFlipped}
               playerToRead={players[turn]}
-            >
-              <p style={{ padding: "20px" }}>{stories[turn]}</p>
-            </Card>
+              story={stories[turn]}
+            ></Card>
           )}
           {roundIsOver && !isLastRound && clientID === currentPlayer ? (
             <Button onClick={() => socket.emit("next_round", { room: id })}>

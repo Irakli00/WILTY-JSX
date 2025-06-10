@@ -77,3 +77,14 @@ html {
     font-size: 1.6rem;
   }
 }
+
+@layer components {
+  .card-container {
+    @apply bg-center bg-[length:85%] h-[35vh] cursor-pointer border-2 border-white/80 
+    w-[70%] mx-auto grid place-items-center text-[2.5rem] rounded min-h-[175px];
+    /* background-image: url("../src/imgs/cardBlue.png"); */
+  }
+  /* .card-container p {
+    color: transparent;
+  } */
+}

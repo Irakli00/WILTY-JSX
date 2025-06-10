@@ -78,7 +78,7 @@ def handle_card_oppened(data):
 
 @socketio.on('current_to_read')
 def handle_current_player(data):
-    print(data['players'][data['turn']], request.sid)
+    # print(data['players'][data['turn']], request.sid)
     
     emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
 
@@ -86,7 +86,7 @@ def handle_current_player(data):
 def handle_current_player(data):
     room = data['room']
 
-    print(f"Client {request.sid} triggered next_round in room {room}")
+    # print(f"Client {request.sid} triggered next_round in room {room}")
     emit('next_round_starts', {'room': room}, to=room)
 
 @socketio.on('leave')
