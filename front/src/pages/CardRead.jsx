@@ -70,7 +70,7 @@ function CardRead() {
         }}
       ></Timer>
 
-      <div className="mt-[25dvh]">
+      <div className="layout-container mt-[25dvh] relative">
         <AnimatePresence>
           {showCard && (
             <Card
@@ -80,13 +80,16 @@ function CardRead() {
             ></Card>
           )}
           {roundIsOver && !isLastRound && clientID === currentPlayer ? (
-            <Button onClick={() => socket.emit("next_round", { room: id })}>
+            <Button
+              className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
+              onClick={() => socket.emit("next_round", { room: id })}
+            >
+              {/* apply animation latter */}
               Your Turn
             </Button>
           ) : (
             roundIsOver && isLastRound && isHost && <Button>vsio</Button>
           )}
-          {/* {roundIsOver & isLastRound && <Button>vsio</Button>} */}
         </AnimatePresence>
       </div>
     </>
