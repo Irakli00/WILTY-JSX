@@ -56,8 +56,6 @@ def on_disconnect(data):
     user_id=data['id']
     user = db.session.query(User).filter_by(id=user_id).first()
 
-    print(user_id)
-
     if user:
         print(f"User {user.associated_username} disconnected.")
 
@@ -68,6 +66,7 @@ def on_disconnect(data):
 @socketio.on('get_sid')
 def handle_get_sid():
     emit('client_sid',{'sid':request.sid})
+
 
 @socketio.on('get_room')
 def handle_get_room(data):

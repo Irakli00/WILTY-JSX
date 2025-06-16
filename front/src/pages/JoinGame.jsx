@@ -9,15 +9,17 @@ function JoinGame() {
   const navigate = useNavigate();
 
   // -----------------------------
+  const location = useLocation();
+
   const { useClientId } = useContext(AppContext);
 
-  let playerId = useClientId();
   // -----------------------------
+  let playerId = useClientId();
 
-  const location = useLocation();
   useEffect(() => {
     // This runs every time the location changes (including back/forward)
-    console.log("Location changed:", location);
+    // console.log("Location changed:", location);
+    socket.emit("user_disconnect", { id: localStorage.getItem("clientId") });
   }, [location]);
 
   const handleSubmit = async (e) => {

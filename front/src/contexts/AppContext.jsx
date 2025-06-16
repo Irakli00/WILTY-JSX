@@ -41,11 +41,11 @@ function useClientId() {
   const [clientId, setClientId] = useState(null);
 
   useEffect(() => {
-    let id = sessionStorage.getItem("clientId");
+    let id = localStorage.getItem("clientId");
 
     if (!id) {
       id = uuidv4();
-      sessionStorage.setItem("clientId", id);
+      localStorage.setItem("clientId", id);
     }
 
     setClientId(id);
@@ -61,6 +61,7 @@ function useIsHost(hostID) {
     socket.emit("get_sid");
 
     const handleClientSID = (x) => {
+      console.log(x.sid, hostID);
       setIsHost(hostID === x.sid);
     };
 

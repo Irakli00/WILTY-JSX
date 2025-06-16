@@ -14,11 +14,19 @@ function Lobby() {
     useContext(AppContext);
   const [playersAmmount, setPlayersAmmount] = useState(null);
   const isHost = useIsHost(hostID);
+
   const navigate = useNavigate();
 
+  // -----------------------------
   const location = useLocation();
+
+  const { useClientId } = useContext(AppContext);
+  let playerId = useClientId();
+  // -----------------------------
+
   useEffect(() => {
-    console.log("Location changed:", location);
+    // console.log("Location changed:", location);
+    socket.emit("user_disconnect", { id: playerId });
   }, [location]);
 
   useEffect(() => {
@@ -40,13 +48,11 @@ function Lobby() {
 
     const handleRoomsInfo = (data) => {
       setPlayersAmmount(() => data.members.length);
-      // console.log(data.players_in_lobby);
 
       if (data.room === id && data.room !== null) {
         setPlayers(data.players_in_lobby);
-        // setPlayers(data.members);
       }
-      setHostID(players[0]);
+      setHostID(data.members[0]);
     };
 
     socket.on("rooms_info", handleRoomsInfo);
@@ -77,6 +83,7 @@ function Lobby() {
           })}
         </div>
 
+        {/* {console.log(isHost)} */}
         {isHost && playersAmmount > 1 && (
           <Link
             onClick={() => {
