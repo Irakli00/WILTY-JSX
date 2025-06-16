@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { socket } from "../socket";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../contexts/AppContext";
 
 function JoinGame() {
   const [idQuery, setIdQuery] = useState("");
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+
+  // -----------------------------
+  const { useClientId } = useContext(AppContext);
+
+  let playerId = useClientId();
+  // -----------------------------
+
+  const location = useLocation();
+  useEffect(() => {
+    // This runs every time the location changes (including back/forward)
+    console.log("Location changed:", location);
+  }, [location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +36,7 @@ function JoinGame() {
         alert("Lobby is full!");
       });
 
-      socket.emit("join_lobby", { username, room: idQuery });
+      socket.emit("join_lobby", { username, room: idQuery, playerId });
       socket.once("joined_lobby", () => {
         navigate(`/lobby/${idQuery}`);
       });

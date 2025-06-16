@@ -24,6 +24,6 @@ def init_db_command():
 def populate_db_command():
     click.echo("populating db")
     lobby1 = Active_lobby(lobby_id='123')
-    # user2 = User(username="dan", password="dandan")
+    user2 = User(id="123", associated_username='TEST',sid='111111')
     lobby1.create()
-    # user2.create()
+    user2.create()

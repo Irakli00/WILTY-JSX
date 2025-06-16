@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { socket } from "../socket";
 
@@ -14,6 +15,11 @@ function Lobby() {
   const [playersAmmount, setPlayersAmmount] = useState(null);
   const isHost = useIsHost(hostID);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  useEffect(() => {
+    console.log("Location changed:", location);
+  }, [location]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
@@ -34,9 +40,11 @@ function Lobby() {
 
     const handleRoomsInfo = (data) => {
       setPlayersAmmount(() => data.members.length);
+      // console.log(data.players_in_lobby);
 
       if (data.room === id && data.room !== null) {
-        setPlayers(data.members);
+        setPlayers(data.players_in_lobby);
+        // setPlayers(data.members);
       }
       setHostID(players[0]);
     };
@@ -45,8 +53,9 @@ function Lobby() {
 
     return () => {
       socket.off("rooms_info", handleRoomsInfo);
+      socket.off("get_room", handleRoomsInfo);
     };
-  }, [players, id, setPlayers]);
+  }, [players]);
 
   return (
     <>
@@ -55,7 +64,7 @@ function Lobby() {
       </h1>
       <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
-          {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
+          {/* {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>} */}
 
           {Object.values(players).map((nickName, i) => {
             return (

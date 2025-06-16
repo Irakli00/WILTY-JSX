@@ -4,6 +4,9 @@ from src import create_app
 from flask_socketio import SocketIO
 from flask_socketio import join_room, leave_room, send, emit
 
+from src.extensions import db
+from src.models import User, Active_lobby
+
 flask_app = create_app()
 # Enable CORS for the entire application
 CORS(flask_app,origins="*")
@@ -20,27 +23,47 @@ def on_join(data):
     username = data['username']
     room = data['room']
     sid = request.sid
-
-
+    user_id = data['playerId']
     room_members = socketio.server.manager.rooms['/'].get(room, set())
+    player = {
+        'username':username,
+        'sid':sid,
+        'user_id':user_id  
+    }
+
+    lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
 
     if len(room_members) >= 6:
         emit('room_full', {'message': 'Room is full'}, to=sid)
         return
+    
+    user = db.session.query(User).filter_by(id=user_id).first()
+
+    if not user:
+        user = User(id=user_id, associated_username=username, room_id=room,lobby=lobby,sid=sid)
+        db.session.add(user)
+        db.session.commit()
 
     join_room(room)
 
+
     emit('set_host_id', host_id)
-    emit('joined_lobby',to=room)
+    emit('joined_lobby',{'player':player}, to=room)
 
-    # send(f'{username} has entered the room.', to=room)
-    # emit('joined_lobby', room, to=request.sid) 
+@socketio.on('user_disconnect')
+def on_disconnect(data):
+    sid = request.sid
+    user_id=data['id']
+    user = db.session.query(User).filter_by(id=user_id).first()
 
-    # print("=== Active Rooms ===")
-    # for room_name, members in socketio.server.manager.rooms['/'].items():
-    #     if room_name == room:
-    #         print(f"Room: {room_name}")
-    #         print(f"Members: {len(members)}")
+    print(user_id)
+
+    if user:
+        print(f"User {user.associated_username} disconnected.")
+
+        db.session.delete(user)
+        db.session.commit()
+
 
 @socketio.on('get_sid')
 def handle_get_sid():
@@ -50,14 +73,17 @@ def handle_get_sid():
 def handle_get_room(data):
     room = data['room']
     namespace = '/'  # default namespace
+
+    lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
+    players_in_lobby=[user.associated_username for user in lobby.users]
+
     try:
         room_members = socketio.server.manager.rooms[namespace][room]
         room_info = list(room_members)
     except KeyError:
         room_info = []
         
-    # print('-->', room, room_info)
-    emit('rooms_info', {'room': room, 'members': room_info})
+    emit('rooms_info', {'room': room, 'members': room_info, 'players_in_lobby':players_in_lobby})
 
 @socketio.on('start_game')
 def handle_start_game(data):
