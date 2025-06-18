@@ -74,6 +74,7 @@ def handle_get_room(data):
     namespace = '/'  # default namespace
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
+    # print(lobby)
     players_in_lobby=[user.associated_username for user in lobby.users]
 
     try:

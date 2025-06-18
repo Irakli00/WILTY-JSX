@@ -61,7 +61,6 @@ function useIsHost(hostID) {
     socket.emit("get_sid");
 
     const handleClientSID = (x) => {
-      console.log(x.sid, hostID);
       setIsHost(hostID === x.sid);
     };
 

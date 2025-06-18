@@ -47,10 +47,17 @@ function Lobby() {
     socket.emit("get_room", { room: id });
 
     const handleRoomsInfo = (data) => {
+      const playersInfo = data.members.map((sid, index) => ({
+        room: data.room,
+        sid: sid,
+        username: data.players_in_lobby[index] || "",
+      }));
+
       setPlayersAmmount(() => data.members.length);
 
       if (data.room === id && data.room !== null) {
-        setPlayers(data.players_in_lobby);
+        // setPlayers(data.players_in_lobby);
+        setPlayers(playersInfo);
       }
       setHostID(data.members[0]);
     };
@@ -72,12 +79,12 @@ function Lobby() {
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
           {/* {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>} */}
 
-          {Object.values(players).map((nickName, i) => {
+          {players.map((el, i) => {
             return (
               <PlayerInLobby
-                key={i}
+                key={el.username}
                 i={i}
-                playerName={nickName}
+                playerName={el.username}
               ></PlayerInLobby>
             );
           })}
