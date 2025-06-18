@@ -19,15 +19,13 @@ function Lobby() {
 
   // -----------------------------
   const location = useLocation();
-
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
-  // -----------------------------
-
   useEffect(() => {
     // console.log("Location changed:", location);
     socket.emit("user_disconnect", { id: playerId });
   }, [location]);
+  // -----------------------------
 
   useEffect(() => {
     const handleGameStarted = (data) => {
@@ -47,19 +45,18 @@ function Lobby() {
     socket.emit("get_room", { room: id });
 
     const handleRoomsInfo = (data) => {
-      const playersInfo = data.members.map((sid, index) => ({
+      const playersInfo = data.userSids.map((sid, index) => ({
         room: data.room,
         sid: sid,
-        username: data.players_in_lobby[index] || "",
+        nickName: data.userNicknames[index] || "No Username",
       }));
 
-      setPlayersAmmount(() => data.members.length);
+      setPlayersAmmount(() => data.userSids.length);
 
       if (data.room === id && data.room !== null) {
-        // setPlayers(data.players_in_lobby);
         setPlayers(playersInfo);
       }
-      setHostID(data.members[0]);
+      setHostID(data.userSids[0]);
     };
 
     socket.on("rooms_info", handleRoomsInfo);
@@ -77,14 +74,15 @@ function Lobby() {
       </h1>
       <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
-          {/* {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>} */}
+          {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
 
-          {players.map((el, i) => {
+          {players.map(({ nickName, sid }, i) => {
             return (
               <PlayerInLobby
-                key={el.username}
+                key={sid}
                 i={i}
-                playerName={el.username}
+                playerName={nickName}
+                sid={sid}
               ></PlayerInLobby>
             );
           })}

@@ -75,7 +75,7 @@ def handle_get_room(data):
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
     # print(lobby)
-    players_in_lobby=[user.associated_username for user in lobby.users]
+    player_usernames=[user.associated_username for user in lobby.users]
 
     try:
         room_members = socketio.server.manager.rooms[namespace][room]
@@ -83,7 +83,7 @@ def handle_get_room(data):
     except KeyError:
         room_info = []
         
-    emit('rooms_info', {'room': room, 'members': room_info, 'players_in_lobby':players_in_lobby})
+    emit('rooms_info', {'room': room, 'userSids': room_info, 'userNicknames':player_usernames})
 
 @socketio.on('start_game')
 def handle_start_game(data):

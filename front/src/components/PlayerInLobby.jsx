@@ -1,10 +1,8 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
 
-function PlayerInLobby({ i, playerName }) {
-  const { styles, useIsHost, hostID, useClientId } = useContext(AppContext);
-  const isHost = useIsHost(hostID);
-  // console.log(id) === storage id;
+function PlayerInLobby({ i, playerName, sid }) {
+  const { styles, hostID } = useContext(AppContext);
 
   return (
     <div className="player" style={styles[i]}>
@@ -15,7 +13,7 @@ function PlayerInLobby({ i, playerName }) {
           </div>
           <div>
             <p>
-              {playerName} {isHost && "(host)"}
+              {playerName} {hostID === sid && "(host)"}
             </p>
           </div>
         </>
