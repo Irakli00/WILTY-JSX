@@ -20,11 +20,13 @@ def on_join(data):
     if host_id == None:
         host_id = request.sid
     
+    print(data)
     username = data['username']
     room = data['room']
     sid = request.sid
     user_id = data['playerId']
     room_members = socketio.server.manager.rooms['/'].get(room, set())
+
     player = {
         'username':username,
         'sid':sid,

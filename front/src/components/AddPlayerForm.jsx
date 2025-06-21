@@ -6,8 +6,9 @@ import { AppContext } from "../contexts/AppContext";
 
 function AddPlayerForm({ i, onClick }) {
   const [player, setPlayer] = useState("");
-  const { styles } = useContext(AppContext);
+  const { styles, useClientId } = useContext(AppContext);
   const { id } = useParams();
+  let playerId = useClientId();
 
   const inputRef = useRef(null);
 
@@ -39,6 +40,7 @@ function AddPlayerForm({ i, onClick }) {
             socket.emit("join_lobby", {
               username: player,
               room: id,
+              playerId,
             });
           }}
         />
