@@ -75,7 +75,7 @@ function CardRead() {
           {showCard && (
             <Card
               key={turn}
-              playerToRead={players[turn]}
+              playerToRead={players[turn].sid}
               story={stories[turn]}
             ></Card>
           )}
