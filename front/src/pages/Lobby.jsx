@@ -24,6 +24,9 @@ function Lobby() {
   useEffect(() => {
     // console.log("Location changed:", location);
     socket.emit("user_disconnect", { id: playerId });
+    // socket.once("user_disconnected", (data) => {
+    //   setPlayers(players.filter((player) => player.sid !== data.user));
+    // });
   }, [location]);
   // -----------------------------
 

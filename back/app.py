@@ -58,9 +58,9 @@ def on_disconnect(data):
 
     if user:
         print(f"User {user.associated_username} disconnected.")
-
         db.session.delete(user)
         db.session.commit()
+    emit('user_disconnected',{'user':sid},)
 
 
 @socketio.on('get_sid')
@@ -74,16 +74,16 @@ def handle_get_room(data):
     namespace = '/'  # default namespace
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
-    # print(lobby)
-    player_usernames=[user.associated_username for user in lobby.users]
 
-    try:
-        room_members = socketio.server.manager.rooms[namespace][room]
-        room_info = list(room_members)
-    except KeyError:
-        room_info = []
-        
-    emit('rooms_info', {'room': room, 'userSids': room_info, 'userNicknames':player_usernames})
+    if not lobby:
+        lobby = Active_lobby(lobby_id=room)
+        db.session.add(lobby)
+        db.session.commit()
+
+    player_usernames=[user.associated_username for user in lobby.users]
+    room_members = [member.sid for member in lobby.users]
+    
+    emit('rooms_info', {'room': room, 'userSids': room_members, 'userNicknames':player_usernames})
 
 @socketio.on('start_game')
 def handle_start_game(data):

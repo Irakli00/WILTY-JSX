@@ -6,26 +6,6 @@ import { useContext, useEffect } from "react";
 function StartPage({ onJoinLobby }) {
   const { useClientId } = useContext(AppContext);
 
-  // {
-  //   useEffect(() => {
-  //     let id = sessionStorage.getItem("clientId");
-  //     if (id) {
-  //       fetch("http://localhost:5000/lobby_manager", {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           userId: id,
-  //         }),
-  //         headers: {
-  //           "Content-type": "application/json; charset=UTF-8",
-  //         },
-  //       });
-  //       // .then((res) => res.json())
-  //       // .then((data) => console.log(data))
-  //       // .catch((error) => console.error("Error:", error));
-  //     }
-  //   }, []);
-  // }
-
   return (
     <section className="layout-container ">
       <div className="bg-secondary-blue min-h-full p-[5dvh] flex flex-col justify-between gap-[5dvh] ">
