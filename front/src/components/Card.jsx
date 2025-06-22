@@ -52,10 +52,11 @@ function Card() {
       >
         <motion.p
           initial={{ color: "transparent" }}
+          className="text-center "
           transition={{ duration: 0.6, delay: flipped ? 0.2 : 0 }}
           animate={{
             rotateX: 180,
-            color: flipped ? "red" : "transparent",
+            color: flipped ? "black" : "transparent",
           }}
         >
           {story}

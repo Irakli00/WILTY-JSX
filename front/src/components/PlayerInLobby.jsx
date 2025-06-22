@@ -13,18 +13,32 @@ function PlayerInLobby({ i, playerName, sid }) {
   }
 
   return (
-    <div className="player" style={styles[i]} onClick={(e) => handleClick(e)}>
-      <div className="img-align">
-        <img src="../src/icons/userEdit.svg" alt="" />
+    <div className="player" style={styles[i]}>
+      <div className="img-align" onClick={handleClick}>
+        {formOppened ? (
+          <img src="../src/icons/userEdit.svg" alt="" />
+        ) : (
+          <img src="../src/icons/userAdd.svg" alt="" />
+        )}
       </div>
 
       {formOppened ? (
-        <AddPlayerForm i={i} key={i} playerNameUpdate={true}></AddPlayerForm>
+        <AddPlayerForm
+          i={i}
+          key={i}
+          playerNameUpdate={true}
+          onSubmit={(f) => setFormOppened(f)}
+        ></AddPlayerForm>
       ) : (
-        <div>
-          <p>
-            {playerName} {hostID === sid && "(host)"}
-          </p>
+        <div className="w-full flex justify-between">
+          <div>
+            <p>
+              {playerName} {hostID === sid && "(host)"}
+            </p>
+          </div>
+          <div>
+            <button>Add story</button>
+          </div>
         </div>
       )}
     </div>

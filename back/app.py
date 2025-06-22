@@ -20,7 +20,6 @@ def on_join(data):
     if host_id == None:
         host_id = request.sid
     
-    print(data)
     username = data['username']
     room = data['room']
     sid = request.sid

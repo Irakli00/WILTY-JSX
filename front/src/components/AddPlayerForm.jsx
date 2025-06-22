@@ -4,7 +4,7 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onClick, playerNameUpdate = false }) {
+function AddPlayerForm({ i, onSubmit, onClick, playerNameUpdate = false }) {
   const [player, setPlayer] = useState("");
   const { styles, useClientId, players, useUpdateRoom } =
     useContext(AppContext);
@@ -24,6 +24,7 @@ function AddPlayerForm({ i, onClick, playerNameUpdate = false }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          onSubmit(false);
         }}
       >
         <input
