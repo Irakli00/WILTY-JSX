@@ -10,9 +10,11 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, setPlayers, hostID, setHostID, useIsHost } =
+  const { players, setPlayers, hostID, setHostID, useIsHost, useUpdateRoom } =
     useContext(AppContext);
-  const [playersAmmount, setPlayersAmmount] = useState(null);
+  // const [playersAmmount, setPlayersAmmount] = useState(null);
+  const playersAmmount = players.length;
+
   const isHost = useIsHost(hostID);
 
   const navigate = useNavigate();
@@ -44,31 +46,7 @@ function Lobby() {
     };
   }, [id, navigate]);
 
-  useEffect(() => {
-    socket.emit("get_room", { room: id });
-
-    const handleRoomsInfo = (data) => {
-      const playersInfo = data.userSids.map((sid, index) => ({
-        room: data.room,
-        sid: sid,
-        nickName: data.userNicknames[index] || "No Username",
-      }));
-
-      setPlayersAmmount(() => data.userSids.length);
-
-      if (data.room === id && data.room !== null) {
-        setPlayers(playersInfo);
-      }
-      setHostID(data.userSids[0]);
-    };
-
-    socket.on("rooms_info", handleRoomsInfo);
-
-    return () => {
-      socket.off("rooms_info", handleRoomsInfo);
-      socket.off("get_room", handleRoomsInfo);
-    };
-  }, [players]);
+  useUpdateRoom(id, players);
 
   return (
     <>

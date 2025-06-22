@@ -16,7 +16,7 @@ function PlayerInLobby({ i, playerName, sid }) {
         <img src="../src/icons/userEdit.svg" alt="" />
       </div>
       {formOppened ? (
-        <AddPlayerForm i={0} key={0}></AddPlayerForm>
+        <AddPlayerForm i={0} key={0} playerNameUpdate={true}></AddPlayerForm>
       ) : (
         <div>
           <p>

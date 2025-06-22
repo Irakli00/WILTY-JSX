@@ -4,9 +4,10 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onClick }) {
+function AddPlayerForm({ i, onClick, playerNameUpdate = false }) {
   const [player, setPlayer] = useState("");
-  const { styles, useClientId } = useContext(AppContext);
+  const { styles, useClientId, players, setPlayers, useUpdateRoom } =
+    useContext(AppContext);
   const { id } = useParams();
   let playerId = useClientId();
 
@@ -16,9 +17,10 @@ function AddPlayerForm({ i, onClick }) {
     inputRef.current.focus();
   }, []);
 
+  useUpdateRoom(id, players);
+
   return (
     <div style={styles[i]} className="player ">
-      {/* <img src="../src/icons/userEdit.svg" alt="" /> */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -37,11 +39,18 @@ function AddPlayerForm({ i, onClick }) {
           type="submit"
           value="+"
           onClick={() => {
-            socket.emit("join_lobby", {
-              username: player,
-              room: id,
-              playerId,
-            });
+            if (playerNameUpdate) {
+              socket.emit("playerName_update", { playerId, username: player });
+              socket.once("username_updated", (d) => {
+                players.find((el) => el.sid === d.sid).nickName = d.username;
+              });
+            } else {
+              socket.emit("join_lobby", {
+                username: player,
+                room: id,
+                playerId,
+              });
+            }
           }}
         />
         <input type="reset" value="-" onClick={onClick} />

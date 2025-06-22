@@ -52,6 +52,27 @@ def on_join(data):
     emit('set_host_id', host_id)
     emit('joined_lobby',{'player':player}, to=room)
 
+@socketio.on('playerName_update')
+def on_update(data):
+    user_id = data.get('playerId')
+    username = data.get('username')
+
+    if not user_id or not username:
+        emit('error', {'message': 'Missing playerId or username'})
+        return
+
+    user = db.session.query(User).filter_by(id=user_id).first()
+    if not user:
+        emit('error', {'message': 'User not found'})
+        return
+
+    user.associated_username = username
+    db.session.commit()
+
+    print(f"Username updated: {user.associated_username}")
+
+    emit('username_updated', {'username': user.associated_username, 'sid': user.sid}, broadcast=True)
+
 @socketio.on('user_disconnect')
 def on_disconnect(data):
     sid = request.sid

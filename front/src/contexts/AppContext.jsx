@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { socket } from "../socket";
 
@@ -74,6 +74,33 @@ function useIsHost(hostID) {
   return isHost;
 }
 
+function useUpdateRoom(id, players) {
+  const [playersAmmount, setPlayersAmmount] = useState(null);
+
+  const { setPlayers, setHostID } = useContext(AppContext);
+
+  useEffect(() => {
+    socket.emit("get_room", { room: id });
+    const handleRoomsInfo = (data) => {
+      const playersInfo = data.userSids.map((sid, index) => ({
+        room: data.room,
+        sid: sid,
+        nickName: data.userNicknames[index] || "No Username",
+      }));
+      setPlayersAmmount(() => data.userSids.length);
+      if (data.room === id && data.room !== null) {
+        setPlayers(playersInfo);
+      }
+      setHostID(data.userSids[0]);
+    };
+    socket.on("rooms_info", handleRoomsInfo);
+    return () => {
+      socket.off("rooms_info", handleRoomsInfo);
+      socket.off("get_room", handleRoomsInfo);
+    };
+  }, [players]);
+}
+
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
@@ -97,6 +124,7 @@ export function AppProvider({ children }) {
         styles: dynamicColors,
 
         useIsHost,
+        useUpdateRoom,
       }}
     >
       {children}
