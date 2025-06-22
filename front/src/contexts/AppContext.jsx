@@ -75,7 +75,7 @@ function useIsHost(hostID) {
 }
 
 function useUpdateRoom(id, players) {
-  const [playersAmmount, setPlayersAmmount] = useState(null);
+  const [_, setPlayersAmmount] = useState(null);
 
   const { setPlayers, setHostID } = useContext(AppContext);
 
@@ -84,6 +84,7 @@ function useUpdateRoom(id, players) {
     const handleRoomsInfo = (data) => {
       const playersInfo = data.userSids.map((sid, index) => ({
         room: data.room,
+        id: data.userIds[index],
         sid: sid,
         nickName: data.userNicknames[index] || "No Username",
       }));

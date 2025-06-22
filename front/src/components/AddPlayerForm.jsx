@@ -6,7 +6,7 @@ import { AppContext } from "../contexts/AppContext";
 
 function AddPlayerForm({ i, onClick, playerNameUpdate = false }) {
   const [player, setPlayer] = useState("");
-  const { styles, useClientId, players, setPlayers, useUpdateRoom } =
+  const { styles, useClientId, players, useUpdateRoom } =
     useContext(AppContext);
   const { id } = useParams();
   let playerId = useClientId();

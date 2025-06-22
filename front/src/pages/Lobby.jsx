@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -10,9 +10,7 @@ import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, setPlayers, hostID, setHostID, useIsHost, useUpdateRoom } =
-    useContext(AppContext);
-  // const [playersAmmount, setPlayersAmmount] = useState(null);
+  const { players, hostID, useIsHost, useUpdateRoom } = useContext(AppContext);
   const playersAmmount = players.length;
 
   const isHost = useIsHost(hostID);

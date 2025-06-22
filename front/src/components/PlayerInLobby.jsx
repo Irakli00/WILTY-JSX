@@ -3,11 +3,13 @@ import { AppContext } from "../contexts/AppContext";
 import AddPlayerForm from "./AddPlayerForm";
 
 function PlayerInLobby({ i, playerName, sid }) {
-  const { styles, hostID } = useContext(AppContext);
+  const { styles, hostID, useClientId, players } = useContext(AppContext);
   const [formOppened, setFormOppened] = useState(false);
 
-  function handleClick(e) {
-    setFormOppened((p) => !p);
+  let playerId = useClientId();
+
+  function handleClick() {
+    playerId === players[i].id && setFormOppened((p) => !p);
   }
 
   return (
@@ -15,8 +17,9 @@ function PlayerInLobby({ i, playerName, sid }) {
       <div className="img-align">
         <img src="../src/icons/userEdit.svg" alt="" />
       </div>
+
       {formOppened ? (
-        <AddPlayerForm i={0} key={0} playerNameUpdate={true}></AddPlayerForm>
+        <AddPlayerForm i={i} key={i} playerNameUpdate={true}></AddPlayerForm>
       ) : (
         <div>
           <p>

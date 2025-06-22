@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { AppContext } from "../contexts/AppContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 function StartPage({ onJoinLobby }) {
   const { useClientId } = useContext(AppContext);

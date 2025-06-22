@@ -85,11 +85,9 @@ def on_disconnect(data):
         db.session.commit()
     emit('user_disconnected',{'user':sid},)
 
-
 @socketio.on('get_sid')
 def handle_get_sid():
     emit('client_sid',{'sid':request.sid})
-
 
 @socketio.on('get_room')
 def handle_get_room(data):
@@ -105,8 +103,9 @@ def handle_get_room(data):
 
     player_usernames=[user.associated_username for user in lobby.users]
     room_members = [member.sid for member in lobby.users]
+    user_ids = [member.id for member in lobby.users]
     
-    emit('rooms_info', {'room': room, 'userSids': room_members, 'userNicknames':player_usernames})
+    emit('rooms_info', {'room': room, 'userSids': room_members, 'userNicknames':player_usernames,'userIds':user_ids})
 
 @socketio.on('start_game')
 def handle_start_game(data):
