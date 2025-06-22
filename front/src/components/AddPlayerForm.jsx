@@ -4,7 +4,7 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onSubmit, onClick, playerNameUpdate = false }) {
+function AddPlayerForm({ i, onCloseForm, onClick, playerNameUpdate = false }) {
   const [player, setPlayer] = useState("");
   const { styles, useClientId, players, useUpdateRoom } =
     useContext(AppContext);
@@ -22,9 +22,10 @@ function AddPlayerForm({ i, onSubmit, onClick, playerNameUpdate = false }) {
   return (
     <div style={styles[i]} className="player ">
       <form
+        className="flex gap-4"
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit(false);
+          onCloseForm(false);
         }}
       >
         <input
@@ -35,26 +36,36 @@ function AddPlayerForm({ i, onSubmit, onClick, playerNameUpdate = false }) {
           name="playerName"
           id="playerName"
         />
-
-        <input
-          type="submit"
-          value="+"
-          onClick={() => {
-            if (playerNameUpdate) {
-              socket.emit("playerName_update", { playerId, username: player });
-              socket.once("username_updated", (d) => {
-                players.find((el) => el.sid === d.sid).nickName = d.username;
-              });
-            } else {
-              socket.emit("join_lobby", {
-                username: player,
-                room: id,
-                playerId,
-              });
-            }
-          }}
-        />
-        <input type="reset" value="-" onClick={onClick} />
+        <div className="flex gap-3">
+          <input
+            type="submit"
+            value="Change"
+            className="cursor-pointer text-center bg-white px-1  rounded  text-green-500 font-bold h-[22px]"
+            onClick={() => {
+              if (playerNameUpdate) {
+                socket.emit("playerName_update", {
+                  playerId,
+                  username: player,
+                });
+                socket.once("username_updated", (d) => {
+                  players.find((el) => el.sid === d.sid).nickName = d.username;
+                });
+              } else {
+                socket.emit("join_lobby", {
+                  username: player,
+                  room: id,
+                  playerId,
+                });
+              }
+            }}
+          />
+          <input
+            className="cursor-pointer text-center bg-red-500  px-1  rounded  text-white font-bold h-[22px]"
+            type="reset"
+            value="X"
+            onClick={() => onCloseForm(false)}
+          />
+        </div>
       </form>
     </div>
   );

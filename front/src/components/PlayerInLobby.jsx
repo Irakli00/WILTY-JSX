@@ -16,9 +16,17 @@ function PlayerInLobby({ i, playerName, sid }) {
     <div className="player" style={styles[i]}>
       <div className="img-align" onClick={handleClick}>
         {formOppened ? (
-          <img src="../src/icons/userEdit.svg" alt="" />
+          <img
+            src="../src/icons/userEdit.svg"
+            alt=""
+            className="cursor-pointer"
+          />
         ) : (
-          <img src="../src/icons/userAdd.svg" alt="" />
+          <img
+            src="../src/icons/userAdd.svg"
+            alt=""
+            className="cursor-pointer"
+          />
         )}
       </div>
 
@@ -27,7 +35,7 @@ function PlayerInLobby({ i, playerName, sid }) {
           i={i}
           key={i}
           playerNameUpdate={true}
-          onSubmit={(f) => setFormOppened(f)}
+          onCloseForm={(f) => setFormOppened(f)}
         ></AddPlayerForm>
       ) : (
         <div className="w-full flex justify-between">
