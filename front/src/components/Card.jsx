@@ -1,13 +1,18 @@
 import { motion, transform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { socket } from "../socket";
 // import { img } from "/home/hp/Desktop/WILTY/WILTY/front/src/imgs/cardBlue.png";
 import cardBlue from "../imgs/cardBlue.png";
+import { AppContext } from "../contexts/AppContext";
 
-function Card({ playerToRead, story }) {
+function Card() {
+  const { players, turn, stories } = useContext(AppContext);
   const [flipped, setFlipped] = useState(false);
+
   const { id } = useParams();
+  const playerToRead = players[turn].sid;
+  const story = stories[turn];
 
   useEffect(() => {
     function handleFlip() {

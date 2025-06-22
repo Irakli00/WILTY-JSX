@@ -91,7 +91,6 @@ function Lobby() {
           })}
         </div>
 
-        {/* {console.log(isHost)} */}
         {isHost && playersAmmount > 1 && (
           <Link
             onClick={() => {

@@ -18,7 +18,7 @@ function AddPlayerForm({ i, onClick }) {
 
   return (
     <div style={styles[i]} className="player ">
-      <img src="../src/icons/userEdit.svg" alt="" />
+      {/* <img src="../src/icons/userEdit.svg" alt="" /> */}
       <form
         onSubmit={(e) => {
           e.preventDefault();

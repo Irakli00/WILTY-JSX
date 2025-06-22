@@ -9,15 +9,8 @@ import Button from "../components/Button";
 import { socket } from "../socket";
 
 function CardRead() {
-  const {
-    players,
-    turn,
-    setTurn,
-    stories,
-    SECONDS_IN_TURN,
-    hostID,
-    useIsHost,
-  } = useContext(AppContext);
+  const { players, turn, setTurn, SECONDS_IN_TURN, hostID, useIsHost } =
+    useContext(AppContext);
   const { id } = useParams();
 
   const [seconds, setSeconds] = useState(SECONDS_IN_TURN);
@@ -72,13 +65,7 @@ function CardRead() {
 
       <div className="layout-container mt-[25dvh] relative">
         <AnimatePresence>
-          {showCard && (
-            <Card
-              key={turn}
-              playerToRead={players[turn].sid}
-              story={stories[turn]}
-            ></Card>
-          )}
+          {showCard && <Card key={turn}></Card>}
           {roundIsOver && !isLastRound && clientID === currentPlayer ? (
             <Button
               className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
