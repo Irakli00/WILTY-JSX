@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import AddPlayerForm from "./AddPlayerForm";
 
-function PlayerInLobby({ i, playerName, sid }) {
+function PlayerInLobby({ i, playerName = null, sid = null }) {
   const { styles, hostID, useClientId, players } = useContext(AppContext);
   const [formOppened, setFormOppened] = useState(false);
 
@@ -30,11 +30,10 @@ function PlayerInLobby({ i, playerName, sid }) {
         )}
       </div>
 
-      {formOppened ? (
+      {formOppened || !playerName ? (
         <AddPlayerForm
           i={i}
           key={i}
-          playerNameUpdate={true}
           onCloseForm={(f) => setFormOppened(f)}
         ></AddPlayerForm>
       ) : (

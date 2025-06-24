@@ -52,7 +52,7 @@ function Card() {
       >
         <motion.p
           initial={{ color: "transparent" }}
-          className="text-center "
+          className="text-center select-none"
           transition={{ duration: 0.6, delay: flipped ? 0.2 : 0 }}
           animate={{
             rotateX: 180,

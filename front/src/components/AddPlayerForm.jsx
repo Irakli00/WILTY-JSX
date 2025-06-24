@@ -4,11 +4,12 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onCloseForm, onClick, playerNameUpdate = false }) {
+function AddPlayerForm({ i, onCloseForm, playerNameUpdate = false }) {
   const [player, setPlayer] = useState("");
   const { styles, useClientId, players, useUpdateRoom } =
     useContext(AppContext);
   const { id } = useParams();
+
   let playerId = useClientId();
 
   const inputRef = useRef(null);

@@ -49,11 +49,12 @@ function Lobby() {
   return (
     <>
       <h1 className="bg-slate-400 bg-opacity-20 p-2 text-center text-[1.3rem]">
-        Lobby ID: <span className="text-[2.4rem] underline">{id}</span>
+        <span class="select-none">Lobby ID: </span>
+        <span className="text-[2.4rem] underline">{id}</span>
       </h1>
       <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
-          {playersAmmount < 1 && <AddPlayerForm i={0} key={0}></AddPlayerForm>}
+          {playersAmmount < 1 && <PlayerInLobby key={0} i={0}></PlayerInLobby>}
 
           {players.map(({ nickName, sid }, i) => {
             return (
