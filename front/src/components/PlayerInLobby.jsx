@@ -29,7 +29,7 @@ function PlayerInLobby({ i, playerName = null, sid = null }) {
           />
         )}
       </div>
-      {/*  */}
+
       {formOppened || !playerName ? (
         <AddPlayerForm
           i={i}
