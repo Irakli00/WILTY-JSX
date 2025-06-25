@@ -4,10 +4,13 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 
-function AddPlayerForm({ i, onCloseForm, playerNameUpdate = false }) {
+function AddPlayerForm({
+  onCloseForm,
+  playerNameUpdate = false,
+  defaultStyle = null,
+}) {
   const [player, setPlayer] = useState("");
-  const { styles, useClientId, players, useUpdateRoom } =
-    useContext(AppContext);
+  const { useClientId, players, useUpdateRoom } = useContext(AppContext);
   const { id } = useParams();
 
   let playerId = useClientId();
@@ -21,9 +24,9 @@ function AddPlayerForm({ i, onCloseForm, playerNameUpdate = false }) {
   useUpdateRoom(id, players);
 
   return (
-    <div style={styles[i]} className="player ">
+    <div className="player " style={defaultStyle}>
       <form
-        className="flex gap-4"
+        className="flex gap-4 bg-none"
         onSubmit={(e) => {
           e.preventDefault();
           onCloseForm(false);
@@ -40,7 +43,7 @@ function AddPlayerForm({ i, onCloseForm, playerNameUpdate = false }) {
         <div className="flex gap-3">
           <input
             type="submit"
-            value="Change"
+            value={playerNameUpdate ? "Change" : "Set username"}
             className="cursor-pointer text-center bg-white px-1  rounded  text-green-500 font-bold h-[22px]"
             onClick={() => {
               if (playerNameUpdate) {

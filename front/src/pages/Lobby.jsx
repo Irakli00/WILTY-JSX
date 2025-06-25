@@ -6,11 +6,11 @@ import { socket } from "../socket";
 
 import { AppContext } from "../contexts/AppContext";
 import PlayerInLobby from "../components/PlayerInLobby";
-import AddPlayerForm from "../components/AddPlayerForm";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, hostID, useIsHost, useUpdateRoom } = useContext(AppContext);
+  const { players, hostID, useIsHost, useUpdateRoom, styles } =
+    useContext(AppContext);
   const playersAmmount = players.length;
 
   const isHost = useIsHost(hostID);
@@ -49,12 +49,14 @@ function Lobby() {
   return (
     <>
       <h1 className="bg-slate-400 bg-opacity-20 p-2 text-center text-[1.3rem]">
-        <span class="select-none">Lobby ID: </span>
+        <span className="select-none">Lobby ID: </span>
         <span className="text-[2.4rem] underline">{id}</span>
       </h1>
       <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
-          {playersAmmount < 1 && <PlayerInLobby key={0} i={0}></PlayerInLobby>}
+          {!playersAmmount && (
+            <PlayerInLobby defaultStyle={styles[0]} key={0}></PlayerInLobby>
+          )}
 
           {players.map(({ nickName, sid }, i) => {
             return (

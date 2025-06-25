@@ -68,11 +68,9 @@ html {
 }
 @layer components {
   .player {
-    @apply flex  items-center  px-6 text-2xl rounded-lg min-h-[80px];
+    @apply flex items-center  px-6 text-2xl rounded-lg min-h-[80px];
   }
-  .player img {
-    width: 35px;
-  }
+
   .player p {
     font-weight: 700;
     font-size: 1.6rem;
