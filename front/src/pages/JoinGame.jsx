@@ -6,17 +6,31 @@ import { AppContext } from "../contexts/AppContext";
 function JoinGame() {
   const [idQuery, setIdQuery] = useState("");
   const [username, setUsername] = useState("");
+  const { useClientId, setIsInLobby, isInLobby } = useContext(AppContext);
   const navigate = useNavigate();
+  let playerId = useClientId();
 
   // -----------------------------
   const location = useLocation();
-  const { useClientId } = useContext(AppContext);
-  let playerId = useClientId();
+
   useEffect(() => {
-    // This runs every time the location changes (including back/forward)
-    // console.log("Location changed:", location);
     socket.emit("user_disconnect", { id: localStorage.getItem("clientId") });
-  }, [location]);
+    setIsInLobby(false);
+
+    const blockNav = () => {
+      const path = window.location.pathname;
+
+      if (path === `/lobby/${123}`) {
+        navigate("/join_lobby", { replace: true });
+      }
+    };
+
+    window.addEventListener("popstate", blockNav);
+
+    //this gotta update players state as well
+    // useUpdateRoom(id, players);
+  }, [location, navigate]);
+
   // -----------------------------
 
   const handleSubmit = async (e) => {
@@ -37,7 +51,10 @@ function JoinGame() {
 
       socket.emit("join_lobby", { username, room: idQuery, playerId });
       socket.once("joined_lobby", () => {
-        navigate(`/lobby/${idQuery}`);
+        if (!isInLobby) {
+          setIsInLobby(true);
+          navigate(`/lobby/${idQuery}`);
+        }
       });
     } catch (err) {
       console.error("Failed to join lobby", err);

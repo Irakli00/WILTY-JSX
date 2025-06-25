@@ -8,7 +8,7 @@ import PlayerInLobby from "../components/PlayerInLobby";
 
 function Lobby() {
   const { id } = useParams();
-  const { players, hostID, useIsHost, useUpdateRoom, styles } =
+  const { players, hostID, setIsInLobby, useIsHost, useUpdateRoom, styles } =
     useContext(AppContext);
   const playersAmmount = players.length;
 
@@ -21,8 +21,9 @@ function Lobby() {
   let playerId = useClientId();
 
   useEffect(() => {
-    const handleBeforeUnload = (e) => {
+    const handleBeforeUnload = () => {
       socket.emit("user_disconnect", { id: playerId });
+      setIsInLobby(false);
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

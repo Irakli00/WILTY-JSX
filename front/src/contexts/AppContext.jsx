@@ -105,6 +105,7 @@ function useUpdateRoom(id, players) {
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
+  const [isInLobby, setIsInLobby] = useState(false);
   const [stories, setStories] = useState([
     "I once had to translate between two angry customers at a supermarket who were arguing over a dropped watermelon.",
     "For about a year, I carried a teaspoon in my pocket just in case. It came in handy multiple times.",
@@ -119,6 +120,8 @@ export function AppProvider({ children }) {
         players,
         setPlayers,
         useClientId,
+        isInLobby,
+        setIsInLobby,
         hostID,
         setHostID,
         turn,
