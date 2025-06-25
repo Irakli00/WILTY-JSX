@@ -35,7 +35,7 @@ function AddPlayerForm({
         <input
           value={player}
           onChange={(e) => setPlayer(e.target.value)}
-          className="bg-transparent"
+          className="bg-transparent border-solid border-2 border-separate"
           ref={inputRef}
           type="text"
           name="playerName"

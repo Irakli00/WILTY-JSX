@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 import { socket } from "../socket";
 
@@ -18,16 +17,21 @@ function Lobby() {
   const navigate = useNavigate();
 
   // -----------------------------
-  const location = useLocation();
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
+
   useEffect(() => {
-    // console.log("Location changed:", location);
-    socket.emit("user_disconnect", { id: playerId });
-    // socket.once("user_disconnected", (data) => {
-    //   setPlayers(players.filter((player) => player.sid !== data.user));
-    // });
-  }, [location]);
+    const handleBeforeUnload = (e) => {
+      socket.emit("user_disconnect", { id: playerId });
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [playerId, socket]);
+
   // -----------------------------
 
   useEffect(() => {
