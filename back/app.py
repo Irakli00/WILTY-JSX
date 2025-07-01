@@ -21,10 +21,12 @@ def on_join(data):
         host_id = request.sid
     
     username = data['username']
-    room = data['room']
+    room = data['roomId']
     sid = request.sid
     user_id = data['playerId']
     room_members = socketio.server.manager.rooms['/'].get(room, set())
+
+    print(data)
 
     player = {
         'username':username,
@@ -46,7 +48,6 @@ def on_join(data):
         db.session.commit()
 
     join_room(room)
-
 
     emit('set_host_id', host_id)
     emit('joined_lobby',{'player':player}, to=room)
@@ -90,7 +91,7 @@ def handle_get_sid():
 
 @socketio.on('get_room')
 def handle_get_room(data):
-    room = data['room']
+    room = data['roomId']
     namespace = '/'  # default namespace
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
@@ -104,24 +105,26 @@ def handle_get_room(data):
     room_members = [member.sid for member in lobby.users]
     user_ids = [member.id for member in lobby.users]
     
-    emit('rooms_info', {'room': room, 'userSids': room_members, 'userNicknames':player_usernames,'userIds':user_ids})
+    emit('rooms_info', {'roomId': room, 'userSids': room_members, 'userNicknames':player_usernames,'userIds':user_ids})
 
 @socketio.on('start_game')
 def handle_start_game(data):
-    room = data['room']
-    emit('game_started', {'room': room}, to=room)
+    room = data['roomId']
+    emit('game_started', {'roomId': room}, to=room)
 
 @socketio.on('open_card')
 def handle_card_oppened(data):
-    room = data['room']
+    room = data['roomId']
+    print(data['playerToRead'],request.sid)
+
     if data['playerToRead'] == request.sid:
-        emit('card_oppened', {'room': room}, to=room)
+        emit('card_oppened', {'roomId': room}, to=room)
 
 @socketio.on('close_card')
 def handle_card_oppened(data):
-    room = data['room']
+    room = data['roomId']
     if(data['playerToRead'] == request.sid):
-        emit('card_closed', {'room': room}, to=room)
+        emit('card_closed', {'roomId': room}, to=room)
 
 @socketio.on('current_to_read')
 def handle_current_player(data):
@@ -131,15 +134,15 @@ def handle_current_player(data):
 
 @socketio.on('next_round')
 def handle_current_player(data):
-    room = data['room']
+    room = data['roomId']
 
     # print(f"Client {request.sid} triggered next_round in room {room}")
-    emit('next_round_starts', {'room': room}, to=room)
+    emit('next_round_starts', {'roomId': room}, to=room)
 
 @socketio.on('leave')
 def on_leave(data):
     username = data['username']
-    room = data['room']
+    room = data['roomId']
     leave_room(room)
     send(username + ' has left the room.', to=room)
 

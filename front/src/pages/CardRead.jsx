@@ -11,7 +11,7 @@ import { socket } from "../socket";
 function CardRead() {
   const { players, turn, setTurn, SECONDS_IN_TURN, hostID, useIsHost } =
     useContext(AppContext);
-  const { id } = useParams();
+  const { roomId } = useParams();
 
   const [seconds, setSeconds] = useState(SECONDS_IN_TURN);
   const [showCard, setShowCard] = useState(true);
@@ -69,7 +69,7 @@ function CardRead() {
           {roundIsOver && !isLastRound && clientID === currentPlayer ? (
             <Button
               className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
-              onClick={() => socket.emit("next_round", { room: id })}
+              onClick={() => socket.emit("next_round", { roomId})}
             >
               {/* apply animation latter */}
               Your Turn

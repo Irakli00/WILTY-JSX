@@ -7,7 +7,7 @@ import { AppContext } from "../contexts/AppContext";
 import PlayerInLobby from "../components/PlayerInLobby";
 
 function Lobby() {
-  const { id } = useParams();
+  const { roomId } = useParams();
   const { players, hostID, setIsInLobby, useIsHost, useUpdateRoom, styles } =
     useContext(AppContext);
   const playersAmmount = players.length;
@@ -37,8 +37,8 @@ function Lobby() {
 
   useEffect(() => {
     const handleGameStarted = (data) => {
-      if (data.room === id) {
-        navigate(`/lobby/${id}/game`);
+      if (data.roomId === roomId) {
+        navigate(`/lobby/${roomId}/game`);
       }
     };
 
@@ -47,15 +47,15 @@ function Lobby() {
     return () => {
       socket.off("game_started", handleGameStarted);
     };
-  }, [id, navigate]);
+  }, [roomId, navigate]);
 
-  useUpdateRoom(id, players);
+  useUpdateRoom(roomId, players);
 
   return (
     <>
       <h1 className="bg-slate-400 bg-opacity-20 p-2 text-center text-[1.3rem]">
         <span className="select-none">Lobby ID: </span>
-        <span className="text-[2.4rem] underline">{id}</span>
+        <span className="text-[2.4rem] underline">{roomId}</span>
       </h1>
       <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
@@ -78,10 +78,10 @@ function Lobby() {
         {isHost && playersAmmount > 1 && (
           <Link
             onClick={() => {
-              socket.emit("start_game", { room: id });
+              socket.emit("start_game", { roomId });
             }}
             className="bg-slate-700 text-white-tint mt-3 p-4 rounded-xl text-center text-2xl transition ease-in hover:bg-yellow-800  focus:bg-yellow-800"
-            to={`/lobby/${id}/game`}
+            to={`/lobby/${roomId}/game`}
           >
             Start a Game
           </Link>

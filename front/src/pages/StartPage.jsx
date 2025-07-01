@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
 import { useContext } from "react";
 
-function StartPage({ onJoinLobby }) {
+function StartPage() {
   const { useClientId } = useContext(AppContext);
 
   return (
@@ -18,7 +18,6 @@ function StartPage({ onJoinLobby }) {
         <Link
           className="w-full p-[3dvh] text-4xl text-center bg-dark-red text-darker-gray font-semibold ease-in-out duration-300 hover:bg-silver-gray hover:text-dark-blue"
           to={"/join_lobby"}
-          onClick={onJoinLobby}
         >
           Join a game
         </Link>

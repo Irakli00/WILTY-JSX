@@ -12,7 +12,7 @@ function AddPlayerForm({
   const [player, setPlayer] = useState("");
   const { useClientId, players, useUpdateRoom, setIsInLobby } =
     useContext(AppContext);
-  const { id } = useParams();
+  const { roomId } = useParams();
 
   let playerId = useClientId();
 
@@ -22,7 +22,7 @@ function AddPlayerForm({
     inputRef.current.focus();
   }, []);
 
-  useUpdateRoom(id, players);
+  useUpdateRoom(roomId, players);
 
   return (
     <div className="player " style={defaultStyle}>
@@ -59,7 +59,7 @@ function AddPlayerForm({
               } else {
                 socket.emit("join_lobby", {
                   username: player,
-                  room: id,
+                  roomId,
                   playerId,
                 });
                 setIsInLobby(true);

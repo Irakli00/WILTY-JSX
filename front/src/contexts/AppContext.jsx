@@ -74,30 +74,31 @@ function useIsHost(hostID) {
   return isHost;
 }
 
-function useUpdateRoom(id, players) {
-  const [_, setPlayersAmmount] = useState(null);
-
+function useUpdateRoom(roomId, players) {
   const { setPlayers, setHostID } = useContext(AppContext);
 
   useEffect(() => {
-    socket.emit("get_room", { room: id });
+    if (!roomId) return;
+
     const handleRoomsInfo = (data) => {
       const playersInfo = data.userSids.map((sid, index) => ({
-        room: data.room,
+        roomId: data.roomId,
         id: data.userIds[index],
         sid: sid,
         nickName: data.userNicknames[index] || "No Username",
       }));
-      setPlayersAmmount(() => data.userSids.length);
-      if (data.room === id && data.room !== null) {
+
+      if (data.roomId === roomId && data.roomId !== null) {
         setPlayers(playersInfo);
+        setHostID(data.userSids[0]);
       }
-      setHostID(data.userSids[0]);
     };
+
+    socket.emit("get_room", { roomId });
     socket.on("rooms_info", handleRoomsInfo);
+
     return () => {
       socket.off("rooms_info", handleRoomsInfo);
-      socket.off("get_room", handleRoomsInfo);
     };
   }, [players]);
 }

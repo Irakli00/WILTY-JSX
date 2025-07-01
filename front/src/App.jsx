@@ -10,10 +10,10 @@ import JoinGame from "./pages/JoinGame";
 
 const router = createBrowserRouter([
   { path: "/", element: <StartPage></StartPage> },
-  { path: "/lobby/:id", element: <Lobby></Lobby> },
+  { path: "/lobby/:roomId", element: <Lobby></Lobby> },
   { path: "/join_lobby", element: <JoinGame></JoinGame> },
-  { path: "/lobby/:id/game", element: <CardRead></CardRead> },
-  { path: "/lobby/:id/game-end", element: <GameEnd></GameEnd> },
+  { path: "/lobby/:roomId/game", element: <CardRead></CardRead> },
+  { path: "/lobby/:roomId/game-end", element: <GameEnd></GameEnd> },
 ]);
 
 function App() {

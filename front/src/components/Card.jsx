@@ -10,7 +10,7 @@ function Card() {
   const { players, turn, stories } = useContext(AppContext);
   const [flipped, setFlipped] = useState(false);
 
-  const { id } = useParams();
+  const { roomId } = useParams();
   const playerToRead = players[turn].sid;
   const story = stories[turn];
 
@@ -28,7 +28,7 @@ function Card() {
   return (
     <div
       onClick={() => {
-        socket.emit("open_card", { room: id, playerToRead });
+        socket.emit("open_card", { roomId, playerToRead });
       }}
     >
       <motion.div

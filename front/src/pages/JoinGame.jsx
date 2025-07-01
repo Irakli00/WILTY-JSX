@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
 
 function JoinGame() {
-  const [idQuery, setIdQuery] = useState("");
+  const [roomIdQuery, setroomIdQuery] = useState("");
   const [username, setUsername] = useState("");
   const { useClientId, setIsInLobby, isInLobby } = useContext(AppContext);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function JoinGame() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/lobby/${idQuery}`);
+      const res = await fetch(`http://127.0.0.1:5000/lobby/${roomIdQuery}`);
       const data = await res.json();
 
       if (data.status === "error") {
@@ -49,11 +49,11 @@ function JoinGame() {
         alert("Lobby is full!");
       });
 
-      socket.emit("join_lobby", { username, room: idQuery, playerId });
+      socket.emit("join_lobby", { username, roomId: roomIdQuery, playerId });
       socket.once("joined_lobby", () => {
         if (!isInLobby) {
           setIsInLobby(true);
-          navigate(`/lobby/${idQuery}`);
+          navigate(`/lobby/${roomIdQuery}`);
         }
       });
     } catch (err) {
@@ -80,8 +80,8 @@ function JoinGame() {
         <div className="join-lobby-form-input">
           <label htmlFor="lobbyId">Lobby ID:</label>
           <input
-            onChange={(e) => setIdQuery(e.target.value)}
-            value={idQuery}
+            onChange={(e) => setroomIdQuery(e.target.value)}
+            value={roomIdQuery}
             id="lobbyId"
             placeholder="e.g 7dec3064-83ae-43f0-8b8e-ak529f5b68c3"
             type="text"
