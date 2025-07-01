@@ -11,25 +11,25 @@ function JoinGame() {
   let playerId = useClientId();
 
   // -----------------------------
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    socket.emit("user_disconnect", { id: localStorage.getItem("clientId") });
-    setIsInLobby(false);
+  // useEffect(() => {
+  //   socket.emit("user_disconnect", { id: localStorage.getItem("clientId") });
+  //   setIsInLobby(false);
 
-    const blockNav = () => {
-      const path = window.location.pathname;
+  //   const blockNav = () => {
+  //     const path = window.location.pathname;
 
-      if (path === `/lobby/${123}`) {
-        navigate("/join_lobby", { replace: true });
-      }
-    };
+  //     if (path === `/lobby/${123}`) {
+  //       navigate("/join_lobby", { replace: true });
+  //     }
+  //   };
 
-    window.addEventListener("popstate", blockNav);
+  //   window.addEventListener("popstate", blockNav);
 
-    //this gotta update players state as well
-    // useUpdateRoom(id, players);
-  }, [location, navigate]);
+  //   //this gotta update players state as well
+  //   // useUpdateRoom(id, players);
+  // }, [location, navigate]);
 
   // -----------------------------
 
