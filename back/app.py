@@ -62,6 +62,8 @@ def on_join(data):
         db.session.add(user)
         db.session.commit()
 
+        
+
     join_room(room)
 
     emit('set_host_id', host_id)
@@ -69,16 +71,21 @@ def on_join(data):
 
 @socketio.on('playerName_update')
 def on_update(data):
-    user_id = data.get('playerId')
-    username = data.get('username')
+    user_id = data['playerId']
+    username = data['username']
+
+    print(user_id,username)
 
     if not user_id or not username:
         emit('error', {'message': 'Missing playerId or username'})
         return
 
     user = db.session.query(User).filter_by(id=user_id).first()
+
+    print(user)
+
     if not user:
-        emit('error', {'message': 'User not found'})
+        emit('no_user', {'message': 'User not found'})
         return
 
     user.associated_username = username

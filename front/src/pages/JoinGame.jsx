@@ -6,7 +6,8 @@ import { AppContext } from "../contexts/AppContext";
 function JoinGame() {
   const [roomIdQuery, setroomIdQuery] = useState("");
   const [username, setUsername] = useState("");
-  const { useClientId, setIsInLobby, isInLobby } = useContext(AppContext);
+  const { useClientId, setIsInLobby, isInLobby, setPlayers } =
+    useContext(AppContext);
   const navigate = useNavigate();
   let playerId = useClientId();
 
@@ -54,6 +55,18 @@ function JoinGame() {
         if (!isInLobby) {
           setIsInLobby(true);
           navigate(`/lobby/${roomIdQuery}`);
+
+          // socket.emit("get_room", { roomIdQuery });
+          // socket.on("rooms_info", (data) => {
+          //   const playersInfo = data.userSids.map((sid, index) => ({
+          //     roomId: data.roomId,
+          //     id: data.userIds[index],
+          //     sid: sid,
+          //     nickName: data.userNicknames[index] || "No Username",
+          //   }));
+          //   console.log(playersInfo);
+          //   setPlayers(playersInfo);
+          // });
         }
       });
     } catch (err) {

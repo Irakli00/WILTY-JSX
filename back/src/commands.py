@@ -29,7 +29,7 @@ def populate_db_command():
     lobby2.create()
     lobby3.create()
     
-    user1 = User(id="123", associated_username='TEST 0',sid='000000',room_id='123')
-    user2 = User(id="456", associated_username='TEST 1',sid='222222',room_id='123')
+    user1 = User(id="123", associated_username='TEST 0',sid='000000',room_id='000')
+    user2 = User(id="456", associated_username='TEST 1',sid='222222',room_id='000')
     user1.create()
     user2.create()
