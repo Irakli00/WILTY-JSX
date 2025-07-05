@@ -10,8 +10,6 @@ function JoinGame() {
   const navigate = useNavigate();
   let playerId = useClientId();
 
-  // -ADD STORY TIME-
-
   // -----------------------------
   // const location = useLocation();
 

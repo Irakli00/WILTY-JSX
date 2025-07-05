@@ -3,6 +3,7 @@ from flask import request
 from src import create_app
 from flask_socketio import SocketIO
 from flask_socketio import join_room, leave_room, send, emit
+from datetime import date,timedelta
 
 from src.extensions import db
 from src.models import User, Active_lobby
@@ -12,6 +13,22 @@ flask_app = create_app()
 CORS(flask_app,origins="*")
 
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
+
+@socketio.on('init')
+def on_init(data):
+    today = date.today()
+    
+    lobbies = db.session.query(Active_lobby).filter(Active_lobby.deleted_at<=today).all()
+
+    lobby_members = [user for lobby in lobbies for user in lobby.users] #lol
+
+    for member in lobby_members:
+        member.room_id = None
+        db.session.commit()
+
+    for lobby in lobbies:
+        db.session.delete(lobby)
+        db.session.commit()
 
 
 @socketio.on('join_lobby')
@@ -25,8 +42,6 @@ def on_join(data):
     sid = request.sid
     user_id = data['playerId']
     room_members = socketio.server.manager.rooms['/'].get(room, set())
-
-    print(data)
 
     player = {
         'username':username,
@@ -92,12 +107,16 @@ def handle_get_sid():
 @socketio.on('get_room')
 def handle_get_room(data):
     room = data['roomId']
-    namespace = '/'  # default namespace
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
 
     if not lobby:
-        lobby = Active_lobby(lobby_id=room)
+        delta = timedelta(days=1)
+        created_at = date.today()
+        deleted_at = created_at + delta
+
+        lobby = Active_lobby(lobby_id=room,created_at=created_at, deleted_at=deleted_at)
+
         db.session.add(lobby)
         db.session.commit()
 
@@ -115,7 +134,6 @@ def handle_start_game(data):
 @socketio.on('open_card')
 def handle_card_oppened(data):
     room = data['roomId']
-    print(data['playerToRead'],request.sid)
 
     if data['playerToRead'] == request.sid:
         emit('card_oppened', {'roomId': room}, to=room)

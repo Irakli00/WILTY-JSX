@@ -1,6 +1,4 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-
-
+# from werkzeug.security import generate_password_hash, check_password_hash
 from src.extensions import db
 from src.models.base import BaseModel
 
@@ -10,4 +8,6 @@ class Active_lobby(BaseModel):
 
     id = db.Column(db.Integer, primary_key=True)
     lobby_id = db.Column(db.String, unique=True)
+    created_at = db.Column(db.String)
+    deleted_at = db.Column(db.String)
     users = db.relationship("User", back_populates="lobby")

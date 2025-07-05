@@ -18,12 +18,11 @@ def init_db_command():
     click.echo("Database created")
 
 
-
 @click.command("populate_db")
 @with_appcontext
 def populate_db_command():
     click.echo("populating db")
-    lobby1 = Active_lobby(lobby_id='123')
-    user2 = User(id="123", associated_username='TEST',sid='111111')
+    lobby1 = Active_lobby(lobby_id='123',created_at='2025-01-01',deleted_at='2025-07-05')
+    user2 = User(id="123", associated_username='TEST',sid='111111',room_id='123')
     lobby1.create()
     user2.create()

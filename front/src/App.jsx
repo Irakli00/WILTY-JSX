@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
+import { socket } from "./socket";
 
 import "./index.css";
 
@@ -17,6 +19,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useEffect(() => {
+    socket.emit("init", { m: "hello" });
+
+    return () => {};
+  }, []);
+
   return <RouterProvider router={router}></RouterProvider>;
 }
 
