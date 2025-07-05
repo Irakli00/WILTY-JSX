@@ -15,7 +15,7 @@ CORS(flask_app,origins="*")
 socketio = SocketIO(flask_app, cors_allowed_origins="*")
 
 @socketio.on('init')
-def on_init(data):
+def on_init():
     today = date.today()
     
     lobbies = db.session.query(Active_lobby).filter(Active_lobby.deleted_at<=today).all()

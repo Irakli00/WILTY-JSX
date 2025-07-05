@@ -16,13 +16,17 @@ const router = createBrowserRouter([
   { path: "/join_lobby", element: <JoinGame></JoinGame> },
   { path: "/lobby/:roomId/game", element: <CardRead></CardRead> },
   { path: "/lobby/:roomId/game-end", element: <GameEnd></GameEnd> },
+
+  // { path: "*", element: <NotFoundPage /> },
 ]);
 
 function App() {
   useEffect(() => {
-    socket.emit("init", { m: "hello" });
+    socket.emit("init");
 
-    return () => {};
+    return () => {
+      socket.off("init");
+    };
   }, []);
 
   return <RouterProvider router={router}></RouterProvider>;
