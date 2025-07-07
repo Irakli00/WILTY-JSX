@@ -30,7 +30,6 @@ def on_init():
         db.session.delete(lobby)
         db.session.commit()
 
-
 @socketio.on('join_lobby')
 def on_join(data):
     host_id = None
@@ -148,9 +147,7 @@ def handle_card_oppened(data):
         emit('card_closed', {'roomId': room}, to=room)
 
 @socketio.on('current_to_read')
-def handle_current_player(data):
-    # print(data['players'][data['turn']], request.sid)
-    
+def handle_current_player(data):    
     emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
 
 @socketio.on('next_round')

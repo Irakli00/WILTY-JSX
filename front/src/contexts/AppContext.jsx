@@ -54,6 +54,14 @@ function useClientId() {
   return clientId;
 }
 
+function useGetSid() {
+  const [sid, setSid] = useState();
+  socket.emit("get_sid");
+  socket.once("client_sid", (data) => setSid(data.sid));
+
+  return sid;
+}
+
 function useIsHost(hostID) {
   const [isHost, setIsHost] = useState(false);
 
@@ -121,6 +129,7 @@ export function AppProvider({ children }) {
         players,
         setPlayers,
         useClientId,
+        useGetSid,
         isInLobby,
         setIsInLobby,
         hostID,

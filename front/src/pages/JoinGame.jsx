@@ -53,6 +53,7 @@ function JoinGame() {
       const roomId = roomIdQuery;
 
       socket.emit("join_lobby", { username, roomId, playerId });
+
       socket.once("joined_lobby", () => {
         if (!isInLobby) {
           setIsInLobby(true);
