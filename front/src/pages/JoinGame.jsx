@@ -50,23 +50,24 @@ function JoinGame() {
         alert("Lobby is full!");
       });
 
-      socket.emit("join_lobby", { username, roomId: roomIdQuery, playerId });
+      const roomId = roomIdQuery;
+
+      socket.emit("join_lobby", { username, roomId, playerId });
       socket.once("joined_lobby", () => {
         if (!isInLobby) {
           setIsInLobby(true);
           navigate(`/lobby/${roomIdQuery}`);
 
-          // socket.emit("get_room", { roomIdQuery });
-          // socket.on("rooms_info", (data) => {
-          //   const playersInfo = data.userSids.map((sid, index) => ({
-          //     roomId: data.roomId,
-          //     id: data.userIds[index],
-          //     sid: sid,
-          //     nickName: data.userNicknames[index] || "No Username",
-          //   }));
-          //   console.log(playersInfo);
-          //   setPlayers(playersInfo);
-          // });
+          socket.emit("get_room", { roomIdQuery });
+          socket.on("rooms_info", (data) => {
+            const playersInfo = data.userSids.map((sid, index) => ({
+              roomId: data.roomId,
+              id: data.userIds[index],
+              sid: sid,
+              nickName: data.userNicknames[index] || "No Username",
+            }));
+            setPlayers(playersInfo);
+          });
         }
       });
     } catch (err) {

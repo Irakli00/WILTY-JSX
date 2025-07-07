@@ -56,13 +56,11 @@ def on_join(data):
         return
     
     user = db.session.query(User).filter_by(id=user_id).first()
-
+    
     if not user:
         user = User(id=user_id, associated_username=username, room_id=room,lobby=lobby,sid=sid)
         db.session.add(user)
         db.session.commit()
-
-        
 
     join_room(room)
 
@@ -74,15 +72,11 @@ def on_update(data):
     user_id = data['playerId']
     username = data['username']
 
-    print(user_id,username)
-
     if not user_id or not username:
         emit('error', {'message': 'Missing playerId or username'})
         return
 
     user = db.session.query(User).filter_by(id=user_id).first()
-
-    print(user)
 
     if not user:
         emit('no_user', {'message': 'User not found'})
@@ -90,8 +84,6 @@ def on_update(data):
 
     user.associated_username = username
     db.session.commit()
-
-    print(f"Username updated: {user.associated_username}")
 
     emit('username_updated', {'username': user.associated_username, 'sid': user.sid}, broadcast=True)
 
@@ -113,8 +105,12 @@ def handle_get_sid():
 
 @socketio.on('get_room')
 def handle_get_room(data):
-    room = data['roomId']
+    room = data.get("roomId") or data.get('roomIdQuery') #idunno
 
+    # if not room:
+    #     print("No")
+    #     return
+    
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
 
     if not lobby:

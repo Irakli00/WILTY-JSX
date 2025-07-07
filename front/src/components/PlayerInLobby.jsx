@@ -21,7 +21,9 @@ function PlayerInLobby({
   const { roomId } = useParams();
 
   function handleClick() {
-    playerId === players[i].id && setUsernameFormOppened((p) => !p);
+    if (!players.length) return;
+
+    playerId === players[0].id && setUsernameFormOppened((p) => !p);
   }
 
   function updateUsername(data) {
