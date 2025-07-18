@@ -11,6 +11,7 @@ function PlayerInLobby({
   sid = null,
   defaultStyle = null,
 }) {
+  //
   const { styles, hostID, useClientId, players } = useContext(AppContext);
   const [usernameFormOppened, setUsernameFormOppened] = useState(
     !players.length
