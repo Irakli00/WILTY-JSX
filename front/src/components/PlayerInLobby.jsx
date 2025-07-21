@@ -19,7 +19,7 @@ function PlayerInLobby({
 
   let playerId = useClientId();
   const { roomId } = useParams();
-
+  //
   function handleClick() {
     if (!players.length) return;
 
