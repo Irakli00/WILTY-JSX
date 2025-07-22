@@ -3,20 +3,26 @@ import { useEffect } from "react";
 import { socket } from "./socket";
 
 import "./index.css";
-
+import RootLayout from "./pages/RootLayout.jsx";
 import StartPage from "./pages/StartPage";
 import Lobby from "./pages/Lobby";
 import CardRead from "./pages/CardRead";
 import GameEnd from "./pages/GameEnd";
 import JoinGame from "./pages/JoinGame";
 
+// router.js or same file
 const router = createBrowserRouter([
-  { path: "/", element: <StartPage></StartPage> },
-  { path: "/lobby/:roomId", element: <Lobby></Lobby> },
-  { path: "/join_lobby", element: <JoinGame></JoinGame> },
-  { path: "/lobby/:roomId/game", element: <CardRead></CardRead> },
-  { path: "/lobby/:roomId/game-end", element: <GameEnd></GameEnd> },
-
+  {
+    path: "/",
+    element: <RootLayout />, // <- route wrapper
+    children: [
+      { path: "", element: <StartPage /> },
+      { path: "lobby/:roomId", element: <Lobby /> },
+      { path: "join_lobby", element: <JoinGame /> },
+      { path: "lobby/:roomId/game", element: <CardRead /> },
+      { path: "lobby/:roomId/game-end", element: <GameEnd /> },
+    ],
+  },
   // { path: "*", element: <NotFoundPage /> },
 ]);
 
@@ -29,7 +35,11 @@ function App() {
     };
   }, []);
 
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>;
+    </>
+  );
 }
 
 export default App;
