@@ -33,6 +33,7 @@ def on_init():
 @socketio.on('join_lobby')
 def on_join(data):
     host_id = None
+
     if host_id == None:
         host_id = request.sid
     
@@ -55,7 +56,14 @@ def on_join(data):
         return
     
     user = db.session.query(User).filter_by(id=user_id).first()
-    
+    # print('u--->',user)
+
+    if user:
+        user.associated_username = username
+        print(username, user.associated_username)
+        db.session.commit()
+
+
     if not user:
         user = User(id=user_id, associated_username=username, room_id=room,lobby=lobby,sid=sid)
         db.session.add(user)

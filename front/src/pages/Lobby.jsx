@@ -24,6 +24,7 @@ function Lobby() {
     const handleBeforeUnload = () => {
       socket.emit("user_disconnect", { id: playerId });
       setIsInLobby(false);
+      console.log("disconected");
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
