@@ -17,8 +17,8 @@ const router = createBrowserRouter([
     element: <RootLayout />, // <- route wrapper
     children: [
       { path: "", element: <StartPage /> },
-      { path: "lobby/:roomId", element: <Lobby /> },
       { path: "join_lobby", element: <JoinGame /> },
+      { path: "lobby/:roomId", element: <Lobby /> },
       { path: "lobby/:roomId/game", element: <CardRead /> },
       { path: "lobby/:roomId/game-end", element: <GameEnd /> },
     ],
