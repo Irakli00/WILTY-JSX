@@ -60,7 +60,6 @@ def on_join(data):
 
     if user:
         user.associated_username = username
-        print(username, user.associated_username)
         db.session.commit()
 
 

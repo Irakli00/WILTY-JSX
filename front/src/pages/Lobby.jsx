@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { socket } from "../socket";
 
@@ -19,22 +19,28 @@ function Lobby() {
   // -----------------------------
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
+  // console.log(hostID, playerId);
+  let location = useLocation();
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      socket.emit("user_disconnect", { id: playerId });
-      setIsInLobby(false);
-      console.log("disconected");
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     socket.emit("user_disconnect", { id: playerId });
+  //     setIsInLobby(false);
+  //     console.log(location);
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [playerId, socket]);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   // -----------------------------
+
+  useEffect(() => {
+    console.log("Route changed to:", location.pathname);
+  }, [location]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
@@ -42,7 +48,6 @@ function Lobby() {
         navigate(`/lobby/${roomId}/game`);
       }
     };
-
     socket.on("game_started", handleGameStarted);
 
     return () => {
