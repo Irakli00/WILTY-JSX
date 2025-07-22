@@ -7,12 +7,13 @@ import cardBlue from "../imgs/cardBlue.png";
 import { AppContext } from "../contexts/AppContext";
 
 function Card() {
-  const { players, turn, stories } = useContext(AppContext);
+  const { players, turn, stories, useClientId } = useContext(AppContext);
   const [flipped, setFlipped] = useState(false);
 
   const { roomId } = useParams();
-  const playerToRead = players[turn].sid;
+  const playerToRead = players[turn].id;
   const story = stories[turn];
+  let playerId = useClientId();
 
   useEffect(() => {
     function handleFlip() {
@@ -28,7 +29,7 @@ function Card() {
   return (
     <div
       onClick={() => {
-        socket.emit("open_card", { roomId, playerToRead });
+        socket.emit("open_card", { roomId, playerToRead, clickedBy: playerId });
       }}
     >
       <motion.div

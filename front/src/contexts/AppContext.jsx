@@ -54,26 +54,6 @@ function useClientId() {
   return clientId;
 }
 
-function useIsHost(hostId) {
-  const [isHost, setIsHost] = useState(false);
-
-  useEffect(() => {
-    let id = localStorage.getItem("clientId");
-
-    const handleClientId = () => {
-      setIsHost(hostId === id);
-    };
-
-    socket.on("client_sid", handleClientId);
-
-    return () => {
-      socket.off("client_sid", handleClientId);
-    };
-  }, [hostId]);
-
-  return isHost;
-}
-
 function useUpdateRoom(roomId, players) {
   const { setPlayers, setHostId } = useContext(AppContext);
 
@@ -112,7 +92,7 @@ export function AppProvider({ children }) {
     "For a whole summer I fed a goose at my local park every day at the same time. One day it followed me home and I had to distract it with a flapjack to escape.",
   ]);
   const [hostId, setHostId] = useState(null);
-  const SECONDS_IN_TURN = 300;
+  const SECONDS_IN_TURN = 10;
 
   return (
     <AppContext.Provider
@@ -131,7 +111,6 @@ export function AppProvider({ children }) {
         setStories,
         styles: dynamicColors,
 
-        useIsHost,
         useUpdateRoom,
       }}
     >

@@ -137,8 +137,9 @@ def handle_start_game(data):
 @socketio.on('open_card')
 def handle_card_oppened(data):
     room = data['roomId']
+    player_to_read =data['playerToRead']
 
-    if data['playerToRead'] == request.sid:
+    if  player_to_read== data['clickedBy']:
         emit('card_oppened', {'roomId': room}, to=room)
 
 @socketio.on('close_card')
@@ -149,7 +150,9 @@ def handle_card_oppened(data):
 
 @socketio.on('current_to_read')
 def handle_current_player(data):    
-    emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
+    print(data)
+    # emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
+    emit('now_reads',{'currentPlayer':data['player']['id']})
 
 @socketio.on('next_round')
 def handle_current_player(data):

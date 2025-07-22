@@ -9,9 +9,10 @@ import Button from "../components/Button";
 import { socket } from "../socket";
 
 function CardRead() {
-  const { players, turn, setTurn, SECONDS_IN_TURN, hostId, useIsHost } =
+  const { players, turn, setTurn, SECONDS_IN_TURN, hostId, useClientId } =
     useContext(AppContext);
   const { roomId } = useParams();
+  let playerId = useClientId();
 
   const [seconds, setSeconds] = useState(SECONDS_IN_TURN);
   const [showCard, setShowCard] = useState(true);
@@ -20,7 +21,6 @@ function CardRead() {
 
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [clientID, setClientID] = useState(null);
-  const isHost = useIsHost(hostId);
 
   useEffect(() => {
     if (roundIsOver) {
@@ -37,11 +37,13 @@ function CardRead() {
     };
 
     socket.on("next_round_starts", handleNextRoundStarts);
-    socket.emit("current_to_read", { players, turn: turn + 1 });
+    socket.emit("current_to_read", {
+      player: players[turn + 1],
+      turn: turn + 1,
+    });
 
     const handleNowReads = (x) => {
       !isLastRound ? setCurrentPlayer(x.currentPlayer) : setCurrentPlayer(null);
-      setClientID(x.clientID);
     };
 
     socket.on("now_reads", handleNowReads);
@@ -66,16 +68,17 @@ function CardRead() {
       <div className="layout-container mt-[25dvh] relative">
         <AnimatePresence>
           {showCard && <Card key={turn}></Card>}
-          {roundIsOver && !isLastRound && clientID === currentPlayer ? (
+          {roundIsOver && !isLastRound && playerId === currentPlayer ? (
             <Button
               className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
               onClick={() => socket.emit("next_round", { roomId })}
             >
-              {/* apply animation latter */}
               Your Turn
             </Button>
           ) : (
-            roundIsOver && isLastRound && isHost && <Button>vsio</Button>
+            roundIsOver &&
+            isLastRound &&
+            hostId === playerId && <Button>vsio</Button>
           )}
         </AnimatePresence>
       </div>

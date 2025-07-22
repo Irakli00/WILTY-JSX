@@ -8,11 +8,9 @@ import PlayerInLobby from "../components/PlayerInLobby";
 
 function Lobby() {
   const { roomId } = useParams();
-  const { players, hostId, setIsInLobby, useIsHost, useUpdateRoom, styles } =
+  const { players, hostId, setIsInLobby, useUpdateRoom, styles } =
     useContext(AppContext);
   const playersAmmount = players.length;
-
-  const isHost = useIsHost(hostId);
 
   const navigate = useNavigate();
 
@@ -41,7 +39,7 @@ function Lobby() {
   // useEffect(() => {
   //   console.log("Route changed to:", location.pathname);
   // }, [location]);
-
+  // console.log(isHost);
   useEffect(() => {
     const handleGameStarted = (data) => {
       if (data.roomId === roomId) {
@@ -81,7 +79,7 @@ function Lobby() {
           })}
         </div>
 
-        {isHost && playersAmmount > 1 && (
+        {hostId == playerId && playersAmmount > 1 && (
           <Link
             onClick={() => {
               socket.emit("start_game", { roomId });
