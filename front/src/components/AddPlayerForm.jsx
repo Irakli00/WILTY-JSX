@@ -49,7 +49,7 @@ function AddPlayerForm({
             className="cursor-pointer text-center bg-white px-1  rounded  text-green-500 font-bold h-[22px]"
             onClick={() => {
               if (playerNameUpdate) {
-                socket.emit("playerName_update", {
+                socket.emit("username_update", {
                   playerId,
                   username: player,
                 });

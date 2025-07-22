@@ -8,10 +8,10 @@ import { useParams } from "react-router-dom";
 function PlayerInLobby({
   i,
   playerName = null,
-  sid = null,
+  id = null,
   defaultStyle = null,
 }) {
-  const { styles, hostID, useClientId, players } = useContext(AppContext);
+  const { styles, hostId, useClientId, players } = useContext(AppContext);
   const [usernameFormOppened, setUsernameFormOppened] = useState(
     !players.length
   );
@@ -67,7 +67,7 @@ function PlayerInLobby({
       ) : (
         <div className="w-full flex justify-between">
           <p>
-            {playerName} {hostID === sid && "(host)"}
+            {playerName} {hostId == id && "(host)"}
           </p>
 
           {addStoryFormOppened ? (

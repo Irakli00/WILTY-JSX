@@ -54,51 +54,42 @@ function useClientId() {
   return clientId;
 }
 
-function useGetSid() {
-  const [sid, setSid] = useState();
-  socket.emit("get_sid");
-  socket.once("client_sid", (data) => setSid(data.sid));
-
-  return sid;
-}
-
-function useIsHost(hostID) {
+function useIsHost(hostId) {
   const [isHost, setIsHost] = useState(false);
 
   useEffect(() => {
-    socket.emit("get_sid");
+    let id = localStorage.getItem("clientId");
 
-    const handleClientSID = (x) => {
-      setIsHost(hostID === x.sid);
+    const handleClientId = () => {
+      setIsHost(hostId === id);
     };
 
-    socket.on("client_sid", handleClientSID);
+    socket.on("client_sid", handleClientId);
 
     return () => {
-      socket.off("client_sid", handleClientSID);
+      socket.off("client_sid", handleClientId);
     };
-  }, [hostID]);
+  }, [hostId]);
 
   return isHost;
 }
 
 function useUpdateRoom(roomId, players) {
-  const { setPlayers, setHostID } = useContext(AppContext);
+  const { setPlayers, setHostId } = useContext(AppContext);
 
   useEffect(() => {
     if (!roomId) return;
 
     const handleRoomsInfo = (data) => {
-      const playersInfo = data.userSids.map((sid, index) => ({
+      const playersInfo = data.userIds.map((_, index) => ({
         roomId: data.roomId,
         id: data.userIds[index],
-        sid: sid,
         nickName: data.userNicknames[index] || "No Username",
       }));
 
       if (data.roomId === roomId && data.roomId !== null) {
         setPlayers(playersInfo);
-        setHostID(data.userSids[0]);
+        setHostId(data.userIds[0]);
       }
     };
 
@@ -120,7 +111,7 @@ export function AppProvider({ children }) {
     "For about a year, I carried a teaspoon in my pocket just in case. It came in handy multiple times.",
     "For a whole summer I fed a goose at my local park every day at the same time. One day it followed me home and I had to distract it with a flapjack to escape.",
   ]);
-  const [hostID, setHostID] = useState(null);
+  const [hostId, setHostId] = useState(null);
   const SECONDS_IN_TURN = 300;
 
   return (
@@ -129,11 +120,10 @@ export function AppProvider({ children }) {
         players,
         setPlayers,
         useClientId,
-        useGetSid,
         isInLobby,
         setIsInLobby,
-        hostID,
-        setHostID,
+        hostId,
+        setHostId,
         turn,
         SECONDS_IN_TURN,
         setTurn,

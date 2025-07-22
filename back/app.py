@@ -35,24 +35,22 @@ def on_join(data):
     host_id = None
 
     if host_id == None:
-        host_id = request.sid
+        host_id = data['playerId']
     
     username = data['username']
     room = data['roomId']
-    sid = request.sid
     user_id = data['playerId']
     room_members = socketio.server.manager.rooms['/'].get(room, set())
 
     player = {
         'username':username,
-        'sid':sid,
         'user_id':user_id  
     }
 
     lobby = db.session.query(Active_lobby).filter_by(lobby_id=room).first()
 
     if len(room_members) >= 6:
-        emit('room_full', {'message': 'Room is full'}, to=sid)
+        emit('room_full', {'message': 'Room is full'})
         return
     
     user = db.session.query(User).filter_by(id=user_id).first()
@@ -64,7 +62,7 @@ def on_join(data):
 
 
     if not user:
-        user = User(id=user_id, associated_username=username, room_id=room,lobby=lobby,sid=sid)
+        user = User(id=user_id, associated_username=username, room_id=room,lobby=lobby,)
         db.session.add(user)
         db.session.commit()
 
@@ -73,7 +71,7 @@ def on_join(data):
     emit('set_host_id', host_id)
     emit('joined_lobby',{'player':player}, to=room)
 
-@socketio.on('playerName_update')
+@socketio.on('username_update')
 def on_update(data):
     user_id = data['playerId']
     username = data['username']
@@ -91,11 +89,10 @@ def on_update(data):
     user.associated_username = username
     db.session.commit()
 
-    emit('username_updated', {'username': user.associated_username, 'sid': user.sid}, broadcast=True)
+    emit('username_updated', {'username': user.associated_username,}, broadcast=True)
 
 @socketio.on('user_disconnect')
 def on_disconnect(data):
-    sid = request.sid
     user_id=data['id']
     user = db.session.query(User).filter_by(id=user_id).first()
 
@@ -103,11 +100,8 @@ def on_disconnect(data):
         print(f"User {user.associated_username} disconnected.")
         db.session.delete(user)
         db.session.commit()
-    emit('user_disconnected',{'user':sid},)
+    emit('user_disconnected',{'user':user_id},)
 
-@socketio.on('get_sid')
-def handle_get_sid():
-    emit('client_sid',{'sid':request.sid})
 
 @socketio.on('get_room')
 def handle_get_room(data):
@@ -130,10 +124,10 @@ def handle_get_room(data):
         db.session.commit()
 
     player_usernames=[user.associated_username for user in lobby.users]
-    room_members = [member.sid for member in lobby.users]
+    # room_members = [member.sid for member in lobby.users]
     user_ids = [member.id for member in lobby.users]
     
-    emit('rooms_info', {'roomId': room, 'userSids': room_members, 'userNicknames':player_usernames,'userIds':user_ids})
+    emit('rooms_info', {'roomId': room,  'userNicknames':player_usernames,'userIds':user_ids})
 
 @socketio.on('start_game')
 def handle_start_game(data):

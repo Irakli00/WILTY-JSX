@@ -9,7 +9,7 @@ import Button from "../components/Button";
 import { socket } from "../socket";
 
 function CardRead() {
-  const { players, turn, setTurn, SECONDS_IN_TURN, hostID, useIsHost } =
+  const { players, turn, setTurn, SECONDS_IN_TURN, hostId, useIsHost } =
     useContext(AppContext);
   const { roomId } = useParams();
 
@@ -20,7 +20,7 @@ function CardRead() {
 
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [clientID, setClientID] = useState(null);
-  const isHost = useIsHost(hostID);
+  const isHost = useIsHost(hostId);
 
   useEffect(() => {
     if (roundIsOver) {
@@ -69,7 +69,7 @@ function CardRead() {
           {roundIsOver && !isLastRound && clientID === currentPlayer ? (
             <Button
               className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
-              onClick={() => socket.emit("next_round", { roomId})}
+              onClick={() => socket.emit("next_round", { roomId })}
             >
               {/* apply animation latter */}
               Your Turn

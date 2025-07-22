@@ -8,18 +8,18 @@ import PlayerInLobby from "../components/PlayerInLobby";
 
 function Lobby() {
   const { roomId } = useParams();
-  const { players, hostID, setIsInLobby, useIsHost, useUpdateRoom, styles } =
+  const { players, hostId, setIsInLobby, useIsHost, useUpdateRoom, styles } =
     useContext(AppContext);
   const playersAmmount = players.length;
 
-  const isHost = useIsHost(hostID);
+  const isHost = useIsHost(hostId);
 
   const navigate = useNavigate();
 
   // -----------------------------
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
-  // console.log(hostID, playerId);
+  // console.log(hostId, playerId);
   let location = useLocation();
 
   // useEffect(() => {
@@ -38,9 +38,9 @@ function Lobby() {
 
   // -----------------------------
 
-  useEffect(() => {
-    console.log("Route changed to:", location.pathname);
-  }, [location]);
+  // useEffect(() => {
+  //   console.log("Route changed to:", location.pathname);
+  // }, [location]);
 
   useEffect(() => {
     const handleGameStarted = (data) => {
@@ -69,13 +69,13 @@ function Lobby() {
             <PlayerInLobby defaultStyle={styles[0]} key={0}></PlayerInLobby>
           )}
 
-          {players.map(({ nickName, sid }, i) => {
+          {players.map(({ nickName, id }, i) => {
             return (
               <PlayerInLobby
-                key={sid}
+                key={id}
                 i={i}
                 playerName={nickName}
-                sid={sid}
+                id={id}
               ></PlayerInLobby>
             );
           })}

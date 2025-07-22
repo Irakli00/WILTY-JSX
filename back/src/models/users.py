@@ -11,7 +11,6 @@ class User(BaseModel, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.String, primary_key=True)  # playerId
-    sid = db.Column(db.String)
     associated_username = db.Column(db.String)
 
     room_id = db.Column(db.String, db.ForeignKey("active_lobbies.lobby_id"))

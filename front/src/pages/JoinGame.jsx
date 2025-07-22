@@ -60,10 +60,9 @@ function JoinGame() {
 
         socket.emit("get_room", { roomIdQuery });
         socket.on("rooms_info", (data) => {
-          const playersInfo = data.userSids.map((sid, index) => ({
+          const playersInfo = data.userIds.map((_, index) => ({
             roomId: data.roomId,
             id: data.userIds[index],
-            sid: sid,
             nickName: data.userNicknames[index] || "No Username",
           }));
           setPlayers(playersInfo);
