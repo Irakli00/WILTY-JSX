@@ -18,7 +18,7 @@ function Lobby() {
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
   // console.log(hostId, playerId);
-  let location = useLocation();
+  // let location = useLocation();
 
   // useEffect(() => {
   //   const handleBeforeUnload = () => {

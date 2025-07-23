@@ -27,7 +27,7 @@ function PlayerInLobby({
   }
 
   function updateUsername(data) {
-    socket.emit("playerName_update", {
+    socket.emit("username_update", {
       playerId,
       username: data,
     });
