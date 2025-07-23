@@ -7,12 +7,12 @@ import cardBlue from "../imgs/cardBlue.png";
 import { AppContext } from "../contexts/AppContext";
 
 function Card() {
-  const { players, turn, stories, useClientId } = useContext(AppContext);
+  const { players, turn, randomStories, useClientId } = useContext(AppContext);
   const [flipped, setFlipped] = useState(false);
 
   const { roomId } = useParams();
   const playerToRead = players[turn].id;
-  const story = stories[turn];
+  const story = randomStories[turn];
   let playerId = useClientId();
 
   useEffect(() => {

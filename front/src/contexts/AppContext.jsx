@@ -65,6 +65,7 @@ function useUpdateRoom(roomId, players) {
         roomId: data.roomId,
         id: data.userIds[index],
         nickName: data.userNicknames[index] || "No Username",
+        story: data.userStories[index],
       }));
 
       if (data.roomId === roomId && data.roomId !== null) {
@@ -86,7 +87,7 @@ export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
   const [isInLobby, setIsInLobby] = useState(false);
-  const [stories, setStories] = useState([
+  const [randomStories, setRandomStories] = useState([
     "I once had to translate between two angry customers at a supermarket who were arguing over a dropped watermelon.",
     "For about a year, I carried a teaspoon in my pocket just in case. It came in handy multiple times.",
     "For a whole summer I fed a goose at my local park every day at the same time. One day it followed me home and I had to distract it with a flapjack to escape.",
@@ -107,8 +108,8 @@ export function AppProvider({ children }) {
         turn,
         SECONDS_IN_TURN,
         setTurn,
-        stories,
-        setStories,
+        randomStories,
+        setRandomStories,
         styles: dynamicColors,
 
         useUpdateRoom,

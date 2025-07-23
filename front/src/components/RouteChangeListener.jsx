@@ -17,6 +17,7 @@ function RouteChangeListener() {
 
     return () => {
       // optional cleanup
+      socket.off("user_disconnect");
     };
   }, [location]);
 

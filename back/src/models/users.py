@@ -15,6 +15,7 @@ class User(BaseModel, UserMixin):
 
     room_id = db.Column(db.String, db.ForeignKey("active_lobbies.lobby_id"))
     lobby = db.relationship("Active_lobby", back_populates="users")
+    story =  db.Column(db.String)
 
     # _password = db.Column(db.String)
 

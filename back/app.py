@@ -91,6 +91,16 @@ def on_update(data):
 
     emit('username_updated', {'username': user.associated_username,}, broadcast=True)
 
+@socketio.on('add_story')
+def on_story_add(data):
+    user_id = data['playerId']
+    user = db.session.query(User).filter_by(id=user_id).first()
+    user.story = data['story']
+    db.session.commit()
+    
+    emit('story_added', {'username': user.associated_username,}, broadcast=True)
+
+
 @socketio.on('user_disconnect')
 def on_disconnect(data):
     user_id=data['id']
@@ -101,7 +111,6 @@ def on_disconnect(data):
         db.session.delete(user)
         db.session.commit()
     emit('user_disconnected',{'user':user_id},)
-
 
 @socketio.on('get_room')
 def handle_get_room(data):
@@ -126,8 +135,9 @@ def handle_get_room(data):
     player_usernames=[user.associated_username for user in lobby.users]
     # room_members = [member.sid for member in lobby.users]
     user_ids = [member.id for member in lobby.users]
+    user_stories = [user.story for user in lobby.users]
     
-    emit('rooms_info', {'roomId': room,  'userNicknames':player_usernames,'userIds':user_ids})
+    emit('rooms_info', {'roomId': room,  'userNicknames':player_usernames,'userIds':user_ids, 'userStories':user_stories})
 
 @socketio.on('start_game')
 def handle_start_game(data):
@@ -150,7 +160,6 @@ def handle_card_oppened(data):
 
 @socketio.on('current_to_read')
 def handle_current_player(data):    
-    print(data)
     # emit('now_reads',{'currentPlayer':data['players'][data['turn']],'clientID':request.sid})
     emit('now_reads',{'currentPlayer':data['player']['id']})
 

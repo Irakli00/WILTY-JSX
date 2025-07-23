@@ -6,7 +6,7 @@ import { AppContext } from "../contexts/AppContext";
 function JoinGame() {
   const [roomIdQuery, setroomIdQuery] = useState("");
   const [username, setUsername] = useState("");
-  const { useClientId, setIsInLobby, isInLobby, setPlayers } =
+  const { useClientId, setIsInLobby, isInLobby, setPlayers, randomStories } =
     useContext(AppContext);
   const navigate = useNavigate();
   let playerId = useClientId();
@@ -64,6 +64,7 @@ function JoinGame() {
             roomId: data.roomId,
             id: data.userIds[index],
             nickName: data.userNicknames[index] || "No Username",
+            story: data.userStories[index],
           }));
           setPlayers(playersInfo);
         });

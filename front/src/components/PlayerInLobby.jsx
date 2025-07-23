@@ -41,6 +41,10 @@ function PlayerInLobby({
     });
   }
 
+  function addStory(data) {
+    socket.emit("add_story", { playerId, story: data });
+  }
+
   return (
     <div className="player" style={defaultStyle ? defaultStyle : styles[i]}>
       <div onClick={handleClick}>
@@ -65,7 +69,7 @@ function PlayerInLobby({
           resetInputStyles="cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]"
         />
       ) : (
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-between items-center">
           <p>
             {playerName} {hostId == id && "(host)"}
           </p>
@@ -73,6 +77,12 @@ function PlayerInLobby({
           {addStoryFormOppened ? (
             <PlayerForm
               onCloseForm={() => setAddStoryFormOppened(false)}
+              onDataRecieved={addStory}
+              formStyles="flex gap-4 bg-none"
+              textInputStyles="bg-transparent border-2 border-solid border-separate"
+              submitInputStyles="cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]"
+              resetInputStyles="cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]"
+              submitBtnValue="Add Story"
             ></PlayerForm>
           ) : (
             <button onClick={() => setAddStoryFormOppened(true)}>
