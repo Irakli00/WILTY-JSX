@@ -85,8 +85,10 @@ function PlayerInLobby({
               submitInputStyles="cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]"
               resetInputStyles="cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]"
               submitBtnValue="Add Story"
+              resetBtnValue="Keep It Random"
             ></PlayerForm>
           ) : (
+            players.length &&
             playerId === players[i].id && (
               <button
                 onClick={() => {
