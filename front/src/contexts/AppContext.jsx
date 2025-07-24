@@ -37,6 +37,15 @@ const dynamicColors = [
   },
 ];
 
+const formStyles = {
+  form: "flex gap-4 bg-none",
+  textInput: "bg-transparent border-2 border-solid border-separate",
+  submitInput:
+    "cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]",
+  resetInput:
+    "cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]",
+};
+
 function useClientId() {
   const [clientId, setClientId] = useState(null);
 
@@ -111,6 +120,7 @@ export function AppProvider({ children }) {
         randomStories,
         setRandomStories,
         styles: dynamicColors,
+        formStyles,
 
         useUpdateRoom,
       }}

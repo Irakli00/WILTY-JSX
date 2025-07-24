@@ -11,7 +11,8 @@ function PlayerInLobby({
   id = null,
   defaultStyle = null,
 }) {
-  const { styles, hostId, useClientId, players } = useContext(AppContext);
+  const { styles, formStyles, hostId, useClientId, players } =
+    useContext(AppContext);
   const [usernameFormOppened, setUsernameFormOppened] = useState(
     !players.length
   );
@@ -64,10 +65,10 @@ function PlayerInLobby({
         <PlayerForm
           onDataRecieved={updateUsername}
           onCloseForm={() => setUsernameFormOppened(false)}
-          formStyles="flex gap-4 bg-none"
-          textInputStyles="bg-transparent border-2 border-solid border-separate"
-          submitInputStyles="cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]"
-          resetInputStyles="cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]"
+          formStyles={formStyles.form}
+          textInputStyles={formStyles.textInput}
+          submitInputStyles={formStyles.submitInput}
+          resetInputStyles={formStyles.resetInput}
         />
       ) : (
         <div className="w-full flex justify-between items-center">
