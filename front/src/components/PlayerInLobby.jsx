@@ -80,10 +80,10 @@ function PlayerInLobby({
             <PlayerForm
               onCloseForm={() => setAddStoryFormOppened(false)}
               onDataRecieved={addStory}
-              formStyles="flex gap-4 bg-none"
-              textInputStyles="bg-transparent border-2 border-solid border-separate"
-              submitInputStyles="cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]"
-              resetInputStyles="cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]"
+              formStyles={formStyles.form}
+              textInputStyles={formStyles.textInput}
+              submitInputStyles={formStyles.submitInput}
+              resetInputStyles={formStyles.resetInput}
               submitBtnValue="Add Story"
               resetBtnValue="Keep It Random"
             ></PlayerForm>
@@ -91,6 +91,7 @@ function PlayerInLobby({
             players.length &&
             playerId === players[i].id && (
               <button
+                className="text-2xl"
                 onClick={() => {
                   setAddStoryFormOppened((p) => !p);
                 }}

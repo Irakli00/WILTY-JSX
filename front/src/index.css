@@ -41,40 +41,50 @@ html {
 
 @layer components {
   .layout-container {
-    @apply max-w-[70%] max-h-[400px] m-auto mt-[18dvh] min-h-[400px] rounded-2xl;
+    @apply max-w-[70%]  m-auto mt-[18dvh] min-h-[400px];
   }
 }
 @layer components {
   .join-lobby-form .join-lobby-form-input {
     @apply flex flex-col gap-3;
   }
+
   .join-lobby-form .join-lobby-form-input label {
-    @apply text-3xl text-white-tint;
+    @apply text-3xl text-white-tint font-semibold tracking-wide;
   }
+
   .join-lobby-form input {
-    @apply p-4 rounded-2xl;
+    @apply p-4 rounded-2xl bg-white/20 text-white border border-white/30 
+           focus:outline-none focus:ring-2 focus:ring-secondary-blue transition-all duration-200;
     font-size: 1.5rem;
   }
+
   .join-lobby-form .join-lobby-form-input input[type="text"]::placeholder {
-    color: #011e2e9f;
+    color: #e2e8f0aa; /* light slate-ish */
   }
+
   .join-lobby-form input[type="submit"] {
-    @apply bg-white transition ease-in-out;
-  }
-  .join-lobby-form input[type="submit"]:hover,
-  .join-lobby-form input[type="submit"]:focus {
-    @apply bg-secondary-blue text-white  cursor-pointer;
+    @apply bg-white text-secondary-blue font-bold text-2xl py-3 px-6 rounded-xl 
+           transition duration-300 ease-in-out hover:bg-secondary-blue 
+           hover:text-white hover:shadow-md cursor-pointer;
   }
 }
+
 @layer components {
   .player {
-    @apply flex items-center  px-6 text-2xl rounded-lg min-h-[80px];
+    @apply flex items-center gap-4 px-6 min-h-[80px] rounded-xl 
+           backdrop-blur-md  
+           transition duration-300 ease-in-out;
   }
 
   .player p {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 1.6rem;
     margin-left: 1.5rem;
+    font-family: "Inter", sans-serif;
+    color: #f9f9f9;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
   }
 }
 

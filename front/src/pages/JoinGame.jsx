@@ -75,9 +75,9 @@ function JoinGame() {
   };
 
   return (
-    <section className="layout-container ">
+    <section className="layout-container">
       <form
-        className="join-lobby-form bg-blue-400 bg-opacity-50 h-[50dvh] p-[40px] flex flex-col gap-24"
+        className="join-lobby-form bg-blue-400 bg-opacity-50 h-[50dvh] p-[40px] flex flex-col gap-24 rounded-3xl shadow-xl"
         onSubmit={handleSubmit}
       >
         <div className="join-lobby-form-input">
@@ -96,7 +96,7 @@ function JoinGame() {
             onChange={(e) => setroomIdQuery(e.target.value)}
             value={roomIdQuery}
             id="lobbyId"
-            placeholder="e.g 7dec3064-83ae-43f0-8b8e-ak529f5b68c3"
+            placeholder="e.g. 7dec3064-83ae-43f0-8b8e-ak529f5b68c3"
             type="text"
           />
         </div>

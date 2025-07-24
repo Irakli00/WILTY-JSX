@@ -6,44 +6,77 @@ export const AppContext = createContext();
 
 const dynamicColors = [
   {
-    border: "#eeedee",
-    background: "#1a6578",
-    color: "#eeedee",
+    border: "#e2e8f0", // light slate
+    background: "#1e3a8a", // deep blue
+    color: "#f8fafc", // near white
   },
   {
-    border: "#011e2e",
-    background: "#2dd14bee",
-    color: "#011e2e",
+    border: "#0f172a", // dark navy
+    background: "#22d3ee", // cyan
+    color: "#0f172a", // contrast dark text
   },
   {
-    border: "#990a0e", //
-    background: "#db9a26",
-    color: "#990a0e",
+    border: "#dc2626", // red
+    background: "#facc15", // yellow
+    color: "#1c1917", // charcoal
   },
   {
-    border: "#eeedee",
-    background: "#6c1973",
-    color: "#eeedee",
+    border: "#f8fafc",
+    background: "#7e22ce", // purple
+    color: "#f8fafc",
   },
   {
-    border: "#db9a26",
-    background: "#990a0e",
-    color: "#db9a26",
+    border: "#facc15",
+    background: "#dc2626",
+    color: "#facc15",
   },
   {
-    border: "#2dd14bee",
-    background: "#eeedee",
-    color: "#2dd14bee",
+    border: "#22d3ee",
+    background: "#f8fafc",
+    color: "#0f172a",
   },
 ];
+// const dynamicColors = [
+//   {
+//     border: "#eeedee",
+//     background: "#1a6578",
+//     color: "#eeedee",
+//   },
+//   {
+//     border: "#011e2e",
+//     background: "#2dd14bee",
+//     color: "#011e2e",
+//   },
+//   {
+//     border: "#990a0e", //
+//     background: "#db9a26",
+//     color: "#990a0e",
+//   },
+//   {
+//     border: "#eeedee",
+//     background: "#6c1973",
+//     color: "#eeedee",
+//   },
+//   {
+//     border: "#db9a26",
+//     background: "#990a0e",
+//     color: "#db9a26",
+//   },
+//   {
+//     border: "#2dd14bee",
+//     background: "#eeedee",
+//     color: "#2dd14bee",
+//   },
+// ];
 
 const formStyles = {
-  form: "flex gap-4 bg-none",
-  textInput: "bg-transparent border-2 border-solid border-separate",
+  form: "flex gap-4 items-center bg-transparent p-4 rounded-xl shadow-md backdrop-blur-sm text-2xl",
+  textInput:
+    "bg-white/10 border-2 border-white/30 text-white placeholder-white/60 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-200 text-2xl",
   submitInput:
-    "cursor-pointer text-center bg-white mr-2 px-1 rounded text-green-500 font-bold h-[22px]",
+    "cursor-pointer bg-white text-green-600 mr-2 px-4 py-2 rounded-lg font-semibold shadow hover:bg-green-500 hover:text-white transition duration-300 ease-in-out text-2xl",
   resetInput:
-    "cursor-pointer text-center bg-red-500 px-1 rounded text-white font-bold h-[22px]",
+    "cursor-pointer bg-red-500 px-4 py-2 rounded-lg text-white font-semibold shadow hover:bg-red-700 transition duration-300 ease-in-out text-2xl",
 };
 
 function useClientId() {
