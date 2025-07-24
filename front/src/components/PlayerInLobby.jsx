@@ -22,8 +22,9 @@ function PlayerInLobby({
 
   function handleClick() {
     if (!players.length) return;
+    const slotBelongsTo = players[i].id;
 
-    playerId === players[0].id && setUsernameFormOppened((p) => !p);
+    playerId === slotBelongsTo && setUsernameFormOppened((p) => !p);
   }
 
   function updateUsername(data) {
@@ -85,9 +86,15 @@ function PlayerInLobby({
               submitBtnValue="Add Story"
             ></PlayerForm>
           ) : (
-            <button onClick={() => setAddStoryFormOppened(true)}>
-              Add story
-            </button>
+            playerId === players[i].id && (
+              <button
+                onClick={() => {
+                  setAddStoryFormOppened((p) => !p);
+                }}
+              >
+                Add story
+              </button>
+            )
           )}
         </div>
       )}
