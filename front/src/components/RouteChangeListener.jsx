@@ -8,6 +8,10 @@ function RouteChangeListener() {
   const { useClientId } = useContext(AppContext);
   const id = useClientId();
 
+  window.addEventListener("beforeunload", () => {
+    socket.emit("user_disconnect", { id });
+  });
+
   useEffect(() => {
     const regex = /^\/lobby\/[^/]+(?:\/game)?$/;
 

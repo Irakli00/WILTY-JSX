@@ -17,29 +17,7 @@ function Lobby() {
   // -----------------------------
   const { useClientId } = useContext(AppContext);
   let playerId = useClientId();
-  // console.log(hostId, playerId);
-  // let location = useLocation();
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     socket.emit("user_disconnect", { id: playerId });
-  //     setIsInLobby(false);
-  //     console.log(location);
-  //   };
-
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
-  // -----------------------------
-
-  // useEffect(() => {
-  //   console.log("Route changed to:", location.pathname);
-  // }, [location]);
-  // console.log(isHost);
   useEffect(() => {
     const handleGameStarted = (data) => {
       if (data.roomId === roomId) {
