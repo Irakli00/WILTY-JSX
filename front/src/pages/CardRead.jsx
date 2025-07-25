@@ -70,7 +70,7 @@ function CardRead() {
           {showCard && <Card key={turn}></Card>}
           {roundIsOver && !isLastRound && playerId === currentPlayer ? (
             <Button
-              className="bg-white w-full py-8 rounded-2xl text-red-600 absolute bottom-4 text-[1.4rem] font-semibold transition ease-in-out hover:bg-red-600 hover:text-white"
+              className="absolute left-1/2 top-0 -translate-x-1/2 bg-white text-red-600 w-[80%] max-w-[400px] py-6 rounded-2xl text-[1.5rem] font-bold shadow-lg transition-all duration-300 ease-in-out hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-xl"
               onClick={() => socket.emit("next_round", { roomId })}
             >
               Your Turn

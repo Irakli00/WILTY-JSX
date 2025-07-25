@@ -18,7 +18,7 @@
 }
 
 html {
-  height: 100dvh;
+  display: flex;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -37,6 +37,14 @@ html {
   background-position: center -80px, center;
   background-repeat: no-repeat;
   background-size: auto, 100%;
+}
+
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  flex: 1;
 }
 
 @layer components {

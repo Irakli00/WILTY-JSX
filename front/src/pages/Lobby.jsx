@@ -36,13 +36,13 @@ function Lobby() {
   return (
     <>
       <h1 className="w-full bg-yellow-500/20 backdrop-blur-md border-b border-yellow-400/60 shadow-md px-6 py-4 text-center text-xl text-white font-semibold tracking-wide">
-        <span className="select-none text-white">Lobby ID:</span>{" "}
+        <span className="select-none text-white">Lobby ID:</span>
         <span className="text-3xl md:text-4xl font-bold text-blue-800 underline break-all">
           {roomId}
         </span>
       </h1>
 
-      <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] ">
+      <section className="flex flex-col m-auto max-w-[75%] mt-[15dvh] min-w-[50dvw] ">
         <div className="flex flex-col gap-[20px] max-h-[440px] overflow-x-scroll">
           {!playersAmmount && (
             <PlayerInLobby defaultStyle={styles[0]} key={0}></PlayerInLobby>
