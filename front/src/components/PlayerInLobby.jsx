@@ -35,6 +35,11 @@ function PlayerInLobby({
     });
 
     socket.once("no_user", () => {
+      console.log({
+        username: data,
+        roomId,
+        playerId,
+      });
       socket.emit("join_lobby", {
         username: data,
         roomId,
@@ -54,8 +59,8 @@ function PlayerInLobby({
             playerId !== players[i]?.id
               ? "../src/icons/userReady.svg"
               : usernameFormOppened
-              ? "../src/icons/userAdd.svg"
-              : "../src/icons/userEdit.svg"
+                ? "../src/icons/userAdd.svg"
+                : "../src/icons/userEdit.svg"
           }
           alt=""
           className="cursor-pointer w-[35px] h-[35px] max-w-fit"

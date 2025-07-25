@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect } from "react";
+
 import { socket } from "../socket";
 import { AppContext } from "../contexts/AppContext";
 
@@ -8,23 +9,30 @@ function RouteChangeListener() {
   const { useClientId } = useContext(AppContext);
   const id = useClientId();
 
-  window.addEventListener("beforeunload", () => {
-    socket.emit("user_disconnect", { id });
-    socket.disconnect(); // or socket.close()
-  });
+  useEffect(() => {
+    const handleUnload = () => {
+      socket.emit("user_disconnect", { id });
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, []);
 
   useEffect(() => {
     const regex = /^\/lobby\/[^/]+(?:\/game)?$/;
 
     if (!regex.test(location.pathname)) {
       socket.emit("user_disconnect", { id });
-    } //disconects on every not matching link (works but fix this optimisation issuelatter)
+      console.log("disced");
+    }
 
     return () => {
-      // optional cleanup
       socket.off("user_disconnect");
     };
-  }, [location]);
+  }, [location, id]);
 
   return null;
 }

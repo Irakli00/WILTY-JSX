@@ -2,7 +2,7 @@ from flask_cors import CORS
 from flask import request
 from src import create_app
 from flask_socketio import SocketIO
-from flask_socketio import join_room, leave_room, send, emit
+from flask_socketio import join_room, leave_room, send, emit,rooms
 from datetime import date,timedelta
 
 from src.extensions import db
@@ -54,7 +54,6 @@ def on_join(data):
         return
     
     user = db.session.query(User).filter_by(id=user_id).first()
-    # print('u--->',user)
 
     if user:
         user.associated_username = username
@@ -85,7 +84,7 @@ def on_update(data):
     if not user:
         emit('no_user', {'message': 'User not found'})
         return
-
+      
     user.associated_username = username
     db.session.commit()
 
@@ -105,12 +104,19 @@ def on_story_add(data):
 def on_disconnect(data):
     user_id=data['id']
     user = db.session.query(User).filter_by(id=user_id).first()
-
+    room = None
+    
     if user:
+        room = user.lobby.lobby_id 
+
+    if user and room:
+        leave_room(room)
         print(f"User {user.associated_username} disconnected.")
         db.session.delete(user)
         db.session.commit()
-    emit('user_disconnected',{'user':user_id},)
+
+
+    emit('user_disconnected',{'user':user_id},room=room)
 
 @socketio.on('get_room')
 def handle_get_room(data):
