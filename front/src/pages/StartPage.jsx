@@ -8,7 +8,7 @@ function StartPage() {
 
   return (
     <section className="layout-container ">
-      <div className="min-h-full min-w-[50dvw] bg-gradient-to-br from-secondary-blue to-blue-500 p-[5dvh] flex flex-col items-center justify-center rounded-2xl">
+      <div className="min-w-[50dvw] bg-gradient-to-br from-secondary-blue to-blue-500 p-[5dvh] flex flex-col items-center justify-center rounded-2xl">
         <div className="w-full backdrop-blur-md rounded-2xl flex flex-col justify-center gap-[5dvh] ">
           <Link
             to={`/lobby/${useClientId()}`}
