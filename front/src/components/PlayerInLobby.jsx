@@ -46,13 +46,14 @@ function PlayerInLobby({
   function addStory(data) {
     socket.emit("add_story", { playerId, story: data });
   }
-
   return (
     <div className="player" style={defaultStyle ? defaultStyle : styles[i]}>
       <div onClick={handleClick}>
         <img
           src={
-            usernameFormOppened
+            playerId !== players[i]?.id
+              ? "../src/icons/userReady.svg"
+              : usernameFormOppened
               ? "../src/icons/userAdd.svg"
               : "../src/icons/userEdit.svg"
           }
@@ -85,7 +86,6 @@ function PlayerInLobby({
               submitInputStyles={formStyles.submitInput}
               resetInputStyles={formStyles.resetInput}
               submitBtnValue="Add Story"
-              resetBtnValue="Keep It Random"
             ></PlayerForm>
           ) : (
             players.length &&
@@ -96,7 +96,9 @@ function PlayerInLobby({
                   setAddStoryFormOppened((p) => !p);
                 }}
               >
-                Add story
+                {players.find((player) => player.id === playerId).story
+                  ? "Change story"
+                  : "Add story"}
               </button>
             )
           )}
