@@ -10,6 +10,7 @@ function RouteChangeListener() {
 
   window.addEventListener("beforeunload", () => {
     socket.emit("user_disconnect", { id });
+    socket.disconnect(); // or socket.close()
   });
 
   useEffect(() => {

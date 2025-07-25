@@ -1,38 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { socket } from "../socket";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
 
 function JoinGame() {
   const [roomIdQuery, setroomIdQuery] = useState("");
   const [username, setUsername] = useState("");
-  const { useClientId, setIsInLobby, isInLobby, setPlayers, randomStories } =
-    useContext(AppContext);
+  const { useClientId, setPlayers } = useContext(AppContext);
   const navigate = useNavigate();
   let playerId = useClientId();
-
-  // -----------------------------
-  // const location = useLocation();
-
-  // useEffect(() => {
-  //   socket.emit("user_disconnect", { id: localStorage.getItem("clientId") });
-  //   setIsInLobby(false);
-
-  //   const blockNav = () => {
-  //     const path = window.location.pathname;
-
-  //     if (path === `/lobby/${123}`) {
-  //       navigate("/join_lobby", { replace: true });
-  //     }
-  //   };
-
-  //   window.addEventListener("popstate", blockNav);
-
-  //   //this gotta update players state as well
-  //   // useUpdateRoom(id, players);
-  // }, [location, navigate]);
-
-  // -----------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +31,6 @@ function JoinGame() {
       socket.emit("join_lobby", { username, roomId, playerId });
 
       socket.once("joined_lobby", () => {
-        setIsInLobby(true);
         navigate(`/lobby/${roomIdQuery}`);
 
         socket.emit("get_room", { roomIdQuery });

@@ -73,7 +73,7 @@ function PlayerInLobby({
         />
       ) : (
         <div className="w-full flex justify-between items-center">
-          <p className={playerId !== players[i]?.id ? "underline" : ""}>
+          <p className={playerId === players[i]?.id ? "underline" : ""}>
             {playerName} {hostId == id && "(host)"}
           </p>
 

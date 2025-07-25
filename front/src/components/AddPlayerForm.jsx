@@ -10,8 +10,7 @@ function AddPlayerForm({
   defaultStyle = null,
 }) {
   const [player, setPlayer] = useState("");
-  const { useClientId, players, useUpdateRoom, setIsInLobby } =
-    useContext(AppContext);
+  const { useClientId, players, useUpdateRoom } = useContext(AppContext);
   const { roomId } = useParams();
 
   let playerId = useClientId();
@@ -62,7 +61,6 @@ function AddPlayerForm({
                   roomId,
                   playerId,
                 });
-                setIsInLobby(true);
               }
             }}
           />

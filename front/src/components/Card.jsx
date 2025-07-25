@@ -11,7 +11,7 @@ function Card() {
   const [flipped, setFlipped] = useState(false);
 
   const { roomId } = useParams();
-  const playerToRead = players[turn].id;
+  const playerToRead = players[turn]?.id;
   const story = randomStories[turn];
   let playerId = useClientId();
 

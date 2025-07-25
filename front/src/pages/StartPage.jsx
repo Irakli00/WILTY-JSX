@@ -12,13 +12,13 @@ function StartPage() {
         <div className="w-full backdrop-blur-md rounded-2xl flex flex-col justify-center gap-[5dvh] ">
           <Link
             to={`/lobby/${useClientId()}`}
-            className="bg-dark-yellow p-[7dvh] w-full text-[5rem] font-semibold text-dark-blue text-center rounded-2xl shadow-lg transform transition duration-300 ease-in-out hover:scale-105 hover:bg-greenish hover:text-white-tint hover:shadow-2xl"
+            className="bg-dark-yellow p-[7dvh] w-full text-[3.5rem] font-semibold text-dark-blue text-center rounded-2xl shadow-lg transform transition duration-300 ease-in-out hover:scale-105 hover:bg-greenish hover:text-white-tint hover:shadow-2xl"
           >
             PLAY
           </Link>
           <Link
             to="/join_lobby"
-            className="w-full p-[3dvh] text-4xl text-center bg-dark-red text-darker-gray font-semibold rounded-2xl shadow-md transform transition duration-300 ease-in-out hover:scale-105 hover:bg-silver-gray hover:text-dark-blue hover:shadow-xl"
+            className="w-full p-[3dvh] text-[2rem] text-center bg-dark-red text-darker-gray font-semibold rounded-2xl shadow-md transform transition duration-300 ease-in-out hover:scale-105 hover:bg-silver-gray hover:text-dark-blue hover:shadow-xl"
           >
             Join a game
           </Link>

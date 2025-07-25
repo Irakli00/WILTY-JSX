@@ -128,14 +128,13 @@ function useUpdateRoom(roomId, players) {
 export function AppProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [turn, setTurn] = useState(0);
-  const [isInLobby, setIsInLobby] = useState(false);
   const [randomStories, setRandomStories] = useState([
     "I once had to translate between two angry customers at a supermarket who were arguing over a dropped watermelon.",
     "For about a year, I carried a teaspoon in my pocket just in case. It came in handy multiple times.",
     "For a whole summer I fed a goose at my local park every day at the same time. One day it followed me home and I had to distract it with a flapjack to escape.",
   ]);
   const [hostId, setHostId] = useState(null);
-  const SECONDS_IN_TURN = 10;
+  const SECONDS_IN_TURN = 1000;
 
   return (
     <AppContext.Provider
@@ -143,8 +142,6 @@ export function AppProvider({ children }) {
         players,
         setPlayers,
         useClientId,
-        isInLobby,
-        setIsInLobby,
         hostId,
         setHostId,
         turn,

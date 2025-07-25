@@ -65,7 +65,7 @@ function CardRead() {
         }}
       ></Timer>
 
-      <div className="layout-container mt-[25dvh] relative">
+      <div className="layout-container  relative">
         <AnimatePresence>
           {showCard && <Card key={turn}></Card>}
           {roundIsOver && !isLastRound && playerId === currentPlayer ? (
